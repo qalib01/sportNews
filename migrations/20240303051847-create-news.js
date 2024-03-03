@@ -28,6 +28,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       createdBy: {
         type: Sequelize.STRING,
         allowNull: false,

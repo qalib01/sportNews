@@ -11,11 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-    }
-  }
+      news_tags.belongsTo(models.news, {
+        foreignKey: 'id',
+      });
+      news_tags.hasOne(models.tags, {
+        foreignKey: 'id',
+        sourceKey: 'tagId',
+        as: 'tag'
+      });
+    };
+  };
   news_tags.init({
-    categoryId: DataTypes.STRING,
+    newsId: DataTypes.STRING,
     tagId: DataTypes.STRING,
+    status: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'news_tags',

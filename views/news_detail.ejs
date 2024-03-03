@@ -9,44 +9,46 @@
             <div class="headline bg0 flex-wr-sb-c p-rl-20 p-tb-8">
                 <div class="f2-s-1 p-r-30 m-tb-6">
                     <a href="/" class="breadcrumb-item f1-s-3 cl9">
-                        Home
+                        Ana səhifə
                     </a>
 
-                    <a href="blog-list-01.html" class="breadcrumb-item f1-s-3 cl9">
-                        Blog
+                    <a href="/news" class="breadcrumb-item f1-s-3 cl9">
+                        Xəbərlər
                     </a>
 
                     <span class="breadcrumb-item f1-s-3 cl9">
-                        Nulla non interdum metus non laoreet nisi tellus eget aliquam lorem pellentesque
+                        <%= selectedNews.title %>
                     </span>
                 </div>
 
-                <div class="pos-relative size-a-2 bo-1-rad-22 of-hidden bocl11 m-tb-6">
+                <!-- <div class="pos-relative size-a-2 bo-1-rad-22 of-hidden bocl11 m-tb-6">
                     <input class="f1-s-1 cl6 plh9 s-full p-l-25 p-r-45" type="text" name="search" placeholder="Search">
                     <button class="flex-c-c size-a-1 ab-t-r fs-20 cl2 hov-cl10 trans-03">
                         <i class="zmdi zmdi-search"></i>
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
 
         <!-- Content -->
         <section class="bg0 p-b-70 p-t-5">
             <!-- Title -->
-            <div class="bg-img1 size-a-18 how-overlay1" style="background-image: url(/images/news/blog-detail-01.jpg);">
+            <div class="bg-img1 size-a-18 how-overlay1"
+                style="background-image: url('/images/news/<%= selectedNews.img %>');">
                 <div class="container h-full flex-col-e-c p-b-58">
                     <a href="#" class="f1-s-10 cl0 hov-cl10 trans-03 text-uppercase txt-center m-b-33">
-                        Technology
+                        <%= selectedNews.category.name %>
                     </a>
 
                     <h3 class="f1-l-5 cl0 p-b-16 txt-center respon2">
-                        Nulla non interdum metus non laoreet nisi tellus eget aliquam lorem pellentesque
+                        <%= selectedNews.title %>
                     </h3>
 
                     <div class="flex-wr-c-s">
                         <span class="f1-s-3 cl8 m-rl-7 txt-center">
                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                by John Alvarado
+                                Yüklədi: <%= selectedNews.createdBy=='00000000-0000-0000-0000-00000000' ? 'Avtomatik'
+                                    : 'null' %>
                             </a>
 
                             <span class="m-rl-3">-</span>
@@ -74,7 +76,8 @@
                         <div class="p-r-10 p-r-0-sr991">
                             <!-- Blog Detail -->
                             <div class="p-b-70">
-                                <p class="f1-s-11 cl6 p-b-25">
+                                <%= selectedNews.content %>
+                                    <!-- <p class="f1-s-11 cl6 p-b-25">
                                     Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper. Aliquam a
                                     dui suscipit, fringilla metus id, maximus leo. Vivamus sapien arcu, mollis eu
                                     pharetra vitae, condimentum in orci. Integer eu sodales dolor. Maecenas elementum
@@ -100,57 +103,62 @@
                                     Mauris eu turpis eget tortor ultricies elementum. Phasellus vel placerat orci, a
                                     venenatis justo. Phasellus faucibus venenatis nisl vitae vestibulum. Praesent id
                                     nibh arcu. Vivamus sagittis accumsan felis, quis vulputate
-                                </p>
+                                </p> -->
 
-                                <!-- Tag -->
-                                <div class="flex-s-s p-t-12 p-b-15">
-                                    <span class="f1-s-12 cl5 m-r-8">
-                                        Tags:
-                                    </span>
+                                    <!-- Tag -->
+                                    <div class="flex-s-s p-t-12 p-b-15">
+                                        <span class="f1-s-12 cl5 m-r-8">
+                                            Taglar:
+                                        </span>
 
-                                    <div class="flex-wr-s-s size-w-0">
-                                        <a href="#" class="f1-s-12 cl8 hov-link1 m-r-15">
+                                        <div class="flex-wr-s-s size-w-0">
+                                            <% selectedNews.news_tags.forEach((news_tag)=> { %>
+                                                <a href="#" class="f1-s-12 cl8 hov-link1 m-r-15">
+                                                    <%= news_tag.tag.name %>
+                                                </a>
+                                            <% }) %>
+                                        <!-- <a href="#" class="f1-s-12 cl8 hov-link1 m-r-15">
                                             Streetstyle
                                         </a>
 
                                         <a href="#" class="f1-s-12 cl8 hov-link1 m-r-15">
                                             Crafts
-                                        </a>
+                                        </a> -->
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!-- Share -->
-                                <div class="flex-s-s">
-                                    <span class="f1-s-12 cl5 p-t-1 m-r-15">
-                                        Share:
-                                    </span>
+                                    <!-- Share -->
+                                    <div class="flex-s-s">
+                                        <span class="f1-s-12 cl5 p-t-1 m-r-15">
+                                            Paylaş:
+                                        </span>
 
-                                    <div class="flex-wr-s-s size-w-0">
-                                        <a href="#"
-                                            class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                                            <i class="fab fa-facebook-f m-r-7"></i>
-                                            Facebook
-                                        </a>
+                                        <div class="flex-wr-s-s size-w-0">
+                                            <a href="#"
+                                                class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
+                                                <i class="fab fa-facebook-f m-r-7"></i>
+                                                Facebook
+                                            </a>
 
-                                        <a href="#"
-                                            class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                                            <i class="fab fa-twitter m-r-7"></i>
-                                            Twitter
-                                        </a>
+                                            <a href="#"
+                                                class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
+                                                <i class="fab fa-twitter m-r-7"></i>
+                                                Twitter
+                                            </a>
 
-                                        <a href="#"
-                                            class="dis-block f1-s-13 cl0 bg-google borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                                            <i class="fab fa-google-plus-g m-r-7"></i>
-                                            Google+
-                                        </a>
+                                            <a href="#"
+                                                class="dis-block f1-s-13 cl0 bg-google borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
+                                                <i class="fab fa-google-plus-g m-r-7"></i>
+                                                Google+
+                                            </a>
 
-                                        <a href="#"
-                                            class="dis-block f1-s-13 cl0 bg-pinterest borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
-                                            <i class="fab fa-pinterest-p m-r-7"></i>
-                                            Pinterest
-                                        </a>
+                                            <a href="#"
+                                                class="dis-block f1-s-13 cl0 bg-pinterest borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03">
+                                                <i class="fab fa-pinterest-p m-r-7"></i>
+                                                Pinterest
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
 
                             <!-- Leave a comment -->

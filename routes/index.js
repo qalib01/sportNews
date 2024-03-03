@@ -16,7 +16,7 @@ router.get('/contact', getContactPage);
 router.get('/news', getAllNews);
 
 /* GET news detail page. */
-router.get('/news-detail', getNewsDetail);
+router.get('/news-detail/:key', getNewsDetail);
 
 /* GET category list page. */
 router.get('/category-list', getAllCategories);

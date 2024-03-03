@@ -8,13 +8,17 @@ module.exports = {
         autoIncrement: false,
         primaryKey: true,
       },
-      categoryId: {
+      newsId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       tagId: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         type: Sequelize.DATE,
