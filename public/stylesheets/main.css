@@ -1424,6 +1424,7 @@ a.breadcrumb-item:hover {
 .size-a-15 {
   width: 100%;
   min-height: 150px;
+  max-height: 200px;
 }
 
 .size-a-16{

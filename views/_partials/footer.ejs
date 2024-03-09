@@ -78,8 +78,8 @@
                     <ul class="m-t--12">
                         <% popularCategories.forEach((category) => { %>
                             <li class="how-bor1 p-rl-5 p-tb-10">
-                                <a href="/news?category=<%= category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-                                    <%= category.name %>
+                                <a href="/news?category=<%= category.dataValues.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
+                                    <%= category.dataValues.category.name %> (<%= category.dataValues.newsCount %>)
                                 </a>
                             </li>
                         <% }) %>
@@ -93,8 +93,8 @@
         <div class="container size-h-4 flex-c-c p-tb-15">
             <span class="f1-s-1 cl0 txt-center">
                 Copyright © 2024
-                <a href="#" class="f1-s-1 cl10 hov-link1">SporterAz.</a>
-                Bütün haqları qorunur
+                <a href="/" class="f1-s-1 cl10 hov-link1">SporterAz.</a>
+                Bütün haqları qorunur.
             </span>
         </div>
     </div>
