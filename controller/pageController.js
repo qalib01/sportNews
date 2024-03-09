@@ -1,18 +1,43 @@
-const getHomePage = function (req, res, next) {
+const db = require('../models/index');
+const { sequelize } = require('../models/index');
+
+const getHomePage = async (req, res, next) => {
+    let limit = 6;
+    let lastNews = await db.news.findAll({
+        limit,
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        attributes: [ 'title', 'key', 'img', 'createdBy', 'createdAt' ]
+    });
+    let allTags = await db.tags.findAll({
+        order: [
+            ['createdAt', 'ASC']
+        ],
+        attributes: [ 'name', 'key' ]
+    });
     res.render('index', {
-        title: 'Home'
+        title: 'Ana səhifə',
+        name: 'Ana səhifə',
+        key: 'home',
+        lastNews,
+        allTags,
     });
 }
 
 const getAboutPage = function (req, res, next) {
     res.render('about', {
-        title: 'About'
+        title: 'Haqqımızda',
+        name: 'Haqqımızda',
+        key: 'about',
     });
 }
 
 const getContactPage = function (req, res, next) {
     res.render('contact', {
-        title: 'Contact'
+        title: 'Əlaqə',
+        name: 'Əlaqə',
+        key: 'contact',
     });
 }
 

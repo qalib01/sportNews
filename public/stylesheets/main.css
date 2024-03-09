@@ -41,6 +41,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 /*------------------------------------------------------------------
 [ 1 ]*/
+
 @font-face {
   font-family: Roboto-Regular;
   src: url('../libs/fonts/Roboto/Roboto-Regular.ttf'); 
@@ -439,7 +440,7 @@ a.left-topbar-item:hover {
   transform: scaleX(0);
 }
 
-.main-menu > li > a::after {
+/* .main-menu > li > a::after {
   content: "\f2f9";
   font-family: Material-Design-Iconic-Font;
   font-size: 16px;
@@ -451,7 +452,7 @@ a.left-topbar-item:hover {
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   -moz-transition: all 0.3s;
-}
+} */
 
 li.main-menu-active > a::before {
   -webkit-transform: scaleX(1);
@@ -459,6 +460,10 @@ li.main-menu-active > a::before {
   -ms-transform: scaleX(1);
   -o-transform: scaleX(1);
   transform: scaleX(1);
+}
+
+li.main-menu-active a {
+  color: #17b978 !important;
 }
 
 .main-menu > li > a:hover:before {
@@ -852,6 +857,10 @@ li.respon-sub-menu > .sub-menu .sub-menu {
     display: flex;
   }
 
+  li.main-menu-active a {
+    color: #fff !important;
+  }
+
   .topbar,
   .logo,
   .no-banner,
@@ -1084,7 +1093,7 @@ body {padding-right: 0px !important;}
 
 .breadcrumb-item+.breadcrumb-item::before {
   height: 100%;
-  content: "\f105";
+  content: "/";
   font-family: FontAwesome;
   font-size: 12px;
   padding-right: 10px;
@@ -1236,7 +1245,7 @@ a.breadcrumb-item:hover {
 
 .f1-s-13 {
   font-family: Roboto-Regular;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -1452,7 +1461,7 @@ a.breadcrumb-item:hover {
 }
 
 
-/*//////////////////////////////////////////////////////////////////
+/* //////////////////////////////////////////////////////////////////
 [ Width ]*/
 .size-w-0 {
   flex-grow: 1;
@@ -1558,14 +1567,26 @@ a.breadcrumb-item:hover {
 }
 
 /*---------------------------------------------*/
-.bg-facebook {background-color: #3b5998;}
-.bg-twitter {background-color: #1da1f2;}
-.bg-youtube {background-color: #ff0000;}
-.bg-google {background-color: #dd4b39;}
-.bg-pinterest {background-color: #bd081c;}
 
 
+:root {
+  --bg-facebook: #3b5998;
+  --bg-twitter: #1da1f2;
+  --bg-youtube: #ff0000;
+  --bg-google: #dd4b39;
+  --bg-pinterest: #bd081c;
+  --bg-whatsapp: #25d366;
+  --bg-telegram: #0088cc;
+}
 
+
+.bg-facebook {background-color: var(--bg-facebook)}
+.bg-twitter {background-color: var(--bg-twitter)}
+.bg-youtube {background-color: var(--bg-youtube)}
+.bg-google {background-color: var(--bg-google)}
+.bg-pinterest {background-color: var(--bg-pinterest)}
+.bg-whatsapp {background-color: var(--bg-whatsapp)}
+.bg-telegram {background-color: var(--bg-telegram)}
 
 
 /*==================================================================
