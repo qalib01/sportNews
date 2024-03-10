@@ -87,9 +87,6 @@ const getNewsDetail = async (req, res, next) => {
                         attributes: [ 'name', 'key', 'description' ]
                     },
                 ],
-                where: {
-                    status: true 
-                },
                 attributes: ''
             },
             {
@@ -104,6 +101,7 @@ const getNewsDetail = async (req, res, next) => {
             // status: true
         },
     });
+    console.log(key);
     res.render('news_detail', {
         title: selectedNews.title,
         name: selectedNews.title,
