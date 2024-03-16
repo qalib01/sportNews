@@ -2,8 +2,8 @@
 	<%- include('./_partials/header') %>
 
 		<!-- Breadcrumb -->
-		<div class="container">
-			<div class="headline bg0 flex-wr-sb-c p-rl-20 p-tb-8">
+		<div class="container bg0">
+			<div class="headline flex-wr-sb-c p-rl-20 p-tb-8">
 				<div class="f2-s-1 p-r-30 m-tb-6">
 					<a href="/" class="breadcrumb-item f1-s-3 cl9">
 						Ana səhifə
@@ -17,15 +17,15 @@
 		</div>
 
 		<!-- Page heading -->
-		<div class="container p-t-4 p-b-40">
+		<div class="container p-t-4 p-b-40 bg0">
 			<h2 class="f1-l-1 cl2">
 				<%= title %>
 			</h2>
 		</div>
 
 		<!-- Post -->
-		<section class="bg0 p-b-55">
-			<div class="container">
+		<section>
+			<div class="container bg0 p-b-55">
 				<div class="row justify-content-center">
 					<div class="col-md-10 col-lg-8 p-b-80">
 						<div class="p-r-10 p-r-0-sr991">
@@ -41,7 +41,7 @@
 										<div class="size-w-9 w-full-sr575 m-b-25">
 											<h5 class="p-b-12">
 												<a href="/news-detail/<%= news.key %>"
-													class="f1-l-1 cl2 hov-cl10 trans-03 respon2">
+													class="f1-l-1 cl2 hov-cl10 trans-03 respon2 font-weight-bold">
 													<%= news.title %>
 												</a>
 											</h5>
@@ -74,7 +74,7 @@
 									<% }) %>
 							</div>
 
-							<a href="#" class="flex-c-c size-a-13 bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03">
+							<a href="#" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3">
 								Daha çox yüklə
 							</a>
 						</div>

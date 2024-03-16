@@ -6,7 +6,8 @@
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->
             <div class="logo-mobile">
-                <a href="/"><img src="/images/icons/logo-01.png" alt="IMG-LOGO"></a>
+                <!-- <a href="/"><img src="/images/icons/logo-01.png" alt="IMG-LOGO"></a> -->
+                <a href="/" style="color: #fff; font-size: 28px; font-weight: bold; text-transform: uppercase;" title="Logo">Sporter</a>
             </div>
 
             <!-- Button show menu -->
@@ -20,13 +21,13 @@
         <!-- Menu Mobile -->
         <div class="menu-mobile">
             <ul class="main-menu-m">
-                <li class="<%= key === 'home' ? 'main-menu-active' : '' %>">
+                <li class="<%= key === 'home' ? 'main-menu-m-active' : '' %>">
                     <a href="/"> Ana səhifə </a>
                 </li>
-                <li>
+                <li class="<%= key === 'about' ? 'main-menu-m-active' : '' %>">
                     <a href="/about"> Haqqımızda </a>
                 </li>
-                <li>
+                <li class="<%= key === 'news' ? 'main-menu-m-active' : '' %>">
                     <a href="/news"> Xəbərlər </a>
                 </li>
             </ul>
@@ -36,12 +37,15 @@
         <div class="wrap-logo container">
             <!-- Logo desktop -->
             <div class="logo">
-                <a href="/"><img src="/images/icons/logo-01.png" alt="LOGO"></a>
+                <!-- <a href="/"><img src="/images/icons/logo-01.png" alt="LOGO"></a> -->
+                <a href="/" style="color: #fff; font-size: 56px; font-weight: bold; text-transform: uppercase;" title="Logo">Sporter</a>
             </div>
 
             <!-- Banner -->
             <div class="banner-header">
-                <a href="/"><img src="/images/banners/banner-01.jpg" alt="IMG"></a>
+                <a href="/">
+                    <img src="/images/banners/banner-01.jpg" alt="IMG">
+                </a>
             </div>
         </div>
 
@@ -52,9 +56,10 @@
                 <nav class="menu-desktop">
                     <a class="logo-stick" href="/">
                         <img src="/images/icons/logo-01.png" alt="LOGO">
+                        <!-- <a href="/" style="color: #fff; font-size: 20px; font-weight: bold; text-transform: uppercase; margin-right: 10px;" title="Logo">Sporter</a> -->
                     </a>
 
-                    <ul class="main-menu">
+                    <ul class="main-menu" style="column-gap: 10px;">
                         <li class="<%= key === 'home' ? 'main-menu-active' : '' %>">
                             <a href="/"> Ana səhifə </a>
                         </li>

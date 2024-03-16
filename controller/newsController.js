@@ -30,6 +30,26 @@ const getAllNews = async (req, res, next) => {
             '$news.categoryId$': { [Op.ne]: null } // Ensure there's a category associated
         };
     }
+    let trendNews = await db.news.findAll({
+        limit: 6,
+        include: [
+            {
+                model: sequelize.model('categories'),
+                as: 'category',
+                where: {
+                    status: true
+                }
+            }
+        ],
+        where: {
+            status: true,
+            isTrend: true,
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
+    });
     
     // Conditionally include tag filtering if req.query.tag is provided
     if (req.query.tag) {
@@ -69,7 +89,8 @@ const getAllNews = async (req, res, next) => {
         name: 'Xəbərlər',
         key: 'news',
         allNews,
-        allTags
+        allTags,
+        trendNews
     });
 }
 

@@ -2,10 +2,10 @@
   <%- include('./_partials/header') %>
 
 
-    <div class="container p-t-20">
-      <div class="bg0 flex-wr-sb-c p-rl-20 p-tb-8">
+    <div class="container p-t-20 p-b-20 trending bg0">
+      <div class="bg0 flex-wr-sb-c">
         <div class="f2-s-1 p-r-30 size-w-0 m-tb-6 flex-wr-s-c">
-          <span class="text-uppercase cl2 p-r-8">
+          <span class="text-uppercase cl2 p-r-8 trending-txt">
             Trenddə olanlar:
           </span>
 
@@ -22,8 +22,8 @@
     </div>
 
     <!-- Post -->
-    <section class="bg0 p-t-20">
-      <div class="container">
+    <section>
+      <div class="container bg0">
         <div class="row justify-content-center">
           <div class="col-md-10 col-lg-8">
             <div class="p-b-20">
@@ -76,7 +76,7 @@
     
                                   <div class="size-w-2">
                                     <h5 class="p-b-5">
-                                      <a href="/news-detail/<%= news.key %>" class="f1-s-5 cl3 hov-cl10 trans-03">
+                                      <a href="/news-detail/<%= news.key %>" class="f1-s-5 cl3 hov-cl10 trans-03  font-weight-bold">
                                         <%= news.title %>
                                       </a>
                                     </h5>
@@ -121,7 +121,7 @@
     </section>
 
     <!-- Banner -->
-    <div class="container">
+    <div class="container bg0">
       <div class="flex-c-c">
         <a href="#">
           <img class="max-w-full" src="/images/banners/banner-01.jpg" alt="IMG">
@@ -130,8 +130,8 @@
     </div>
 
     <!-- Latest -->
-    <section class="bg0 p-t-60 p-b-35">
-      <div class="container">
+    <section>
+      <div class="container p-t-60 p-b-35 bg0">
         <div class="row justify-content-center">
           <div class="col-md-10 col-lg-8 p-b-20">
             <div class="how2 how2-cl4 flex-s-c m-r-10 m-r-0-sr991">
@@ -149,7 +149,7 @@
 
                     <div class="p-t-16">
                       <h5 class="p-b-5">
-                        <a href="/news-detail/<%= news.key %>" class="f1-m-3 cl2 hov-cl10 trans-03">
+                        <a href="/news-detail/<%= news.key %>" class="f1-m-3 cl2 hov-cl10 trans-03 font-weight-bold">
                           <%= news.title %>
                         </a>
                       </h5>

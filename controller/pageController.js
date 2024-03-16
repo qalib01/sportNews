@@ -14,7 +14,7 @@ const getHomePage = async (req, res, next) => {
             attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
         });
         let trendNews = await db.news.findAll({
-            limit: 4,
+            limit: 6,
             include: [
                 {
                     model: sequelize.model('categories'),
@@ -86,6 +86,8 @@ const getHomePage = async (req, res, next) => {
             ],
             attributes: ['name', 'key']
         });
+
+        console.log(req.ip);
         res.render('index', {
             title: 'Ana səhifə',
             name: 'Ana səhifə',
