@@ -41,7 +41,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                       <% limitedTags.forEach((tag, id)=> { %>
                         <li class="nav-item">
-                          <a class="nav-link <%= id == 0 ? 'active' : '' %>" data-toggle="tab" href="#<%= tag.key %>"
+                          <a class="nav-link <%= id == 0 ? 'active' : '' %>" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>"
                             role="tab">
                             <%= tag.name %>
                           </a>
@@ -61,7 +61,7 @@
                   <div class="tab-content p-t-35">
                     <!-- - -->
                     <% limitedTags.forEach((tag, id)=> { %>
-                      <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>" role="tabpanel">
+                      <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
                         <div class="row">
 
                           <!-- Item post -->

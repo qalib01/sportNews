@@ -1233,6 +1233,24 @@ a.breadcrumb-item:hover {
 
 
 /*==================================================================
+  BUTTON BUTTON BUTTON BUTTON BUTTON BUTTON BUTTON BUTTON BUTTON
+==================================================================*/
+
+.button-01 {
+  border: 1px solid var(--primary-color);
+  background-color: transparent;
+  padding: 8px 12px;
+}
+
+.button-01:hover {
+  border: 1px solid var(--white);
+  color: var(--primary-color);
+  background-color: var(--purple-dark);
+  padding: 8px 12px;
+}
+
+
+/*==================================================================
     TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
 ==================================================================*/
 /*//////////////////////////////////////////////////////////////////
@@ -1824,6 +1842,9 @@ a.breadcrumb-item:hover {
 
 .hov-cl10:hover {color: var(--purple-dark);}
 .hov-bg10:hover {background-color: var(--primary-color);}
+
+
+
 
 /*---------------------------------------------*/
 .hov-img0 {

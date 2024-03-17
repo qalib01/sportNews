@@ -3,7 +3,7 @@
 
 
         <!-- Breadcrumb -->
-        <div class="container bg0">
+        <div class="container p-t-10 p-b-10 bg0">
             <div class="headline flex-wr-sb-c p-rl-20 p-tb-8">
                 <div class="f2-s-1 p-r-30 m-tb-6">
                     <a href="/" class="breadcrumb-item f1-s-3 cl9">
@@ -24,37 +24,41 @@
         <!-- Content -->
         <section>
             <!-- Title -->
-            <div class="bg-img1 size-a-18 how-overlay1"
-                style="background-image: url('/images/news/<%= selectedNews.img %>');">
-                <div class="container h-full flex-col-e-c p-b-58">
-                    <a href="/news?category=<%= selectedNews.category.key %>" class="f1-s-10 cl0 hov-cl10 trans-03 text-uppercase txt-center m-b-33">
-                        <%= selectedNews.category.name %>
-                    </a>
+            <div class="container bg0">
+                <div class="bg-img1 size-a-18 how-overlay1"
+                    style="background-image: url('/images/news/<%= selectedNews.img %>');">
+                    <div class="container h-full flex-col-e-c p-b-58">
+                        <a href="/news?category=<%= selectedNews.category.key %>"
+                            class="button-01 f1-s-10 cl0 trans-03 text-uppercase txt-center m-b-33">
+                            <%= selectedNews.category.name %>
+                        </a>
 
-                    <h3 class="f1-l-5 cl0 p-b-16 txt-center respon2">
-                        <%= selectedNews.title %>
-                    </h3>
+                        <h3 class="f1-l-5 cl0 p-b-16 txt-center respon2">
+                            <%= selectedNews.title %>
+                        </h3>
 
-                    <div class="flex-wr-c-s">
-                        <span class="f1-s-3 cl8 m-rl-7 txt-center">
-                            <a href="javascript:void(0)" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                Yüklədi: <%= selectedNews.createdBy=='00000000-0000-0000-0000-00000000' ? 'Avtomatik' : 'Yoxdur' %>
-                            </a>
+                        <div class="flex-wr-c-s">
+                            <span class="f1-s-3 cl10 m-rl-7 txt-center">
+                                <a href="javascript:void(0)" class="f1-s-4 cl10 hov-cl0 trans-03">
+                                    Yüklədi: <%= selectedNews.createdBy=='00000000-0000-0000-0000-00000000'
+                                        ? 'Avtomatik' : 'Yoxdur' %>
+                                </a>
 
-                            <span class="m-rl-3">-</span>
+                                <span class="m-rl-3">-</span>
 
-                            <span>
-                                <%= moment(selectedNews.createdAt).format('LL') %>
+                                <span>
+                                    <%= moment(selectedNews.createdAt).format('LL') %>
+                                </span>
                             </span>
-                        </span>
 
-                        <!-- <span class="f1-s-3 cl8 m-rl-7 txt-center">
+                            <!-- <span class="f1-s-3 cl8 m-rl-7 txt-center">
                             5239 Views
                         </span>
 
                         <a href="" class="f1-s-3 cl8 m-rl-7 txt-center hov-cl10 trans-03">
                             0 Comment
                         </a> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,10 +79,11 @@
 
                                         <div class="flex-wr-s-s size-w-0">
                                             <% selectedNews.news_tags.forEach((news_tag)=> { %>
-                                                <a href="/news/?tag=<%= news_tag.tag.key %>" class="f1-s-12 cl8 hov-link1 m-r-15">
+                                                <a href="/news/?tag=<%= news_tag.tag.key %>"
+                                                    class="f1-s-12 cl8 hov-link1 m-r-15">
                                                     <%= news_tag.tag.name %>
                                                 </a>
-                                            <% }) %>
+                                                <% }) %>
                                         </div>
                                     </div>
 
@@ -90,25 +95,29 @@
 
                                         <div class="flex-wr-s-s size-w-0">
                                             <a href="https://www.facebook.com/sharer.php?u=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                                class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03" target="_blank">
+                                                class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                target="_blank">
                                                 <i class="fab fa-facebook-f m-r-7"></i>
                                                 Facebook
                                             </a>
 
                                             <a href="https://twitter.com/intent/post?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>&text=<%= selectedNews.title %>"
-                                                class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03" target="_blank">
+                                                class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                target="_blank">
                                                 <i class="fab fa-twitter m-r-7"></i>
                                                 Twitter
                                             </a>
 
                                             <a href="https://wa.me/?text=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                                class="dis-block f1-s-13 cl0 bg-whatsapp borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03" target="_blank">
+                                                class="dis-block f1-s-13 cl0 bg-whatsapp borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                target="_blank">
                                                 <i class="fab fa-whatsapp m-r-7"></i>
                                                 Whatsapp
                                             </a>
 
                                             <a href="https://telegram.me/share/url?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                                class="dis-block f1-s-13 cl0 bg-telegram borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03" target="_blank">
+                                                class="dis-block f1-s-13 cl0 bg-telegram borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                target="_blank">
                                                 <i class="fab fa-telegram m-r-7"></i>
                                                 Telegram
                                             </a>
