@@ -1205,7 +1205,7 @@ a.breadcrumb-item:hover {
 
 /*---------------------------------------------*/
 .cl-none {color: transparent;}
-.cl0 {color: var(--white);}
+.cl0 {color: var(--white) !important;}
 .cl1 {color: #111;}
 .cl2 {color: #222;}
 .cl3 {color: #333;}
@@ -1213,7 +1213,7 @@ a.breadcrumb-item:hover {
 .cl5 {color: #555;}
 .cl6 {color: #666;}
 .cl7 {color: #777;}
-.cl8 {color: #888;}
+.cl8 {color: #888 !important;}
 .cl9 {color: #999;}
 .cl10 {color: var(--white);}
 .cl11 {color: #ccc;}

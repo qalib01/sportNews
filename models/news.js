@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'categoryId',
         as: 'category'
       });
+      news.hasOne(models.news_views, {
+        sourceKey: 'id',
+        foreignKey: 'newsId',
+        as: 'news_view'
+      });
     };
   };
   news.init({

@@ -1,39 +1,12 @@
-const { Sequelize } = require('sequelize');
 const db = require('../models/index');
 const { sequelize } = require('../models/index');
+const moment = require('moment');
+// moment.locale('az');
 
 const getHomePage = async (req, res, next) => {
+    // Calculate the date 7 days ago from today
+    const sevenDaysAgo = moment().subtract(7, 'days').toDate();
     try {
-        let lastNews = await db.news.findAll({
-            limit: 6,
-            where: {
-                status: true
-            },
-            order: [
-                ['createdAt', 'DESC']
-            ],
-            attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
-        });
-        let trendNews = await db.news.findAll({
-            limit: 6,
-            include: [
-                {
-                    model: sequelize.model('categories'),
-                    as: 'category',
-                    where: {
-                        status: true
-                    }
-                }
-            ],
-            where: {
-                status: true,
-                isTrend: true,
-            },
-            order: [
-                ['createdAt', 'DESC']
-            ],
-            attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
-        });
         let allTags = await db.tags.findAll({
             order: [
                 ['createdAt', 'ASC']
@@ -61,6 +34,11 @@ const getHomePage = async (req, res, next) => {
                         },
                     ],
                 },
+                {
+                    model: sequelize.model('news_views'),
+                    as: 'news_view',
+                    attributes: ['viewsCounts']
+                },
             ],
             where: {
                 status: true
@@ -70,122 +48,99 @@ const getHomePage = async (req, res, next) => {
             ],
             attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
         });
-        let allCategories = await db.categories.findAll({
-            limit: 3,
-            where: {
-                status: true
-            },
-            order: [
-                ['createdAt', 'ASC']
-            ],
-            attributes: ['name', 'key', 'description']
-        });
-        let limitedTags = await db.tags.findAll({
-            limit: 3,
-            order: [
-                ['createdAt', 'ASC']
-            ],
-            attributes: ['name', 'key']
-        });
+        // Filter last 6 news 
+        let lastNews = allNews.slice(0, 6);
 
-        let newsTags = await db.news.findAll({
-            include: [
-                {
-                    model: sequelize.model('news_tags'),
-                    as: 'news_tags',
-                    // attributes: [],
-                    include: [
-                        {
-                            model: sequelize.model('tags'),
-                            as: 'tag', 
-                            attributes: ['name', 'key'],
-                            // through: {
-                            //     attributes: []
-                            // }
-                        }
-                    ]
+        // Filter trending news within the last 7 days based on views
+        const trendNews = allNews.filter(news => {
+            let totalViews = 0;
+            if (news.news_view) {
+                totalViews = news.news_view.viewsCounts;
+            }
+            return totalViews > 0 && moment(news.createdAt).isAfter(sevenDaysAgo);
+        }).sort((a, b) => {
+            let viewsA = 0;
+            let viewsB = 0;
+            if (a.news_view) {
+                viewsA = a.news_view.viewsCounts;
+            }
+            if (b.news_view) {
+                viewsB = b.news_view.viewsCounts;
+            }
+            return viewsB - viewsA;
+        }).slice(0, 6);
+
+
+        // Check if newsWithTagCounts is undefined or empty
+        if (!allNews || allNews.length === 0) {
+            res.json([]); // Return an empty array if no news articles are found
+            return;
+        }
+
+        // Count the number of news articles per category
+        const categoryCounts = {};
+        allNews.forEach(news => {
+            const categoryName = news.category ? news.category.name : null;
+            const categoryKey = news.category ? news.category.key : null;
+            if (categoryName) {
+                if (!categoryCounts[categoryName]) {
+                    categoryCounts[categoryName] = { count: 1, categoryKey };
+                } else {
+                    categoryCounts[categoryName]++;
                 }
-            ],
-            // attributes: ['id', 'title'],
-            // raw: true,
+            }
         });
 
-        // const newsWithTagCounts = {};
-        const tagCounts = {};
+        // Sort the categories by the number of news articles in descending order
+        const sortedCategories = Object.entries(categoryCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3); // Select only the top 3 categories
 
-        newsTags.forEach(news => {
-            // console.log(news);
-            // const { id, title, 'news_tags.tag.key':key} = news;
-            // if (!newsWithTagCounts[id]) {
-            //     newsWithTagCounts[id] = { title, tags: {}};
-            // }
-            // if (!newsWithTagCounts[id].tags[key]) {
-            //     newsWithTagCounts[id].tags[key] = 1;
-            // } else {
-            //     newsWithTagCounts[id].tags[key]++;
-            // }
+        // Process the data to calculate total count of tags per category
+        const categoryArray = sortedCategories.map(([categoryName]) => {
+            const categoryNews = allNews.filter(news => news.category && news.category.name === categoryName);
+            const categoryTags = {};
 
-            news.news_tags.forEach(news_tag => {
-                console.log(news_tag.tag.name);
-                // const tagName = news_tag.tag.name;
-                // console.log(tagName);
-                // if (!tagCounts[tagName]) {
-                //     tagCounts[tagName] = 1;
-                // } else {
-                //     tagCounts[tagName]++;
-                // }
-            })
+            categoryNews.forEach(news => {
+                news.news_tags.forEach(news_tag => {
+                    const tagName = news_tag.tag ? news_tag.tag.name : null;
+                    const tagKey = news_tag.tag ? news_tag.tag.key : null;
+                    if (tagName) {
+                        if (!categoryTags[tagName]) {
+                            categoryTags[tagName] = { count: 1, key: tagKey }; // Initialize count and key
+                        } else {
+                            categoryTags[tagName].count++; // Increment count
+                        }
+                    }
+                });
+            });
+
+            // Convert categoryTags object to an array of tag objects
+            const tags = Object.entries(categoryTags)
+                .sort((a, b) => b[1].count - a[1].count) // Sort by count values in descending order
+                .slice(0, 3) // Limit to 3 tags per category
+                .map(([tagName, { count, key }]) => ({ name: tagName, count, key })); // Include name, count, and key for each tag
+
+            const [, { categoryKey }] = sortedCategories.find(([name]) => name === categoryName);
+            return {
+                name: categoryName,
+                key: categoryKey,
+                news: categoryNews.map(news => ({
+                    id: news.id,
+                    title: news.title,
+                    key: news.key,
+                    img: news.img,
+                    content: news.content,
+                    tags: news.news_tags.map(news_tag => ({
+                        name: news_tag.tag.name,
+                        key: news_tag.tag.key
+                    })),
+                    createdAt: news.createdAt
+                })),
+                tags
+            };
         });
 
-        // return newsWithTagCounts;
-
-        console.log(tagCounts);
-
-        // const popularTags = await db.tags.findAll({
-        //     include: [
-        //         {
-        //             model: sequelize.model('news_tags'),
-        //             as: 'news_tag',
-        //             include: [
-        //                 {
-        //                     model: sequelize.model('news'),
-        //                     as: 'news',
-        //                     required: false, // Use left join to include all news items even if they don't have any tags
-        //                 }
-        //             ],
-        //         },
-        //     ],
-        //     // attributes: [[Sequelize.fn('COUNT', Sequelize.col('news_tags.newsId')), 'newsCount'], ],
-        //     // group: ['tag.id'], // Assuming 'id' is the primary key of your Category model
-        //     // order: [[Sequelize.literal('newsCount'), 'DESC']], // Sorting by newsCount in descending order
-        //     limit: 3,
-        // });
-
-
-        // const popularTags = await db.tags.findAll({
-        //     include: [
-        //         {
-        //             model: db.news_tags,
-        //             as: 'news_tags', // This alias should match the one defined in the association
-        //             include: [
-        //                 {
-        //                     model: db.news,
-        //                     as: 'news',
-        //                     required: false // Use left join to include all news items even if they don't have any tags
-        //                 }
-        //             ]
-        //         }
-        //     ],
-        //     attributes: [
-        //         'id', // Assuming 'id' is the primary key of your tags model
-        //         [Sequelize.fn('COUNT', Sequelize.col('news_tags.newsId')), 'newsCount']
-        //     ],
-        //     group: ['tags.id'], // Assuming 'id' is the primary key of your tags model
-        //     order: [[Sequelize.literal('newsCount'), 'DESC']], // Sorting by newsCount in descending order
-        //     limit: 3
-        // });
-
-        // console.log(popularTags);
         res.render('index', {
             title: 'Ana səhifə',
             name: 'Ana səhifə',
@@ -194,8 +149,7 @@ const getHomePage = async (req, res, next) => {
             allTags,
             trendNews,
             allNews,
-            allCategories,
-            limitedTags,
+            categoryArray,
         });
     } catch (error) {
         console.error('Error in fetching homepage data:', error);
