@@ -1,21 +1,24 @@
 var express = require('express');
-const { HomePage } = require('../controller/adminController/pageController');
+const { HomePage, usersPage, newsPage, tagsPage, categoriesPage, editCategoryPage } = require('../controller/adminController/pageController');
 var router = express.Router();
 
 /* GET dashboard page. */
 router.get('/', HomePage);
 
 /* GET users page. */
-router.get('/users', HomePage);
+router.get('/users', usersPage);
 
 /* GET news page. */
-router.get('/news', HomePage);
+router.get('/news', newsPage);
 
 /* GET tags page. */
-router.get('/tags', HomePage);
+router.get('/tags', tagsPage);
 
 /* GET categories page. */
-router.get('/categories', HomePage);
+router.get('/categories', categoriesPage);
+
+/* GET category_edit page. */
+router.get('/edit-category?:id', editCategoryPage);
 
 
 module.exports = router;
