@@ -57,29 +57,29 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 @font-face {
   font-family: Roboto-Regular;
-  src: url('../libs/fonts/Roboto/Roboto-Regular.ttf'); 
+  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Regular.ttf'); 
 }
 
 @font-face {
   font-family: Roboto-Medium;
-  src: url('../libs/fonts/Roboto/Roboto-Medium.ttf'); 
+  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Medium.ttf'); 
 }
 
 @font-face {
   font-family: Roboto-Bold;
-  src: url('../libs/fonts/Roboto/Roboto-Bold.ttf'); 
+  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Bold.ttf'); 
 }
 
 @font-face {
   font-family: Roboto-Black;
-  src: url('../libs/fonts/Roboto/Roboto-Black.ttf'); 
+  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Black.ttf'); 
 }
 
 /*------------------------------------------------------------------
 [ 2 ]*/
 @font-face {
   font-family: Lato-Regular;
-  src: url('../libs/fonts/Lato/Lato-Regular.ttf'); 
+  src: url('/libs/vendor/index/fonts/Lato/Lato-Regular.ttf'); 
 }
 
 
@@ -1635,6 +1635,7 @@ a.breadcrumb-item:hover {
 .bg9 {background-color: #999;}
 .bg10 {background-color: #38C2C7;}
 .bg11 {background: linear-gradient(0deg,#1A123B 0,#282052 100%);}
+.bg12 { background-color: var(--purple-light); }
 
 
 /*---------------------------------------------*/
@@ -1885,6 +1886,18 @@ a.breadcrumb-item:hover {
 .hov-btn2:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
+}
+
+.hov-btn3:hover {
+  border-color: var(--purple-light);
+  background-color: var(--purple-light);
+  color: var(--white) !important;
+}
+
+.hov-btn3-active {
+  border-color: var(--purple-light);
+  background-color: var(--purple-light);
+  color: var(--white) !important;
 }
 
 

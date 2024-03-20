@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const { getAllNews, getNewsDetail, getAllCategories } = require('../controller/newsController');
-const { getAboutPage, getHomePage } = require('../controller/pageController');
-const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals } = require('../controller/getMethodsForAllPages');
-const { postSubscribes } = require('../controller/postMethods');
+const { getAllNews, getNewsDetail, getAllCategories } = require('../controller/indexController/newsController');
+const { getAboutPage, getHomePage } = require('../controller/indexController/pageController');
+const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals } = require('../controller/indexController/getMethodsForAllPages');
+const { postSubscribes } = require('../controller/indexController/postMethods');
 
 router.use(getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals);
 

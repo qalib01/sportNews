@@ -1,5 +1,5 @@
-const db = require('../models/index');
-const { sequelize } = require('../models/index');
+const db = require('../../models/index');
+const { sequelize } = require('../../models/index');
 const moment = require('moment');
 // moment.locale('az');
 

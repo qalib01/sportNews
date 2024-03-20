@@ -1,5 +1,5 @@
-const db = require('../models/index');
-const { sequelize } = require('../models/index');
+const db = require('../../models/index');
+const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
 const moment = require('moment');
 
@@ -114,7 +114,6 @@ const getAllNews = async (req, res, next) => {
             return viewsB - viewsA;
         }).slice(0, 6);
 
-        console.log(trendNews);
 
         res.render('news', {
             title: 'Xəbərlər',
@@ -132,6 +131,66 @@ const getAllNews = async (req, res, next) => {
 
 const getNewsDetail = async (req, res, next) => {
     let key = req.params.key;
+    const sevenDaysAgo = moment().subtract(7, 'days').toDate();
+    let allNews = await db.news.findAll({
+        include: [
+            {
+                model: sequelize.model('categories'),
+                as: 'category',
+                where: {
+                    status: true
+                },
+                attributes: ['name', 'key', 'description'],
+            },
+            {
+                model: sequelize.model('news_tags'),
+                as: 'news_tags',
+                include: [
+                    {
+                        model: sequelize.model('tags'),
+                        as: 'tag',
+                        attributes: ['name', 'key', 'description'],
+                    },
+                ],
+            },
+            {
+                model: sequelize.model('news_views'),
+                as: 'news_view',
+                attributes: ['viewsCounts']
+            },
+        ],
+        where: {
+            status: true
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
+    });
+    let allTags = await db.tags.findAll({
+        order: [
+            ['createdAt', 'ASC']
+        ],
+        attributes: ['name', 'key']
+    });
+
+    const trendNews = allNews.filter(news => {
+        let totalViews = 0;
+        if (news.news_view) {
+            totalViews = news.news_view.viewsCounts;
+        }
+        return totalViews > 0 && moment(news.createdAt).isAfter(sevenDaysAgo);
+    }).sort((a, b) => {
+        let viewsA = 0;
+        let viewsB = 0;
+        if (a.news_view) {
+            viewsA = a.news_view.viewsCounts;
+        }
+        if (b.news_view) {
+            viewsB = b.news_view.viewsCounts;
+        }
+        return viewsB - viewsA;
+    }).slice(0, 6);
     let selectedNews = await db.news.findOne({
         include: [
             {
@@ -168,6 +227,8 @@ const getNewsDetail = async (req, res, next) => {
         name: selectedNews.title,
         key: 'news',
         selectedNews,
+        allTags,
+        trendNews,
     });
 }
 

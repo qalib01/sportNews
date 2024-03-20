@@ -6,7 +6,7 @@
                 <div class="col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
                         <a href="/">
-                            <img class="max-s-full" src="/images/icons/logo-02.png" alt="LOGO">
+                            <img class="max-s-full" src="/images/icons/logo-03.png" style="padding-right: 10px;" alt="LOGO">
                         </a>
                     </div>
 
@@ -76,10 +76,10 @@
                     </div>
 
                     <ul class="m-t--12">
-                        <% popularCategories.forEach((category) => { %>
+                        <% popularCategories.forEach((populatCategory) => { %>
                             <li class="how-bor1 p-rl-5 p-tb-10">
-                                <a href="/news?category=<%= category.dataValues.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-                                    <%= category.dataValues.category.name %> (<%= category.dataValues.newsCount %>)
+                                <a href="/news?category=<%= populatCategory.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
+                                    <%= populatCategory.category.name %> (<%= populatCategory.dataValues.newsCount %>)
                                 </a>
                             </li>
                         <% }) %>
@@ -116,21 +116,22 @@
             <div class="video-mo-01">
                 <!-- <iframe src="https://www.youtube.com/embed/wJnBTPUQS5A?rel=0" allowfullscreen></iframe> -->
                 <!-- <iframe src="https://www.youtube.com/embed/_bLtXHqxsD0?si=RMReIfodCapjnzbH" allowfullscreen></iframe> -->
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/_bLtXHqxsD0?si=RMReIfodCapjnzbH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/_bLtXHqxsD0?si=RMReIfodCapjnzbH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/sLsPL-a_b8o?si=L8VfbeV7GELiTf01" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 </div>
 
 <!--===============================================================================================-->
-<script src="/libs/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="/libs/vendor/index/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
-<script src="/libs/vendor/animsition/js/animsition.min.js"></script>
+<script src="/libs/vendor/index/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
-<script src="/libs/vendor/bootstrap/js/popper.js"></script>
-<script src="/libs/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/libs/vendor/index/bootstrap/js/popper.js"></script>
+<script src="/libs/vendor/index/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-<script src="/javascripts/main.js"></script>
+<script src="/javascripts/index/main.js"></script>
 </body>
 
 </html>

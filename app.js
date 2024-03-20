@@ -11,7 +11,7 @@ var adminRouter = require('./routes/admin');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'),path.join(__dirname, 'views/admin'),path.join(__dirname, 'index'));
+app.set('views', [path.join(__dirname, 'views'),path.join(__dirname, 'views/index'),path.join(__dirname, 'views/admin')]);
 app.set('view engine', 'ejs');
 app.set('trust proxy', true)
 
