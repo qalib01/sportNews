@@ -27,12 +27,18 @@ app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  next(createError(404, {
+    message: 'Səhifə tapılmadı',
+    key: '404',
+    content: 'Daxil olmağa çalışdığınız səhifə tapılmadı. Ola bilsin, axtardığınız səhifə köçürülüb, silinib və ya URL yanlışdır. Zəhmət olmasa, daha sonra yenidən cəhd edəsiniz.'
+  }));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  res.locals.title = err.status;
+  res.locals.key = err.status;
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

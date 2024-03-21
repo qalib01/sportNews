@@ -140,7 +140,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   height: 35px;
   bottom: 40px;
   right: 40px;
-  background-color: var(--purple-dark);
+  background-color: var(--purple-light);
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -1148,7 +1148,7 @@ body {padding-right: 0px !important;}
   display: flex;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+/* .breadcrumb-item+.breadcrumb-item::before {
   height: 100%;
   content: "/";
   font-family: FontAwesome;
@@ -1156,7 +1156,7 @@ body {padding-right: 0px !important;}
   padding-right: 10px;
   padding-left: 12px;
   color: #999;
-}
+} */
 
 a.breadcrumb-item:hover {
   /* color: #17b978; */

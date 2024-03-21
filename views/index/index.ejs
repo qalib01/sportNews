@@ -1,16 +1,13 @@
 <%- include('./_partials/meta') %>
   <%- include('./_partials/header') %>
 
-
     <div class="container p-t-20 p-b-20 trending bg0">
       <div class="bg0 flex-wr-sb-c">
         <div class="f2-s-1 p-r-30 size-w-0 m-tb-6 flex-wr-s-c">
           <span class="text-uppercase cl2 p-r-8 trending-txt">
             Trenddə olanlar:
           </span>
-
-          <span class="dis-inline-block cl6 slide100-txt pos-relative size-w-0" data-in="fadeInDown"
-            data-out="fadeOutDown">
+          <span class="dis-inline-block cl6 slide100-txt pos-relative size-w-0" data-in="fadeInDown" data-out="fadeOutDown">
             <% trendNews.forEach((news)=> { %>
               <span class="dis-inline-block slide100-txt-item animated visible-false">
                 <%= news.title %>
@@ -47,6 +44,13 @@
                           </a>
                         </li>
                         <% }) %>
+                      <li class="nav-item-more dropdown dis-none">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                          Taglar
+                          <i class="fa-solid fa-chevron-down fs-12 ml-2"></i>
+                        </a>
+                        <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;" x-out-of-boundaries=""></ul>
+                      </li>
                     </ul>
 
                     <!-- View all button -->
@@ -67,7 +71,7 @@
                           <!-- Item post -->
                           <% category.news.forEach((nws)=> { %>
                             <% if (nws.tags.some(t=> t.key === tag.key)) { %>
-                              <div class="flex-wr-sb-s m-b-30 col-6">
+                              <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6">
                                 <a href="/news-detail/<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03">
                                   <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>">
                                 </a>
@@ -87,8 +91,8 @@
                                   </span>
                                 </div>
                               </div>
-                              <% } %>
-                                <% }) %>
+                            <% } %>
+                          <% }) %>
                         </div>
                       </div>
                       <% }) %>
@@ -152,15 +156,6 @@
                       </h5>
 
                       <span class="cl8 f1-s-3 font-weight-bold">
-                        Yüklədi:
-                        <a href="#" class="cl8 hov-cl10 trans-03">
-                          <%= news.createdBy=='00000000-0000-0000-0000-00000000' ? 'Avtomatik' : 'Yoxdur' %>
-                        </a>
-
-                        <span class="m-rl-3">
-                          -
-                        </span>
-
                         <span class="f1-s-3">
                           <%= moment(news.createdAt).format('LL') %>
                         </span>
@@ -217,7 +212,7 @@
               </div>
 
               <%- include('./items/subscription_small') %>
-              <%- include('./items/tags') %>
+                <%- include('./items/tags') %>
             </div>
           </div>
         </div>

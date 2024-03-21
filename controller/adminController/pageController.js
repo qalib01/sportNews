@@ -18,9 +18,60 @@ const usersPage = async (req, res, next) => {
 }
 
 const newsPage = async (req, res, next) => {
+    let news = await db.news.findAll({
+        include: [
+            {
+                model: sequelize.model('categories'),
+                as: 'category',
+                where: {
+                    status: true
+                },
+                // attributes: ['name', 'key', 'description'],
+            },
+            {
+                model: sequelize.model('news_tags'),
+                as: 'news_tags',
+                include: [
+                    {
+                        model: sequelize.model('tags'),
+                        as: 'tag',
+                        // attributes: ['name', 'key', 'description'],
+                    },
+                ],
+            },
+            {
+                model: sequelize.model('news_views'),
+                as: 'news_view',
+                attributes: ['viewsCounts']
+            },
+        ],
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        // attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
+    })
+    let tags = await db.tags.findAll({
+        where: {
+            status: true,
+        },
+        order: [
+            ['createdAt', 'ASC']
+        ]
+    });
+    let categories = await db.categories.findAll({
+        where: {
+            status: true,
+        },
+        order: [
+            ['createdAt', 'ASC']
+        ]
+    });
     res.render('admin/news/news', {
         title: 'Xəbərlər',
         key: 'news',
+        tags,
+        news,
+        categories,
     });
 }
 
@@ -50,12 +101,4 @@ const categoriesPage = async (req, res, next) => {
     });
 }
 
-const editCategoryPage = async (req, res, next) => {
-    res.render('admin/news/category_editor', {
-        title: 'Kateqoriyalar',
-        key: 'categories',
-    });
-}
-
-
-module.exports = { HomePage, usersPage, newsPage, tagsPage, categoriesPage, editCategoryPage }
+module.exports = { HomePage, usersPage, newsPage, tagsPage, categoriesPage }

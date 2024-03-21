@@ -16,59 +16,63 @@
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
                         <caption class="ms-4">
-                            Ümumi tapılan kateqoriyalar:
+                            Ümumi tapılan xəbərlər: <%= news.length %>
                         </caption>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Adı</th>
-                                <th>Key</th>
+                                <th>Titul</th>
+                                <th>Kateqoriya</th>
+                                <th>Taqlar</th>
                                 <th>Status</th>
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <tr>
-                                <td>
-                                    <i class="bx bxl-angular bx-sm text-danger me-3"></i>
-                                    <span class="fw-medium">Angular Project</span>
-                                </td>
-                                <td>Albert Cook</td>
-                                <td>
-                                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                            class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                                            <img src="../assets/img/avatars/5.png" alt="Avatar"
-                                                class="rounded-circle" />
-                                        </li>
-                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                            class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                                            <img src="../assets/img/avatars/6.png" alt="Avatar"
-                                                class="rounded-circle" />
-                                        </li>
-                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                            class="avatar avatar-xs pull-up" title="Christina Parker">
-                                            <img src="../assets/img/avatars/7.png" alt="Avatar"
-                                                class="rounded-circle" />
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="bx bx-edit-alt me-1"></i> Edit</a>
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="bx bx-trash me-1"></i> Delete</a>
+                            <% news.forEach((nws, id)=> { %>
+                                <tr>
+                                    <td>
+                                        <span class="fw-medium">
+                                            <%= id + 1 %>
+                                        </span>
+                                    </td>
+                                    <td class="text-wrap">
+                                        <%= nws.title %>
+                                    </td>
+                                    <td>
+                                        <%= nws.category.name %>
+                                    </td>
+                                    <td class="text-wrap">
+                                        <% nws.news_tags.forEach((news_tag)=> { %>
+                                            <span class="badge bg-label-success me-1">
+                                                <%= news_tag.tag.name %>
+                                            </span>
+                                            <% }) %>
+                                    </td>
+                                    <td>
+                                        <% if (nws.status==true) { %>
+                                            <span class="badge bg-label-primary me-1">Aktiv</span>
+                                            <% } else { %>
+                                                <span class="badge bg-label-danger me-1">Passiv</span>
+                                                <% } %>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);">
+                                                    <i class="bx bx-edit-alt me-1"></i> Düzəlt
+                                                </a>
+                                                <a class="dropdown-item" href="javascript:void(0);">
+                                                    <i class="bx bx-trash me-1"></i> Sil
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                                <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -81,26 +85,46 @@
 
 
             <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel1">Yenisini yarat</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST">
+                            <form method="POST" >
                                 <div class="mb-3">
                                     <label class="form-label" for="name">Adı</label>
                                     <input type="text" class="form-control" id="name" placeholder="Adı" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="description">Təsvir</label>
-                                    <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
+                                    <label class="form-label" for="description">Məzmunu</label>
+                                    <div id="editor"></div>
                                 </div>
-                                <div class="form-check form-check-inline mt-3">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
-                                        value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1">1</label>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Kateqoriya</label>
+                                    <select class="form-select" id="category" aria-label="Select item category"
+                                        required>
+                                        <option selected hidden disabled>Seçim edin</option>
+                                        <% categories.forEach((category)=> { %>
+                                            <option value="<%= category.id %>">
+                                                <%= category.name %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tags" class="form-label">Taglar</label>
+                                    <br />
+                                    <% tags.forEach((tag)=> { %>
+                                        <div class="form-check form-check-inline mb-3">
+                                            <input class="form-check-input" type="checkbox" id="<%= tag.key %>"
+                                                value="<%= tag.id %>">
+                                            <label class="form-check-label" for="<%= tag.key %>">
+                                                <%= tag.name %>
+                                            </label>
+                                        </div>
+                                        <% }) %>
                                 </div>
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Status</label>
@@ -112,10 +136,204 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Yarat</button>
                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Close
+                                    Bağla
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <script>
+                // This sample still does not showcase all CKEditor&nbsp;5 features (!)
+                // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
+                CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+                    toolbar: {
+                        items: [
+                            'exportPDF', 'exportWord', '|',
+                            'findAndReplace', 'selectAll', '|',
+                            'heading', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                            'bulletedList', 'numberedList', 'todoList', '|',
+                            'outdent', 'indent', '|',
+                            'undo', 'redo',
+                            '-',
+                            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                            'alignment', '|',
+                            'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                            'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                            'textPartLanguage', '|',
+                            'sourceEditing'
+                        ],
+                        shouldNotGroupWhenFull: true
+                    },
+                    // Changing the language of the interface requires loading the language file using the <script> tag.
+                    language: 'en',
+                    list: {
+                        properties: {
+                            styles: true,
+                            startIndex: true,
+                            reversed: true
+                        }
+                    },
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                        ]
+                    },
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+                    placeholder: 'Mətni buarada qeyd edin!',
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+                    fontFamily: {
+                        options: [
+                            'default',
+                            'Arial, Helvetica, sans-serif',
+                            'Courier New, Courier, monospace',
+                            'Georgia, serif',
+                            'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                            'Tahoma, Geneva, sans-serif',
+                            'Times New Roman, Times, serif',
+                            'Trebuchet MS, Helvetica, sans-serif',
+                            'Verdana, Geneva, sans-serif'
+                        ],
+                        supportAllValues: true
+                    },
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+                    fontSize: {
+                        options: [10, 12, 14, 'default', 18, 20, 22],
+                        supportAllValues: true
+                    },
+                    // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+                    htmlSupport: {
+                        allow: [
+                            {
+                                name: /.*/,
+                                attributes: true,
+                                classes: true,
+                                styles: true
+                            }
+                        ]
+                    },
+                    // Be careful with enabling previews
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+                    htmlEmbed: {
+                        showPreviews: true
+                    },
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+                    link: {
+                        decorators: {
+                            addTargetToExternalLinks: true,
+                            defaultProtocol: 'https://',
+                            toggleDownloadable: {
+                                mode: 'manual',
+                                label: 'Downloadable',
+                                attributes: {
+                                    download: 'file'
+                                }
+                            }
+                        }
+                    },
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+                    mention: {
+                        feeds: [
+                            {
+                                marker: '@',
+                                feed: [
+                                    '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                                    '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                                    '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                                    '@sugar', '@sweet', '@topping', '@wafer', '@galib'
+                                ],
+                                minimumCharacters: 1
+                            }
+                        ]
+                    },
+                    // The "super-build" contains more premium features that require additional configuration, disable them below.
+                    // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+                    removePlugins: [
+                        // These two are commercial, but you can try them out without registering to a trial.
+                        // 'ExportPdf',
+                        // 'ExportWord',
+                        'CKBox',
+                        'CKFinder',
+                        'EasyImage',
+                        // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+                        // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+                        // Storing images as Base64 is usually a very bad idea.
+                        // Replace it on production website with other solutions:
+                        // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+                        // 'Base64UploadAdapter',
+                        'RealTimeCollaborativeComments',
+                        'RealTimeCollaborativeTrackChanges',
+                        'RealTimeCollaborativeRevisionHistory',
+                        'PresenceList',
+                        'Comments',
+                        'TrackChanges',
+                        'TrackChangesData',
+                        'RevisionHistory',
+                        'Pagination',
+                        'WProofreader',
+                        // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+                        // from a local file system (file://) - load this site via HTTP server if you enable MathType.
+                        'MathType',
+                        // The following features are part of the Productivity Pack and require additional license.
+                        'SlashCommand',
+                        'Template',
+                        'DocumentOutline',
+                        'FormatPainter',
+                        'TableOfContents',
+                        'PasteFromOfficeEnhanced'
+                    ]
+                })
+                    // .then(editor => {
+                    //     document.querySelector('#preview').addEventListener('click', () => {
+                    //         let editorContent = editor.getData();
+                    //         let previewArea = document.querySelector('#preview-area');
+                    //         previewArea.innerHTML = editorContent;
+                    //     });
+
+                    //     document.querySelector('#save').addEventListener('click', async () => {
+                    //         let editorContent = editor.getData();
+                    //         let pageId = document.querySelector('#content').dataset.pageid;
+                    //         try {
+                    //             res = await fetch('/admin/create-aboutContent', {
+                    //                 method: "POST",
+                    //                 body: JSON.stringify({
+                    //                     pageId, editorContent
+                    //                 }),
+                    //                 headers: {
+                    //                     "Content-type": "application/json",
+                    //                 },
+                    //             });
+                    //             const data = await res.json();
+                    //             if (data.status === 200) {
+                    //                 alertText.textContent = data.statusText;
+                    //                 getSuccess();
+                    //             } else {
+                    //                 alertText.textContent = data.statusText;
+                    //                 getError();
+                    //                 console.log('Error', data);
+                    //             }
+                    //             setTimeout(() => {
+                    //                 alertText.textContent = '';
+                    //                 alertIcon.classList = '';
+                    //                 alertMessage.style.display = 'none';
+                    //                 alertMessage.classList.remove('error', 'success');
+                    //                 // progressBar.classList.remove('active');
+                    //             }, 4000);
+                    //         } catch (error) {
+                    //             return error;
+                    //         }
+                    //     });
+                    // });
+            </script>
