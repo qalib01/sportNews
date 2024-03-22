@@ -5,6 +5,7 @@ let deleteForm = document.querySelector('#deleteForm');
 let createForm = document.querySelector('#createForm');
 let editForm = document.querySelector('#editForm');
 
+
 if (createBtn) {
     createBtn.addEventListener('click', () => {
         let action = createBtn.getAttribute('data-action');
@@ -65,30 +66,33 @@ if (createForm) {
         //     e.submitter.removeAttribute("disabled");
         // }, timeout);
 
-        let name = createForm.name.value.trim();
-        let key = changeLetters(name.toLowerCase());
-        let description = createForm.description.value.trim();
-        let status = createForm.status.value.trim();
+        let item = e.submitter.getAttribute('data-item');
+        if (item !== 'news') {
+            let name = createForm.name.value.trim();
+            let key = changeLetters(name.toLowerCase());
+            let description = createForm.description.value.trim();
+            let status = createForm.status.value.trim();
 
-        try {
-            res = await fetch(createForm.action, {
-                method: "POST",
-                body: JSON.stringify({
-                    name,
-                    key,
-                    description,
-                    status,
-                }),
-                headers: {
-                    "Content-type": "application/json",
-                },
-            });
-            const data = await res.json();
-            if (data.status == 200) {
-                location.reload();
+            try {
+                res = await fetch(createForm.action, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        name,
+                        key,
+                        description,
+                        status,
+                    }),
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                if (data.status == 200) {
+                    location.reload();
+                }
+            } catch (error) {
+                return error;
             }
-        } catch (error) {
-            return error;
         }
     })
 }

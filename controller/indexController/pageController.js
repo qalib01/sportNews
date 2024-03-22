@@ -157,7 +157,7 @@ const getHomePage = async (req, res, next) => {
     }
 }
 
-const getAboutPage = function (req, res, next) {
+const getAboutPage = async (req, res, next) => {
     res.render('about', {
         title: 'Haqqımızda',
         name: 'Haqqımızda',
@@ -165,4 +165,12 @@ const getAboutPage = function (req, res, next) {
     });
 }
 
-module.exports = { getHomePage, getAboutPage }
+const getLoginPage = async (req, res, next) => {
+    res.render('login', {
+        title: 'Giriş',
+        name: 'Giriş',
+        key: 'login',
+    });
+}
+
+module.exports = { getHomePage, getAboutPage, getLoginPage }

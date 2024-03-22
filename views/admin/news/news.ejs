@@ -9,9 +9,7 @@
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header">Xəbərlər</h5>
-                    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal"
-                        data-bs-target="#basicModal">
-                        Yarat </button>
+                    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal"> Yarat </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
@@ -58,7 +56,8 @@
                                     </td>
                                     <td>
                                         <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
@@ -81,52 +80,53 @@
         </div>
         <!-- / Content -->
 
-        <%- include('../_partials/footer') %>
-
-
-            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel1">Yenisini yarat</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" >
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Adı</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Adı" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="description">Məzmunu</label>
-                                    <div id="editor"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="category" class="form-label">Kateqoriya</label>
-                                    <select class="form-select" id="category" aria-label="Select item category"
-                                        required>
-                                        <option selected hidden disabled>Seçim edin</option>
-                                        <% categories.forEach((category)=> { %>
-                                            <option value="<%= category.id %>">
-                                                <%= category.name %>
-                                            </option>
-                                            <% }) %>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="tags" class="form-label">Taglar</label>
-                                    <br />
-                                    <% tags.forEach((tag)=> { %>
-                                        <div class="form-check form-check-inline mb-3">
-                                            <input class="form-check-input" type="checkbox" id="<%= tag.key %>"
-                                                value="<%= tag.id %>">
-                                            <label class="form-check-label" for="<%= tag.key %>">
-                                                <%= tag.name %>
-                                            </label>
-                                        </div>
+        <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Yenisini yarat</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="createForm">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Titul</label>
+                                <input type="text" class="form-control" id="title" placeholder="Adı" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="img" class="form-label">Şəkil</label>
+                                <input class="form-control" type="file" id="img">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="description">Məzmun</label>
+                                <div id="editor"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Kateqoriya</label>
+                                <select class="form-select" id="category" aria-label="Select item category" required>
+                                    <option selected hidden disabled>Seçim edin</option>
+                                    <% categories.forEach((category)=> { %>
+                                        <option value="<%= category.id %>">
+                                            <%= category.name %>
+                                        </option>
                                         <% }) %>
-                                </div>
-                                <div class="mb-3">
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Taglar</label>
+                                <br />
+                                <% tags.forEach((tag)=> { %>
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input" type="checkbox" id="tag"
+                                            value="<%= tag.id %>">
+                                        <label class="form-check-label" for="tag">
+                                            <%= tag.name %>
+                                        </label>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-12 col-sm-4">
                                     <label for="status" class="form-label">Status</label>
                                     <select class="form-select" id="status" aria-label="Select item status">
                                         <option selected="" hidden>Seçim edin</option>
@@ -134,206 +134,237 @@
                                         <option value="1">Aktiv</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Yarat</button>
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Bağla
-                                </button>
-                            </form>
-                        </div>
+                                <div class="mb-3 col-12 col-sm-4">
+                                    <label for="preparedDate" class="form-label">Tarix</label>
+                                    <input type="date" class="form-control" id="preparedDate" placeholder="Tarix" required>
+                                </div>
+                                <div class="mb-3 col-12 col-sm-4">
+                                    <label for="preparedTime" class="form-label">Saat</label>
+                                    <input type="time" class="form-control" id="preparedTime" placeholder="Saat" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" data-item="news">Yarat</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Bağla
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <script>
-                // This sample still does not showcase all CKEditor&nbsp;5 features (!)
-                // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
-                CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
-                    toolbar: {
-                        items: [
-                            'exportPDF', 'exportWord', '|',
-                            'findAndReplace', 'selectAll', '|',
-                            'heading', '|',
-                            'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
-                            'bulletedList', 'numberedList', 'todoList', '|',
-                            'outdent', 'indent', '|',
-                            'undo', 'redo',
-                            '-',
-                            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
-                            'alignment', '|',
-                            'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
-                            'specialCharacters', 'horizontalLine', 'pageBreak', '|',
-                            'textPartLanguage', '|',
-                            'sourceEditing'
-                        ],
-                        shouldNotGroupWhenFull: true
-                    },
-                    // Changing the language of the interface requires loading the language file using the <script> tag.
-                    language: 'en',
-                    list: {
-                        properties: {
-                            styles: true,
-                            startIndex: true,
-                            reversed: true
-                        }
-                    },
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
-                    heading: {
-                        options: [
-                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
-                        ]
-                    },
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
-                    placeholder: 'Mətni buarada qeyd edin!',
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
-                    fontFamily: {
-                        options: [
-                            'default',
-                            'Arial, Helvetica, sans-serif',
-                            'Courier New, Courier, monospace',
-                            'Georgia, serif',
-                            'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                            'Tahoma, Geneva, sans-serif',
-                            'Times New Roman, Times, serif',
-                            'Trebuchet MS, Helvetica, sans-serif',
-                            'Verdana, Geneva, sans-serif'
-                        ],
-                        supportAllValues: true
-                    },
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
-                    fontSize: {
-                        options: [10, 12, 14, 'default', 18, 20, 22],
-                        supportAllValues: true
-                    },
-                    // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
-                    htmlSupport: {
-                        allow: [
-                            {
-                                name: /.*/,
-                                attributes: true,
-                                classes: true,
-                                styles: true
-                            }
-                        ]
-                    },
-                    // Be careful with enabling previews
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
-                    htmlEmbed: {
-                        showPreviews: true
-                    },
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
-                    link: {
-                        decorators: {
-                            addTargetToExternalLinks: true,
-                            defaultProtocol: 'https://',
-                            toggleDownloadable: {
-                                mode: 'manual',
-                                label: 'Downloadable',
-                                attributes: {
-                                    download: 'file'
-                                }
-                            }
-                        }
-                    },
-                    // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
-                    mention: {
-                        feeds: [
-                            {
-                                marker: '@',
-                                feed: [
-                                    '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
-                                    '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
-                                    '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
-                                    '@sugar', '@sweet', '@topping', '@wafer', '@galib'
-                                ],
-                                minimumCharacters: 1
-                            }
-                        ]
-                    },
-                    // The "super-build" contains more premium features that require additional configuration, disable them below.
-                    // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
-                    removePlugins: [
-                        // These two are commercial, but you can try them out without registering to a trial.
-                        // 'ExportPdf',
-                        // 'ExportWord',
-                        'CKBox',
-                        'CKFinder',
-                        'EasyImage',
-                        // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
-                        // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
-                        // Storing images as Base64 is usually a very bad idea.
-                        // Replace it on production website with other solutions:
-                        // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
-                        // 'Base64UploadAdapter',
-                        'RealTimeCollaborativeComments',
-                        'RealTimeCollaborativeTrackChanges',
-                        'RealTimeCollaborativeRevisionHistory',
-                        'PresenceList',
-                        'Comments',
-                        'TrackChanges',
-                        'TrackChangesData',
-                        'RevisionHistory',
-                        'Pagination',
-                        'WProofreader',
-                        // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
-                        // from a local file system (file://) - load this site via HTTP server if you enable MathType.
-                        'MathType',
-                        // The following features are part of the Productivity Pack and require additional license.
-                        'SlashCommand',
-                        'Template',
-                        'DocumentOutline',
-                        'FormatPainter',
-                        'TableOfContents',
-                        'PasteFromOfficeEnhanced'
+        <script>
+            // This sample still does not showcase all CKEditor&nbsp;5 features (!)
+            // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
+            CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
+                // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+                toolbar: {
+                    items: [
+                        'exportPDF', 'exportWord', '|',
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                        'bulletedList', 'numberedList', 'todoList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                        'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                        'textPartLanguage', '|',
+                        'sourceEditing'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                // Changing the language of the interface requires loading the language file using the <script> tag.
+                language: 'en',
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
                     ]
-                })
-                    // .then(editor => {
-                    //     document.querySelector('#preview').addEventListener('click', () => {
-                    //         let editorContent = editor.getData();
-                    //         let previewArea = document.querySelector('#preview-area');
-                    //         previewArea.innerHTML = editorContent;
-                    //     });
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+                placeholder: 'Mətni buarada qeyd edin!',
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+                fontSize: {
+                    options: [10, 12, 14, 'default', 18, 20, 22],
+                    supportAllValues: true
+                },
+                // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+                // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
+                    ]
+                },
+                // Be careful with enabling previews
+                // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+                htmlEmbed: {
+                    showPreviews: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+                link: {
+                    decorators: {
+                        addTargetToExternalLinks: true,
+                        defaultProtocol: 'https://',
+                        toggleDownloadable: {
+                            mode: 'manual',
+                            label: 'Downloadable',
+                            attributes: {
+                                download: 'file'
+                            }
+                        }
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+                mention: {
+                    feeds: [
+                        {
+                            marker: '@',
+                            feed: [
+                                '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                                '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                                '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                                '@sugar', '@sweet', '@topping', '@wafer', '@galib'
+                            ],
+                            minimumCharacters: 1
+                        }
+                    ]
+                },
+                // The "super-build" contains more premium features that require additional configuration, disable them below.
+                // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+                removePlugins: [
+                    // These two are commercial, but you can try them out without registering to a trial.
+                    // 'ExportPdf',
+                    // 'ExportWord',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+                    // Storing images as Base64 is usually a very bad idea.
+                    // Replace it on production website with other solutions:
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+                    // 'Base64UploadAdapter',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+                    // from a local file system (file://) - load this site via HTTP server if you enable MathType.
+                    'MathType',
+                    // The following features are part of the Productivity Pack and require additional license.
+                    'SlashCommand',
+                    'Template',
+                    'DocumentOutline',
+                    'FormatPainter',
+                    'TableOfContents',
+                    'PasteFromOfficeEnhanced'
+                ]
+            })
+            .then(editor => {
+                function changeLetters(str) {
+                    const azerbaijaniToEnglishMap = {
+                        ə: "e",
+                        ı: "i",
+                        ö: "o",
+                        ğ: "g",
+                        ü: "u",
+                        ş: "s",
+                        ç: "c",
+                        "-": "",
+                        _: "",
+                        " ": "_"
+                    };
+                    return str.replace(/[əıöğüşç\s\-_]/g, (match) => azerbaijaniToEnglishMap[match]);
+                }
+                let createBtn = document.querySelector('#createBtn');
+                let editBtn = document.querySelectorAll('.editBtn');
+                let deleteBtn = document.querySelectorAll('.deleteBtn');
+                let deleteForm = document.querySelector('#deleteForm');
+                let createForm = document.querySelector('#createForm');
+                let editForm = document.querySelector('#editForm');
 
-                    //     document.querySelector('#save').addEventListener('click', async () => {
-                    //         let editorContent = editor.getData();
-                    //         let pageId = document.querySelector('#content').dataset.pageid;
-                    //         try {
-                    //             res = await fetch('/admin/create-aboutContent', {
-                    //                 method: "POST",
-                    //                 body: JSON.stringify({
-                    //                     pageId, editorContent
-                    //                 }),
-                    //                 headers: {
-                    //                     "Content-type": "application/json",
-                    //                 },
-                    //             });
-                    //             const data = await res.json();
-                    //             if (data.status === 200) {
-                    //                 alertText.textContent = data.statusText;
-                    //                 getSuccess();
-                    //             } else {
-                    //                 alertText.textContent = data.statusText;
-                    //                 getError();
-                    //                 console.log('Error', data);
-                    //             }
-                    //             setTimeout(() => {
-                    //                 alertText.textContent = '';
-                    //                 alertIcon.classList = '';
-                    //                 alertMessage.style.display = 'none';
-                    //                 alertMessage.classList.remove('error', 'success');
-                    //                 // progressBar.classList.remove('active');
-                    //             }, 4000);
-                    //         } catch (error) {
-                    //             return error;
-                    //         }
-                    //     });
-                    // });
-            </script>
+                createForm.addEventListener('submit', async () => {
+                    let title = createForm.title.value.trim();
+                    let img = createForm.img.files[0]; // Get the selected image file
+                    let key = changeLetters(title.toLowerCase());
+                    let content = editor.getData().trim(); // Retrieve content from CKEditor
+                    let tags = createForm.tag.value.trim().split(',');
+                    let categoryId = createForm.category.value.trim();
+                    let status = createForm.status.value.trim();
+                    let preparedDate = createForm.preparedDate.value.trim();
+                    let preparedTime = createForm.preparedTime.value.trim();
+                    let preparedDateTime = `${preparedDate} ${preparedTime}`;
+
+                    try {
+                        const formData = new FormData();
+                        formData.append('title', title);
+                        formData.append('img', img);
+                        formData.append('key', key);
+                        formData.append('content', content);
+                        formData.append('tags', tags);
+                        formData.append('categoryId', categoryId);
+                        formData.append('status', status);
+                        formData.append('preparedDateTime', preparedDateTime); // Concatenated date and time string
+
+
+                        console.log(formData);
+                        res = await fetch(createForm.action, {
+                            method: "POST",
+                            body: formData,
+                        });
+                        const data = await res.json();
+                        if (data.status == 200) {
+                            location.reload();
+                        }
+                    } catch (error) {
+                        return error;
+                    }
+                });
+            });
+        </script>
+
+        <%- include('../_partials/footer') %>

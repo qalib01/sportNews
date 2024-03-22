@@ -83,11 +83,11 @@
                     <div class="modal-body">
                         <form id="createForm">
                             <div class="mb-3">
-                                <label class="form-label" for="name">Adı</label>
+                                <label class="form-label" for="name">Ad</label>
                                 <input type="text" class="form-control" id="name" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="description">Təsvir</label>
+                                <label class="form-label" for="description">Məzmun</label>
                                 <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
                             </div>
                             <div class="mb-3">
@@ -98,7 +98,7 @@
                                     <option value="1">Aktiv</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Təsdiqlə</button>
+                            <button type="submit" class="btn btn-primary" data-item="categories">Təsdiqlə</button>
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
                             </button>
                         </form>
@@ -117,11 +117,11 @@
                     <div class="modal-body">
                         <form id="editForm">
                             <div class="mb-3">
-                                <label class="form-label" for="name">Adı</label>
+                                <label class="form-label" for="name">Ad</label>
                                 <input type="text" class="form-control" id="name" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="description">Təsvir</label>
+                                <label class="form-label" for="description">Məzmun</label>
                                 <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
                             </div>
                             <div class="mb-3">
@@ -132,7 +132,7 @@
                                     <option value="1">Aktiv</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Təsdiqlə</button>
+                            <button type="submit" class="btn btn-primary" data-item="categories">Təsdiqlə</button>
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
                             </button>
                         </form>
@@ -152,8 +152,6 @@
                         <form id="deleteForm">
                             <div class="mb-3">
                                 <p>Bunu etmək istədiyinizə əminsiniz?</p>
-                                <!-- <label class="form-label" for="name">Adı</label> -->
-                                <!-- <input type="text" class="form-control" id="name" placeholder="Adı" disabled> -->
                             </div>
                             <button type="submit" class="btn btn-danger">Sil</button>
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>

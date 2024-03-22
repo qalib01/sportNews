@@ -17,6 +17,7 @@ let guid = () => {
 
 const createNewTag = async (req, res, next) => {
     let inputData = req.body;
+    console.log(inputData);
 
     try {
         await db.tags.create({
