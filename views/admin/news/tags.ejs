@@ -9,9 +9,7 @@
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header">Taglar</h5>
-                    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal"
-                        data-bs-target="#basicModal">
-                        Yarat </button>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#createModal" data-action="/admin/create-tag"> Yarat </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
@@ -51,15 +49,14 @@
                                     </td>
                                     <td>
                                         <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="javascript:void(0);">
+                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editModal" data-action="/admin/edit-tag?id=<%= tag.id %>" data-item="tag" data-id="<%= tag.id %>">
                                                     <i class="bx bx-edit-alt me-1"></i> Düzəlt
                                                 </a>
-                                                <a class="dropdown-item" href="javascript:void(0);">
+                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-tag?id=<%= tag.id %>" data-bs-toggle="modal" data-item="tag" data-bs-target="#deleteModal">
                                                     <i class="bx bx-trash me-1"></i> Sil
                                                 </a>
                                             </div>
@@ -74,38 +71,94 @@
             <!--/ Hoverable Table rows -->
         </div>
         <!-- / Content -->
-        <%- include('../_partials/footer') %>
 
-            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel1">Yenisini yarat</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST">
-                                <div class="mb-3">
-                                    <label class="form-label" for="name">Adı</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Adı" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="description">Təsvir</label>
-                                    <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select class="form-select" id="status" aria-label="Select item status">
-                                        <option selected="" hidden>Seçim edin</option>
-                                        <option value="0">Passiv</option>
-                                        <option value="1">Aktiv</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Yarat</button>
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
-                                </button>
-                            </form>
-                        </div>
+        <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Yenisini yarat</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="createForm">
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Adı</label>
+                                <input type="text" class="form-control" id="name" placeholder="Adı" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="description">Təsvir</label>
+                                <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status" aria-label="Select item status">
+                                    <option value="0" hidden>Seçim edin</option>
+                                    <option value="0">Passiv</option>
+                                    <option value="1">Aktiv</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Təsdiqlə</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Düzəliş et</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <div class="mb-3">
+                                <label class="form-label" for="name">Adı</label>
+                                <input type="text" class="form-control" id="name" placeholder="Adı" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="description">Təsvir</label>
+                                <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status" aria-label="Select item status">
+                                    <option selected="" hidden>Seçim edin</option>
+                                    <option value="0">Passiv</option>
+                                    <option value="1">Aktiv</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Təsdiqlə</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteForm">
+                            <div class="mb-3">
+                                <p>Bunu etmək istədiyinizə əminsiniz?</p>
+                                <!-- <label class="form-label" for="name">Adı</label> -->
+                                <!-- <input type="text" class="form-control" id="name" placeholder="Adı" disabled> -->
+                            </div>
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('../_partials/footer') %>
