@@ -69,6 +69,16 @@ if (editBtn) {
                         }
                     });
                 });
+            } else if (item == 'user') {
+                basicForm.name.value = data.name;
+                basicForm.surname.value = data.surname;
+                basicForm.email.value = data.email;
+                basicForm.status.value = +data.status;
+            } else if (item == 'social_media') {
+                basicForm.name.value = data.name;
+                basicForm.linkSlug.value = data.linkSlug;
+                basicForm.socialMediaId.value = data.socialMediaId;
+                basicForm.status.value = +data.status;
             } else {
                 basicForm.name.value = data.name;
                 basicForm.description = data.description;
@@ -162,6 +172,64 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
     }
 }
 
+const userFormCreateUpdate = async (method) => {
+    try {
+        let name = basicForm.name.value.trim();
+        let surname = basicForm.surname.value.trim();
+        let email = basicForm.email.value.trim();
+        let password = basicForm.password.value.trim();
+        let status = basicForm.status.value.trim();
+        
+        const requestBody = {
+            name, surname, email, password, status
+        };
+        
+        res = await fetch(basicForm.action, {
+            method: method,
+            body: JSON.stringify( requestBody ),
+            headers: {
+                "Content-type": "application/json",
+            },
+        });
+        const data = await res.json();
+        if (data.status == 200) {
+            location.reload();
+        }
+    } catch (error) {
+        return error;
+    }
+}
+
+const socialMediaFormCreateUpdate = async (isCreateAction, method) => {
+    try {
+        console.log(method);
+        let name = basicForm.name.value.trim();
+        let linkSlug = basicForm.linkSlug.value.trim();
+        let socialMediaId = basicForm.socialMediaId.value.trim();
+        let status = basicForm.status.value.trim();
+        
+        const requestBody = {
+            name, linkSlug, socialMediaId, status
+        };
+
+        console.log(requestBody);
+        
+        res = await fetch(basicForm.action, {
+            method: method,
+            body: JSON.stringify( requestBody ),
+            headers: {
+                "Content-type": "application/json",
+            },
+        });
+        const data = await res.json();
+        if (data.status == 200) {
+            location.reload();
+        }
+    } catch (error) {
+        return error;
+    }
+}
+
 if (basicForm) {
     basicForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -173,159 +241,17 @@ if (basicForm) {
         // Check if the form action contains "create" or "update"
         const isCreateAction = basicForm.action.includes("create");
         const isNewsAction = basicForm.action.includes("news");
+        const isSocialMediaAction = basicForm.action.includes("social_media");
+        const isUserAction = basicForm.action.includes("user");
         const method = isCreateAction ? "POST" : "PUT";
 
-        if (isNewsAction) {
-            await newsFormCreateUpdate(isCreateAction, method);
-        } else {
-            await itemFormCreateUpdate(isCreateAction, method);
-        }
+        isNewsAction ?  await newsFormCreateUpdate(isCreateAction, method) : null;
+        isUserAction ?  await userFormCreateUpdate(method) : null;
+        isSocialMediaAction ? await socialMediaFormCreateUpdate(isCreateAction, method) : null;
+        await itemFormCreateUpdate(isCreateAction, method);
+
     })
 }
-
-// if (createForm) {
-//     createForm.addEventListener("submit", async (e) => {
-//         e.preventDefault();
-//         // e.submitter.setAttribute("disabled", true);
-//         // setTimeout(() => {
-//         //     e.submitter.removeAttribute("disabled");
-//         // }, timeout);
-
-//         let item = e.submitter.getAttribute('data-item');
-//         if (item == 'news') {
-//             try {
-//                 let title = createForm.title.value.trim();
-//                 let img = createForm.img.files[0]; // Get the selected image file
-//                 let key = changeLetters(title.toLowerCase());
-//                 let content = editorInstance.getData().trim(); // Retrieve content from CKEditor
-//                 let tags = [];
-//                 document.querySelectorAll('input[type="checkbox"][id="tag"]').forEach(function (checkbox) {
-//                     if (checkbox.checked) {
-//                         tags.push(checkbox.value);
-//                     }
-//                 });
-//                 console.log(tags);
-//                 let categoryId = createForm.category.value.trim();
-//                 let status = createForm.status.value.trim();
-//                 let sharedDate = createForm.sharedDate.value.trim();
-//                 let sharedTime = createForm.sharedTime.value.trim();
-//                 let sharedDateTime = `${sharedDate} ${sharedTime}`;
-
-//                 res = await fetch(createForm.action, {
-//                     method: "POST",
-//                     body: JSON.stringify({
-//                         title, key, img, content, tags, categoryId, status, sharedDateTime
-//                     }),
-//                     headers: {
-//                         "Content-type": "application/json",
-//                     },
-//                 });
-//                 const data = await res.json();
-//                 if (data.status == 200) {
-//                     location.reload();
-//                 }
-//             } catch (error) {
-//                 return error;
-//             }
-//         } else {
-//             let name = createForm.name.value.trim();
-//             let key = changeLetters(name.toLowerCase());
-//             let description = createForm.description.value.trim();
-//             let status = createForm.status.value.trim();
-
-//             try {
-//                 res = await fetch(createForm.action, {
-//                     method: "POST",
-//                     body: JSON.stringify({
-//                         name, key, description, status,
-//                     }),
-//                     headers: {
-//                         "Content-type": "application/json",
-//                     },
-//                 });
-//                 const data = await res.json();
-//                 if (data.status == 200) {
-//                     location.reload();
-//                 }
-//             } catch (error) {
-//                 return error;
-//             }
-//         }
-//     })
-// }
-
-// if (editForm) {
-//     editForm.addEventListener("submit", async (e) => {
-//         e.preventDefault();
-//         // e.submitter.setAttribute("disabled", true);
-//         // setTimeout(() => {
-//         //     e.submitter.removeAttribute("disabled");
-//         // }, timeout);
-//         let item = e.submitter.getAttribute('data-item');
-//         if (item == 'news') {
-//             try {
-//                 let title = createForm.title.value.trim();
-//                 let img = createForm.img.files[0]; // Get the selected image file
-//                 let key = changeLetters(title.toLowerCase());
-//                 let content = editorInstance.getData().trim(); // Retrieve content from CKEditor
-//                 let tags = [];
-//                 document.querySelectorAll('input[type="checkbox"][id="tag"]').forEach(function (checkbox) {
-//                     if (checkbox.checked) {
-//                         tags.push(checkbox.value);
-//                     }
-//                 });
-//                 console.log(tags);
-//                 let categoryId = createForm.category.value.trim();
-//                 let status = createForm.status.value.trim();
-//                 let sharedDate = createForm.sharedDate.value.trim();
-//                 let sharedTime = createForm.sharedTime.value.trim();
-//                 let sharedDateTime = `${sharedDate} ${sharedTime}`;
-
-//                 res = await fetch(createForm.action, {
-//                     method: "POST",
-//                     body: JSON.stringify({
-//                         title, key, img, content, tags, categoryId, status, sharedDateTime
-//                     }),
-//                     headers: {
-//                         "Content-type": "application/json",
-//                     },
-//                 });
-//                 const data = await res.json();
-//                 if (data.status == 200) {
-//                     location.reload();
-//                 }
-//             } catch (error) {
-//                 return error;
-//             }
-//         } else {
-//             let name = editForm.name.value.trim();
-//             let key = changeLetters(name.toLowerCase());
-//             let description = editForm.description.value.trim();
-//             let status = editForm.status.value.trim();
-
-//             try {
-//                 res = await fetch(editForm.action, {
-//                     method: "PUT",
-//                     body: JSON.stringify({
-//                         name,
-//                         key,
-//                         description,
-//                         status,
-//                     }),
-//                     headers: {
-//                         "Content-type": "application/json",
-//                     },
-//                 });
-//                 const data = await res.json();
-//                 if (data.status == 200) {
-//                     location.reload();
-//                 }
-//             } catch (error) {
-//                 return error;
-//             }
-//         }
-//     })
-// }
 
 if (deleteForm) {
     deleteForm.addEventListener("submit", async (e) => {
@@ -334,7 +260,6 @@ if (deleteForm) {
         // setTimeout(() => {
         //     e.submitter.removeAttribute("disabled");
         // }, timeout);
-        console.log(deleteForm.action);
 
         try {
             res = await fetch(deleteForm.action, {

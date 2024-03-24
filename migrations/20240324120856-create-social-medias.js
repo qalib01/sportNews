@@ -1,43 +1,33 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('social_medias', {
       id: {
         allowNull: false,
         autoIncrement: false,
         primaryKey: true,
+        type: Sequelize.STRING
+      },
+      icon: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'Default',
       },
-      surname: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        defaultValue: 'Default',
-      },
-      email: {
+      type: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      password: {
+      link: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       status: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
-      },
-      created_by: {
-        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: '00000000-0000-0000-0000-00000000',
-      },
-      edited_by: {
-        type: Sequelize.STRING,
-        defaultValue: null,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
@@ -50,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('social_medias');
   }
 };

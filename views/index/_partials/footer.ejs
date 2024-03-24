@@ -22,18 +22,11 @@
                         </p>
 
                         <div class="p-t-15">
-                            <a href="javascript:void(0)" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-                                <span class="fab fa-facebook-f"></span>
-                            </a>
-                            <a href="javascript:void(0)" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-                                <span class="fab fa-instagram"></span>
-                            </a>
-                            <a href="javascript:void(0)" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-                                <span class="fab fa-twitter"></span>
-                            </a>
-                            <a href="javascript:void(0)" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-                                <span class="fab fa-youtube"></span>
-                            </a>
+                            <% platformSocialMedias.forEach((media) => { %>
+                                <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                    <%- media.social_media.icon %>
+                                </a>
+                            <% }) %>
                         </div>
                     </div>
                 </div>
@@ -112,22 +105,6 @@
     <span class="symbol-btn-back-to-top">
         <span class="fas fa-angle-up"></span>
     </span>
-</div>
-
-<!-- Modal Video 01-->
-<div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document" data-dismiss="modal">
-        <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
-
-        <div class="wrap-video-mo-01">
-            <div class="video-mo-01">
-                <!-- <iframe src="https://www.youtube.com/embed/wJnBTPUQS5A?rel=0" allowfullscreen></iframe> -->
-                <!-- <iframe src="https://www.youtube.com/embed/_bLtXHqxsD0?si=RMReIfodCapjnzbH" allowfullscreen></iframe> -->
-                <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/_bLtXHqxsD0?si=RMReIfodCapjnzbH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/sLsPL-a_b8o?si=L8VfbeV7GELiTf01" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!--===============================================================================================-->

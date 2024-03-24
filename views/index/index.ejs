@@ -1,6 +1,9 @@
 <%- include('./_partials/meta') %>
   <%- include('./_partials/header') %>
 
+
+
+
     <% if (trendNews.length> 0) { %>
       <div class="container p-t-20 trending bg0">
         <div class="bg0 flex-wr-sb-c">
@@ -21,24 +24,23 @@
       </div>
       <% } %>
 
-      <!-- Banner -->
-      <div class="container bg0 p-t-20">
-        <div class="flex-c-c justify-content-around flex-lg-row flex-column"
-            style="row-gap: 10px;">
+        <!-- Banner -->
+        <div class="container bg0 p-t-20">
+          <div class="flex-c-c justify-content-around flex-lg-row flex-column" style="row-gap: 10px;">
             <a href="#">
-                <img class="max-w-full" src="/images/banners/banner_320x100.png
+              <img class="max-w-full" src="/images/banners/banner_320x100.png
                 " alt="IMG">
             </a>
             <a href="#">
               <img class="max-w-full" src="/images/banners/banner_320x100.png
               " alt="IMG">
-          </a>
-          <a href="#">
-            <img class="max-w-full" src="/images/banners/banner_320x100.png
+            </a>
+            <a href="#">
+              <img class="max-w-full" src="/images/banners/banner_320x100.png
             " alt="IMG">
-        </a>
+            </a>
+          </div>
         </div>
-    </div>
 
         <!-- Post -->
         <section>
@@ -104,7 +106,7 @@
                                     <div class="size-w-2">
                                       <h5 class="p-b-5">
                                         <a href="/news-detail/<%= nws.key %>"
-                                          class="f1-s-5 cl3 hov-cl10 trans-03  font-weight-bold">
+                                          class="f1-s-5 cl3 hov-cl10 trans-03 font-weight-bold">
                                           <%= nws.title %>
                                         </a>
                                       </h5>
@@ -196,51 +198,58 @@
               <div class="col-md-10 col-lg-4">
                 <div class="p-l-10 p-rl-0-sr991 p-b-20">
                   <!-- Video -->
-                  <div class="p-b-55">
-                    <div class="how2 how2-cl4 flex-s-c m-b-35">
-                      <h3 class="f1-m-2 cl3 tab01-title">
-                        YouTube video
-                      </h3>
-                    </div>
-
-                    <div>
-                      <div class="wrap-pic-w pos-relative">
-                        <img src="/images/uploads/video-01.jpg" alt="IMG">
-
-                        <button class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03" data-toggle="modal"
-                          data-target="#modal-video-01">
-                          <span class="fab fa-youtube"></span>
-                        </button>
+                  <% if (youTubeVideoLink) { %>
+                    <div class="p-b-55">
+                      <div class="how2 how2-cl4 flex-s-c m-b-35">
+                        <h3 class="f1-m-2 cl3 tab01-title">
+                          YouTube video
+                        </h3>
                       </div>
 
-                      <div class="p-tb-16 p-rl-25 bg3">
-                        <h5 class="p-b-5">
-                          <a href="#" class="f1-m-3 cl0 trans-03">
-                            YouTube canlı videomuzu izləyin
-                          </a>
-                        </h5>
+                      <div>
+                        <div class="wrap-pic-w pos-relative">
+                          <img src="/images/uploads/video-01.jpg" alt="YouTube Stream">
 
-                        <span class="cl15">
-                          <a href="#" class="f1-s-4 cl8 trans-03">
-                            Avtomatik
-                          </a>
+                          <button class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03" data-toggle="modal"
+                            data-target="#modal-video-01">
+                            <span class="fab fa-youtube"></span>
+                          </button>
+                        </div>
 
-                          <span class="f1-s-3 m-rl-3">
-                            -
-                          </span>
-
-                          <span class="f1-s-3">
-                            Birazdan
-                          </span>
-                        </span>
+                        <div class="p-tb-16 p-rl-25 bg3">
+                          <h5 class="p-b-5">
+                            <a href="javascript:void(0)" data-target="#modal-video-01" data-toggle="modal"
+                              class="f1-m-3 cl0 trans-03">
+                              <%= youTubeVideoLink.name %>
+                            </a>
+                          </h5>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                    <% } %>
 
-                  <%- include('./items/subscription_small') %>
-                    <%- include('./items/tags') %>
+                      <% if (youTubeVideoLink) { %>
+                        <!-- Modal Video 01-->
+                        <div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
+                          <div class="modal-dialog" role="document" data-dismiss="modal">
+                            <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;
+                            </div>
+
+                            <div class="wrap-video-mo-01">
+                              <div class="video-mo-01">
+                                <%- youTubeVideoLink.linkSlug %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <% }%>
+
+                          <%- include('./items/subscription_small') %>
+                            <%- include('./items/tags') %>
                 </div>
               </div>
+
+
             </div>
           </div>
         </section>

@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 const { getAllNews, getNewsDetail, getAllCategories } = require('../controller/indexController/newsController');
 const { getAboutPage, getHomePage, getLoginPage } = require('../controller/indexController/pageController');
-const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals } = require('../controller/indexController/getMethodsForAllPages');
+const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias } = require('../controller/indexController/getMethodsForAllPages');
 const { postSubscribes } = require('../controller/indexController/postMethods');
-const { checkUserLogin } = require('../middleware/checkToken');
-const { postUserLogin } = require('../controller/indexController/userController');
+const { checkUserLogin, checkUserLogout } = require('../middleware/checkToken');
+const { postUserLogin, getUserLogout } = require('../controller/indexController/userController');
 
-router.use(getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals);
+router.use(getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias);
 
 
 /* GET home page. */
@@ -25,14 +25,16 @@ router.get('/news-detail/:key', getNewsDetail);
 /* GET category list page. */
 router.get('/category-list', getAllCategories);
 
-/* POST subscribe */
+/* POST subscribe. */
 router.post('/subscribe', postSubscribes);
 
-/* POST login */
+/* POST login. */
 router.post('/login', [checkUserLogin], postUserLogin);
 
-/* GET login */
+/* GET login page. */
 router.get('/login', [checkUserLogin], getLoginPage);
 
+/* GET logout. */
+router.get('/logout', [checkUserLogout], getUserLogout);
 
 module.exports = router;

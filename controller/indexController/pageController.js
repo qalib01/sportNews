@@ -147,6 +147,21 @@ const getHomePage = async (req, res, next) => {
             };
         });
 
+        const youTubeVideoLink = await db.platform_medias.findOne({
+            where: {
+                status: true,
+            },
+            include: [
+                {
+                    model: sequelize.model('social_medias'),
+                    as: 'social_media',
+                    where: {
+                        type: 'media_stream',
+                    }
+                }
+            ]
+        })
+
         res.render('index', {
             title: 'Ana səhifə',
             name: 'Ana səhifə',
@@ -156,6 +171,7 @@ const getHomePage = async (req, res, next) => {
             trendNews,
             allNews,
             categoryArray,
+            youTubeVideoLink,
         });
     } catch (error) {
         console.error('Error in fetching homepage data:', error);

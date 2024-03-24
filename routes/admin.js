@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const { HomePage, usersPage, newsPage, tagsPage, categoriesPage } = require('../controller/adminController/pageController');
-const { createNewTag, createNewCategory } = require('../controller/adminController/postItemController');
-const { getSelectedTagData, getSelectedCategoryData } = require('../controller/adminController/getItemController');
-const { updateSelectedTag, updateSelectedCategory } = require('../controller/adminController/updateItemController');
-const { deleteSelectedTag, deleteSelectedCategory } = require('../controller/adminController/deleteItemController');
+const { HomePage, usersPage, newsPage, tagsPage, categoriesPage, socialMediasPage } = require('../controller/adminController/pageController');
+const { createNewTag, createNewCategory, createPlatfromSocialMedia } = require('../controller/adminController/postItemController');
+const { getSelectedTag, getSelectedCategory, getPlatfromSocialMedia } = require('../controller/adminController/getItemController');
+const { updateSelectedTag, updateSelectedCategory, updatePlatfromSocialMedia } = require('../controller/adminController/updateItemController');
+const { deleteSelectedTag, deleteSelectedCategory, deletePlatfromSocialMedia } = require('../controller/adminController/deleteItemController');
 const { authenticateToken, checkUser } = require('../middleware/authMiddleware');
-const { createNews, getSelectedNewsData, updateSelectedNews, deleteSelectedNews } = require('../controller/adminController/newsController');
+const { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews } = require('../controller/adminController/newsController');
+const { createUser, getSelectedUser, updateSelectedUser, deleteSelectedUser } = require('../controller/adminController/usersConroller');
+
 
 /* GET dashboard page. */
 router.get('/', [checkUser, authenticateToken], HomePage);
@@ -23,11 +25,14 @@ router.get('/tags', [checkUser, authenticateToken], tagsPage);
 /* GET categories page. */
 router.get('/categories', [checkUser, authenticateToken], categoriesPage);
 
+/* GET social-media page. */
+router.get('/social-medias', [checkUser, authenticateToken], socialMediasPage);
+
 /* POST new tag. */
 router.post('/create-tag', [checkUser, authenticateToken], createNewTag);
 
 /* GET selected tag data. */
-router.get('/selected-tag', [checkUser, authenticateToken], getSelectedTagData);
+router.get('/selected-tag', [checkUser, authenticateToken], getSelectedTag);
 
 /* UPDATE selected tag data. */
 router.put('/edit-tag', [checkUser, authenticateToken], updateSelectedTag);
@@ -39,7 +44,7 @@ router.delete('/delete-tag', [checkUser, authenticateToken], deleteSelectedTag);
 router.post('/create-category', [checkUser, authenticateToken], createNewCategory);
 
 /* GET selected category data. */
-router.get('/selected-category', [checkUser, authenticateToken], getSelectedCategoryData);
+router.get('/selected-category', [checkUser, authenticateToken], getSelectedCategory);
 
 /* UPDATE selected category data. */
 router.put('/edit-category', [checkUser, authenticateToken], updateSelectedCategory);
@@ -51,13 +56,37 @@ router.delete('/delete-category', [checkUser, authenticateToken], deleteSelected
 router.post('/create-news', [checkUser, authenticateToken], createNews);
 
 /* GET selected news data. */
-router.get('/selected-news', [checkUser, authenticateToken], getSelectedNewsData);
+router.get('/selected-news', [checkUser, authenticateToken], getSelectedNews);
 
 /* UPDATE selected news data. */
 router.put('/edit-news', [checkUser, authenticateToken], updateSelectedNews);
 
 /* DELETE selected news data. */
 router.delete('/delete-news', [checkUser, authenticateToken], deleteSelectedNews);
+
+/* POST new user. */
+router.post('/create-user', [checkUser, authenticateToken], createUser);
+
+/* GET selected user data. */
+router.get('/selected-user', [checkUser, authenticateToken], getSelectedUser);
+
+/* UPDATE selected user data. */
+router.put('/edit-user', [checkUser, authenticateToken], updateSelectedUser);
+
+/* DELETE selected user data. */
+router.delete('/delete-user', [checkUser, authenticateToken], deleteSelectedUser);
+
+/* POST new social_media. */
+router.post('/create-social_media', [checkUser, authenticateToken], createPlatfromSocialMedia);
+
+/* GET selected social_media data. */
+router.get('/selected-social_media', [checkUser, authenticateToken], getPlatfromSocialMedia);
+
+/* UPDATE selected social_media data. */
+router.put('/edit-social_media', [checkUser, authenticateToken], updatePlatfromSocialMedia);
+
+/* DELETE selected social_media data. */
+router.delete('/delete-social_media', [checkUser, authenticateToken], deletePlatfromSocialMedia);
 
 
 module.exports = router;

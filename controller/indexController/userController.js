@@ -47,6 +47,13 @@ const postUserLogin = async (req, res, next) => {
     };
 }
 
+const getUserLogout = async (req, res, nect) => {
+    res.cookie('jwt', '', {
+        maxAge: 1,
+    });
+    res.redirect('/');
+}
+
 
 const createToken = (id, name, surname, email) => {
     return jwt.sign({ id, name, surname, email }, process.env.JWT_SECRET, {
@@ -54,4 +61,4 @@ const createToken = (id, name, surname, email) => {
     });
 };
 
-module.exports = { postUserLogin }
+module.exports = { postUserLogin, getUserLogout }

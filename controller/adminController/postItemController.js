@@ -28,7 +28,6 @@ const createNewTag = async (req, res, next) => {
             status: inputData.status,
         })
 
-        console.log('New Tag was dedected!');
         res.status(200).json({
             status: 200,
             statusText: "Məlumatlar uğurla bazaya əlavə olundu!",
@@ -54,7 +53,6 @@ const createNewCategory = async (req, res, next) => {
             status: inputData.status,
         })
 
-        console.log('New Category was dedected!');
         res.status(200).json({
             status: 200,
             statusText: "Məlumatlar uğurla bazaya əlavə olundu!",
@@ -68,4 +66,29 @@ const createNewCategory = async (req, res, next) => {
     }
 }
 
-module.exports = { createNewTag, createNewCategory }
+const createPlatfromSocialMedia = async (req, res, next) => {
+    let inputData = req.body;
+
+    try {
+        await db.platform_medias.create({
+            id: guid(),
+            name: inputData.name,
+            linkSlug: inputData.linkSlug,
+            socialMediaId: inputData.socialMediaId,
+            status: inputData.status,
+        })
+
+        res.status(200).json({
+            status: 200,
+            statusText: "Məlumatlar uğurla bazaya əlavə olundu!",
+        });
+    } catch (error) {
+        // res.status(500).json({
+        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
+        //   error,
+        // });
+        return error;
+    }
+}
+
+module.exports = { createNewTag, createNewCategory, createPlatfromSocialMedia }

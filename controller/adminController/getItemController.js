@@ -3,7 +3,7 @@ const { sequelize } = require('../../models/index');
 const moment = require('moment');
 
 
-const getSelectedTagData = async (req, res, next) => {
+const getSelectedTag = async (req, res, next) => {
     let id = req.query.id;
     id = id.replace(':', '');
 
@@ -24,7 +24,7 @@ const getSelectedTagData = async (req, res, next) => {
     }
 }
 
-const getSelectedCategoryData = async (req, res, next) => {
+const getSelectedCategory = async (req, res, next) => {
     let id = req.query.id;
     id = id.replace(':', '');
 
@@ -45,4 +45,25 @@ const getSelectedCategoryData = async (req, res, next) => {
     }
 }
 
-module.exports = { getSelectedTagData, getSelectedCategoryData }
+const getPlatfromSocialMedia = async (req, res, next) => {
+    let id = req.query.id;
+    id = id.replace(':', '');
+
+    try {
+        let data = await db.platform_medias.findOne({
+            where: {
+                id,
+            },
+        });
+
+        res.json(data);
+    } catch (error) {
+        // res.status(500).json({
+        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
+        //   error,
+        // });
+        return error;
+    }
+}
+
+module.exports = { getSelectedTag, getSelectedCategory, getPlatfromSocialMedia }

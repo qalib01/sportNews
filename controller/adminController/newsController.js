@@ -1,9 +1,7 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment');
-const multer = require('multer');
 const fs = require('fs');
-const sharp = require('sharp');
 
 
 let guid = () => {
@@ -53,7 +51,7 @@ const createNews = async (req, res, next) => {
 
 }
 
-const getSelectedNewsData = async (req, res, next) => {
+const getSelectedNews = async (req, res, next) => {
   let id = req.query.id;
   id = id.replace(':', '');
 
@@ -84,6 +82,30 @@ const updateSelectedNews = async (req, res, next) => {
   let inputData = req.body;
 
   try {
+
+    let news = await db.news.findOne({
+      include: [
+        {
+          model: sequelize.model('news_tags'),
+          as: 'news_tags',
+          attributes: ['tagId'],
+        },
+      ],
+      where: {
+        id,
+      },
+    });
+
+    const beforeTagIds = news.news_tags.map(tag => tag.tagId);
+    const afterTagIds = inputData.tags;
+
+    // Find IDs in afterIds that are not in beforeIds
+    const addIds = afterTagIds.filter(id => !beforeTagIds.includes(id));
+
+    // Find IDs in beforeIds that are not in afterIds
+    const removeIds = beforeTagIds.filter(id => !afterTagIds.includes(id));
+
+
     await db.news.update({
       title: inputData.title,
       categoryId: inputData.categoryId,
@@ -97,6 +119,27 @@ const updateSelectedNews = async (req, res, next) => {
           id,
         }
       })
+
+    if (addIds) {
+      addIds.forEach(async (tagId) => {
+        await db.news_tags.create({
+          id: guid(),
+          newsId: id,
+          tagId: tagId,
+        });
+      });
+    }
+
+    if (removeIds) {
+      removeIds.forEach(async (tagId) => {
+        await db.news_tags.destroy({
+          where: {
+            newsId: id,
+            tagId,
+          }
+        });
+      });
+    }
 
     res.status(200).json({
       status: 200,
@@ -140,4 +183,4 @@ const deleteSelectedNews = async (req, res, next) => {
   }
 }
 
-module.exports = { createNews, getSelectedNewsData, updateSelectedNews, deleteSelectedNews }
+module.exports = { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews }

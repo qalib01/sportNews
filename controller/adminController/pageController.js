@@ -12,9 +12,15 @@ const HomePage = async (req, res, next) => {
 }
 
 const usersPage = async (req, res, next) => {
+    let users = await db.users.findAll({
+        order: [
+            ['createdAt', 'ASC']
+        ]
+    });
     res.render('admin/users/users', {
-        title: 'Admin Dashboard',
-        key: 'users'
+        title: 'İstifadəçilər',
+        key: 'users',
+        users,
     });
 }
 
@@ -102,4 +108,22 @@ const categoriesPage = async (req, res, next) => {
     });
 }
 
-module.exports = { HomePage, usersPage, newsPage, tagsPage, categoriesPage }
+const socialMediasPage = async (req, res, next) => {
+    let socialMedias = await db.social_medias.findAll();
+    let platformMedias = await db.platform_medias.findAll({
+        include: [
+            {
+                model: sequelize.model('social_medias'),
+                as: 'social_media',
+            }
+        ]
+    });
+    res.render('admin/items/social_medias', {
+        title: 'Sosial medialar',
+        key: 'socialMedias',
+        socialMedias,
+        platformMedias,
+    });
+}
+
+module.exports = { HomePage, usersPage, newsPage, tagsPage, categoriesPage, socialMediasPage }

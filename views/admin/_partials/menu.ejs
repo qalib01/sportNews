@@ -11,7 +11,7 @@
         <span class="menu-header-text">İstifadəçilər</span>
     </li>
     <!-- Users -->
-    <li class="menu-item  <%= key == 'users' ? 'active' : '' %>">
+    <li class="menu-item <%= key == 'users' ? 'active' : '' %>">
         <a href="/admin/users" class="menu-link">
             <i class="menu-icon tf-icons bx bx-user"></i>
             <div data-i18n="Users">İstifadəçilər</div>
@@ -20,24 +20,31 @@
     <!-- News -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Xəbərlər</span></li>
     <!-- News -->
-    <li class="menu-item  <%= key == 'news' ? 'active' : '' %>">
+    <li class="menu-item <%= key == 'news' ? 'active' : '' %>">
         <a href="/admin/news" class="menu-link">
             <i class="menu-icon tf-icons bx bx-news"></i>
             <div data-i18n="News">Xəbərlər</div>
         </a>
     </li>
     <!-- Tags -->
-    <li class="menu-item  <%= key == 'tags' ? 'active' : '' %>">
+    <li class="menu-item <%= key == 'tags' ? 'active' : '' %>">
         <a href="/admin/tags" class="menu-link">
             <i class="menu-icon tf-icons bx bx-purchase-tag-alt"></i>
             <div data-i18n="Tags">Taglar</div>
         </a>
     </li>
     <!-- Categories -->
-    <li class="menu-item  <%= key == 'categories' ? 'active' : '' %>">
+    <li class="menu-item <%= key == 'categories' ? 'active' : '' %>">
         <a href="/admin/categories" class="menu-link">
             <i class="menu-icon tf-icons bx bx-category"></i>
             <div data-i18n="Categories">Kateqoriyalar</div>
+        </a>
+    </li>
+    <li class="menu-header small text-uppercase"><span class="menu-header-text"> Media </span></li>
+    <li class="menu-item <%= key == 'socialMedias' ? 'active' : '' %>">
+        <a href="/admin/social-medias" class="menu-link">
+            <i class='menu-icon tf-icons bx bxl-meta'></i>
+            <div data-i18n="SocialMedias">Sosial medialar</div>
         </a>
     </li>
     <!-- Misc -->

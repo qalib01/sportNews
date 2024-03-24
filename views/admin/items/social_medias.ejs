@@ -3,30 +3,30 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light">İstifadəçilər /</span> <%= title %> </h4>
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Media /</span> <%= title %> </h4>
 
             <!-- Hoverable Table rows -->
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header"><%= title %></h5>
-                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-user"> Yarat </button>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-social_media"> Yarat </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
                         <caption class="ms-4">
-                            Ümumi tapılan kateqoriyalar: <%= users.length %>
+                            Ümumi tapılan medialar: <%= platformMedias.length %> 
                         </caption>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Tam adı</th>
-                                <th>Email</th>
+                                <th>Adı</th>
+                                <th>Sosial media</th>
                                 <th>Status</th>
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <% users.forEach((user, id)=> { %>
+                            <% platformMedias.forEach((media, id)=> { %>
                                 <tr>
                                     <td>
                                         <!-- <i class="bx bxl-angular bx-sm text-danger me-3"></i> -->
@@ -35,29 +35,28 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <%= user.name %> <%= user.surname %>
+                                        <%= media.name %>
                                     </td>
                                     <td>
-                                        <%= user.email %>
+                                        <%= media.social_media.name %>
                                     </td>
                                     <td>
-                                        <% if (user.status==true) { %>
+                                        <% if (media.status==true) { %>
                                             <span class="badge bg-label-primary me-1">Aktiv</span>
-                                        <% } else { %>
-                                            <span class="badge bg-label-danger me-1">Passiv</span>
-                                        <% } %>
+                                            <% } else { %>
+                                                <span class="badge bg-label-danger me-1">Passiv</span>
+                                                <% } %>
                                     </td>
                                     <td>
                                         <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-user?id=<%= user.id %>" data-item="user" data-id="<%= user.id %>">
+                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-social_media?id=<%= media.id %>" data-item="social_media" data-id="<%= media.id %>">
                                                     <i class="bx bx-edit-alt me-1"></i> Düzəlt
                                                 </a>
-                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-user?id=<%= user.id %>" data-bs-toggle="modal" data-item="user" data-bs-target="#deleteModal">
+                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-social_media?id=<%= media.id %>" data-bs-toggle="modal" data-item="social_media" data-bs-target="#deleteModal">
                                                     <i class="bx bx-trash me-1"></i> Sil
                                                 </a>
                                             </div>
@@ -87,16 +86,19 @@
                                 <input type="text" class="form-control" id="name" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="surname">Soyadı</label>
-                                <input type="text" class="form-control" id="surname" placeholder="Soyadı" required>
+                                <label class="form-label" for="linkSlug">Link uzantısı</label>
+                                <input type="text" class="form-control" id="linkSlug" placeholder="Link uzantısı" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="password">Şifrə</label>
-                                <input type="text" class="form-control" id="password" placeholder="Şifrə">
+                                <label for="socialMediaId" class="form-label">Sosial media</label>
+                                <select class="form-select" id="socialMediaId" aria-label="Select item social media" required>
+                                    <option selected hidden disabled>Seçim edin</option>
+                                    <% socialMedias.forEach((media)=> { %>
+                                        <option value="<%= media.id %>">
+                                            <%= media.name %>
+                                        </option>
+                                    <% }) %>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
@@ -106,7 +108,7 @@
                                     <option value="1">Aktiv</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" data-item="user">Təsdiqlə</button>
+                            <button type="submit" class="btn btn-primary" data-item="social_media">Təsdiqlə</button>
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
                             </button>
                         </form>
@@ -134,5 +136,4 @@
                 </div>
             </div>
         </div>
-
         <%- include('../_partials/footer') %>

@@ -31,7 +31,7 @@ const getAllNews = async (req, res, next) => {
             order: [
                 ['createdAt', 'DESC']
             ],
-            attributes: ['title', 'key', 'img', 'content', 'createdBy', 'createdAt'],
+            attributes: ['title', 'key', 'img', 'content', 'createdAt'],
         };
 
 
@@ -42,7 +42,7 @@ const getAllNews = async (req, res, next) => {
                 model: sequelize.model('categories'),
                 as: 'category',
                 where: {
-                    key: req.query.category, // Filter tags by key
+                    key: req.query.category, // Filter category by key
                     status: true,
                 },
                 attributes: ['name', 'key', 'description']
@@ -65,10 +65,10 @@ const getAllNews = async (req, res, next) => {
                         where: {
                             key: req.query.tag, // Filter tags by key
                             status: true,
-                        }
+                        },
+                        attributes: ['name', 'key', 'description']
                     },
                 ],
-                attributes: ''
             });
 
             // queryOptions.where = {

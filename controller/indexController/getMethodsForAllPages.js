@@ -79,4 +79,29 @@ const getLastThreeNews = async (req, res, next) => {
     }
 }
 
-module.exports = { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals }
+const getPlatformSocialMedias = async (req, res, next) => {
+    try {
+        let platformSocialMedias = await db.platform_medias.findAll({
+            where: {
+                status: true,
+            },
+            include: [
+                {
+                    model: sequelize.model('social_medias'),
+                    as: 'social_media',
+                    where: {
+                        type: 'media_social',
+                    }
+                }
+            ]
+        });
+
+        res.locals.platformSocialMedias = platformSocialMedias;
+        next();
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
+
+module.exports = { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias }
