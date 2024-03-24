@@ -2,6 +2,7 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment');
 
+
 const updateSelectedTag = async (req, res, next) => {
     let id = req.query.id;
     let inputData = req.body;

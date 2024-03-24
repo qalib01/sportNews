@@ -1,7 +1,10 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment');
+const { Op } = require('sequelize');
 // moment.locale('az');
+let now = new Date();
+
 
 const getHomePage = async (req, res, next) => {
     // Calculate the date 7 days ago from today
@@ -41,7 +44,10 @@ const getHomePage = async (req, res, next) => {
                 },
             ],
             where: {
-                status: true
+                status: true,
+                sharedAt: {
+                    [Op.lt]: now,
+                },
             },
             order: [
                 ['createdAt', 'DESC']

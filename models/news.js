@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.BOOLEAN,
     createdBy: DataTypes.STRING,
     updatedBy: DataTypes.STRING,
+    sharedAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'news',

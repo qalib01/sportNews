@@ -2,6 +2,7 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment');
 
+
 let guid = () => {
     let s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -17,7 +18,6 @@ let guid = () => {
 
 const createNewTag = async (req, res, next) => {
     let inputData = req.body;
-    console.log(inputData);
 
     try {
         await db.tags.create({

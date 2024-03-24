@@ -323,8 +323,8 @@ a.left-topbar-item:hover {
 
 /*---------------------------------------------*/
 .banner-header {
-  width: 60%;
-  height: 100%;
+  /* width: 60%; */
+  /* height: 100%; */
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;

@@ -2,6 +2,8 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
 const moment = require('moment');
+const now = new Date();
+
 
 const getAllNews = async (req, res, next) => {
     const sevenDaysAgo = moment().subtract(7, 'days').toDate();
@@ -17,16 +19,19 @@ const getAllNews = async (req, res, next) => {
                 {
                     model: sequelize.model('news_views'),
                     as: 'news_view',
-                    attributes: ['viewsCounts']
+                    attributes: ['viewsCounts'],
                 },
             ],
             where: {
                 status: true,
+                sharedAt: {
+                    [Op.lt]: now,
+                },
             },
             order: [
                 ['createdAt', 'DESC']
             ],
-            attributes: ['title', 'key', 'img', 'content', 'createdBy', 'createdAt']
+            attributes: ['title', 'key', 'img', 'content', 'createdBy', 'createdAt'],
         };
 
 
@@ -43,30 +48,10 @@ const getAllNews = async (req, res, next) => {
                 attributes: ['name', 'key', 'description']
             });
 
-            queryOptions.where = {
-                '$news.categoryId$': { [Op.ne]: null } // Ensure there's a category associated
-            };
-        }
-        // let trendNews = await db.news.findAll({
-        //     limit: 6,
-        //     include: [
-        //         {
-        //             model: sequelize.model('categories'),
-        //             as: 'category',
-        //             where: {
-        //                 status: true
-        //             }
-        //         }
-        //     ],
-        //     where: {
-        //         status: true,
-        //         isTrend: true,
-        //     },
-        //     order: [
-        //         ['createdAt', 'DESC']
-        //     ],
-        //     attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
-        // });
+            // queryOptions.where = {
+            //     '$news.categoryId$': { [Op.ne]: null } // Ensure there's a category associated
+            // };
+        };
 
         // Conditionally include tag filtering if req.query.tag is provided
         if (req.query.tag) {
@@ -83,16 +68,13 @@ const getAllNews = async (req, res, next) => {
                         }
                     },
                 ],
-                where: {
-                    status: true,
-                },
                 attributes: ''
             });
 
-            queryOptions.where = {
-                '$news_tags.tagId$': { [Op.ne]: null }, // Ensure there's a tag associated
-            };
-        }
+            // queryOptions.where = {
+            //     '$news_tags.tagId$': { [Op.ne]: null }, // Ensure there's a tag associated
+            // };
+        };
 
         let allNews = await db.news.findAll(queryOptions);
 
@@ -160,7 +142,10 @@ const getNewsDetail = async (req, res, next) => {
             },
         ],
         where: {
-            status: true
+            status: true,
+            sharedAt: {
+                [Op.lt]: now,
+            },
         },
         order: [
             ['createdAt', 'DESC']

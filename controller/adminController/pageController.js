@@ -3,6 +3,7 @@ const { sequelize } = require('../../models/index');
 const moment = require('moment');
 // moment.locale('az');
 
+
 const HomePage = async (req, res, next) => {
     res.render('admin/dashboard', {
         title: 'Admin Dashboard',

@@ -1,124 +1,141 @@
 <%- include('./_partials/meta') %>
-<%- include('./_partials/header') %>
+    <%- include('./_partials/header') %>
 
 
-<!-- Breadcrumb -->
-<div class="container p-t-10 p-b-10 bg0">
-    <div class="headline flex-wr-sb-c p-rl-20 p-tb-8">
-        <div class="f2-s-1 p-r-30 m-tb-6">
-            <a href="/" class="breadcrumb-item f1-s-3 cl9">
-                Ana səhifə
-            </a>
+        <!-- Breadcrumb -->
+        <div class="container p-t-10 p-b-10 bg0">
+            <div class="headline flex-wr-sb-c p-rl-20 p-tb-8">
+                <div class="f2-s-1 p-r-30 m-tb-6">
+                    <a href="/" class="breadcrumb-item f1-s-3 cl9">
+                        Ana səhifə
+                    </a>
 
-            <a href="/news" class="breadcrumb-item f1-s-3 cl9">
-                Xəbərlər
-            </a>
+                    <a href="/news" class="breadcrumb-item f1-s-3 cl9">
+                        Xəbərlər
+                    </a>
 
-            <span class="breadcrumb-item f1-s-3 cl9">
-                <%= name %>
-            </span>
+                    <span class="breadcrumb-item f1-s-3 cl9">
+                        <%= name %>
+                    </span>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<section>
-    <div class="container bg0">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8 p-b-30">
-                <div class="p-r-10 p-r-0-sr991">
-                    <!-- Blog Detail -->
-                    <div class="p-b-70">
-                        <a href="/news?category=<%= selectedNews.category.key %>"
-                            class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase">
-                            <%= selectedNews.category.name %>
-                        </a>
+        <section>
+            <div class="container bg0">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-8 p-b-30">
+                        <div class="p-r-10 p-r-0-sr991">
+                            <!-- Blog Detail -->
+                            <div class="p-b-70">
+                                <a href="/news?category=<%= selectedNews.category.key %>"
+                                    class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase">
+                                    <%= selectedNews.category.name %>
+                                </a>
 
-                        <h3 class="f1-l-3 cl2 p-b-16 p-t-33 respon2">
-                            <%= selectedNews.title %>
-                        </h3>
+                                <h3 class="f1-l-3 cl2 p-b-16 p-t-33 respon2">
+                                    <%= selectedNews.title %>
+                                </h3>
 
-                        <div class="flex-wr-s-s p-b-40">
-                            <span class="f1-s-3 cl8 m-r-15">
-                                <span>
-                                    <%= moment(selectedNews.createdAt).format('LL') %>
-                                </span>
-                            </span>
-                        </div>
+                                <div class="flex-wr-s-s p-b-40">
+                                    <span class="f1-s-3 cl8 m-r-15">
+                                        <span>
+                                            <%= moment(selectedNews.createdAt).format('LL') %>
+                                        </span>
+                                    </span>
+                                </div>
 
-                        <div class="bg-img1 size-a-18 how-overlay1" style="background-image: url('/images/news/<%= selectedNews.img %>'); height: 400px;">
-                        </div>
+                                <div class="bg-img1 size-a-18 how-overlay1"
+                                    style="background-image: url('/images/news/<%= selectedNews.img %>'); height: 400px;">
+                                </div>
 
-                        <p class="f1-s-11 cl6 p-b-15 p-t-40">
-                            <%= selectedNews.content %>
-                        </p>
+                                <p class="f1-s-11 cl6 p-b-15 p-t-40">
+                                    <%- selectedNews.content %>
+                                </p>
 
-                        <!-- Tag -->
-                        <div class="flex-s-s p-t-12 p-b-15">
-                            <span class="f1-s-12 cl5 m-r-8">
-                                Tags:
-                            </span>
+                                <!-- Tag -->
+                                <div class="flex-s-s p-t-12 p-b-15">
+                                    <span class="f1-s-12 cl5 m-r-8">
+                                        Tags:
+                                    </span>
 
-                            <div class="flex-wr-s-s size-w-0">
-                                <% selectedNews.news_tags.forEach((news_tag)=> { %>
-                                    <a href="/news?tag=<%= news_tag.tag.key %>"
-                                        class="f1-s-12 cl8 hov-link1 m-r-15">
-                                        <%= news_tag.tag.name %>
-                                    </a>
-                                    <% }) %>
+                                    <div class="flex-wr-s-s size-w-0">
+                                        <% selectedNews.news_tags.forEach((news_tag)=> { %>
+                                            <a href="/news?tag=<%= news_tag.tag.key %>"
+                                                class="f1-s-12 cl8 hov-link1 m-r-15">
+                                                <%= news_tag.tag.name %>
+                                            </a>
+                                            <% }) %>
+                                    </div>
+                                </div>
+
+                                <!-- Share -->
+                                <div class="flex-s-s p-b-50">
+                                    <span class="f1-s-12 cl5 p-t-1 m-r-15">
+                                        Xəbəri paylaş:
+                                    </span>
+
+                                    <div class="flex-wr-s-s size-w-0">
+                                        <a href="https://www.facebook.com/sharer.php?u=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
+                                            class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                            target="_blank">
+                                            <i class="fab fa-facebook-f m-r-7"></i>
+                                            Facebook
+                                        </a>
+
+                                        <a href="https://twitter.com/intent/post?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>&text=<%= selectedNews.title %>"
+                                            class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                            target="_blank">
+                                            <i class="fab fa-twitter m-r-7"></i>
+                                            Twitter
+                                        </a>
+
+                                        <a href="https://wa.me/?text=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
+                                            class="dis-block f1-s-13 cl0 bg-whatsapp borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                            target="_blank">
+                                            <i class="fab fa-whatsapp m-r-7"></i>
+                                            Whatsapp
+                                        </a>
+
+                                        <a href="https://telegram.me/share/url?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
+                                            class="dis-block f1-s-13 cl0 bg-telegram borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                            target="_blank">
+                                            <i class="fab fa-telegram m-r-7"></i>
+                                            Telegram
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <!-- Banner -->
+                                <div class="container bg0">
+                                    <div class="flex-c-c justify-content-around flex-lg-row flex-column"
+                                        style="row-gap: 10px;">
+                                        <a href="#">
+                                            <img class="max-w-full" src="/images/banners/banner_300x250.png" alt="IMG">
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Share -->
-                        <div class="flex-s-s">
-                            <span class="f1-s-12 cl5 p-t-1 m-r-15">
-                                Xəbəri paylaş:
-                            </span>
-
-                            <div class="flex-wr-s-s size-w-0">
-                                <a href="https://www.facebook.com/sharer.php?u=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                    class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
-                                    target="_blank">
-                                    <i class="fab fa-facebook-f m-r-7"></i>
-                                    Facebook
-                                </a>
-
-                                <a href="https://twitter.com/intent/post?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>&text=<%= selectedNews.title %>"
-                                    class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
-                                    target="_blank">
-                                    <i class="fab fa-twitter m-r-7"></i>
-                                    Twitter
-                                </a>
-
-                                <a href="https://wa.me/?text=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                    class="dis-block f1-s-13 cl0 bg-whatsapp borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
-                                    target="_blank">
-                                    <i class="fab fa-whatsapp m-r-7"></i>
-                                    Whatsapp
-                                </a>
-
-                                <a href="https://telegram.me/share/url?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                    class="dis-block f1-s-13 cl0 bg-telegram borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
-                                    target="_blank">
-                                    <i class="fab fa-telegram m-r-7"></i>
-                                    Telegram
+                    <!-- Sidebar -->
+                    <div class="col-md-10 col-lg-4 p-b-30">
+                        <div class="p-l-10 p-rl-0-sr991 p-t-70">
+                            <div class="flex-c-s p-b-20">
+                                <a href="#">
+                                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="IMG">
                                 </a>
                             </div>
+                            <%- include('./items/category_list') %>
+                                <%- include('./items/most_popular') %>
+                                    <%- include('./items/tags') %>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Sidebar -->
-            <div class="col-md-10 col-lg-4 p-b-30">
-                <div class="p-l-10 p-rl-0-sr991 p-t-70">
-                    <%- include('./items/category_list') %>
-                    <%- include('./items/most_popular') %>
-                    <%- include('./items/tags') %>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 
-<%- include('./_partials/footer') %>
+        <%- include('./_partials/footer') %>

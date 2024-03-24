@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header">Xəbərlər</h5>
-                    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal"> Yarat </button>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-news"> Yarat </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
@@ -61,10 +61,10 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="javascript:void(0);">
+                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-news?id=<%= nws.id %>"data-id="<%= nws.id %>" data-item="news">
                                                     <i class="bx bx-edit-alt me-1"></i> Düzəlt
                                                 </a>
-                                                <a class="dropdown-item" href="javascript:void(0);">
+                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-news?id=<%= nws.id %>" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item="news">
                                                     <i class="bx bx-trash me-1"></i> Sil
                                                 </a>
                                             </div>
@@ -80,7 +80,7 @@
         </div>
         <!-- / Content -->
 
-        <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <!-- <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -88,14 +88,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="createForm">
+                        <form method="POST" id="createForm">
                             <div class="mb-3">
                                 <label class="form-label" for="title">Titul</label>
                                 <input type="text" class="form-control" id="title" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
                                 <label for="img" class="form-label">Şəkil</label>
-                                <input class="form-control" type="file" id="img">
+                                <input class="form-control" type="file" id="img" accept="image/*">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="description">Məzmun</label>
@@ -119,7 +119,7 @@
                                     <div class="form-check form-check-inline mb-3">
                                         <input class="form-check-input" type="checkbox" id="tag"
                                             value="<%= tag.id %>">
-                                        <label class="form-check-label" for="tag">
+                                        <label class="form-check-label">
                                             <%= tag.name %>
                                         </label>
                                     </div>
@@ -135,12 +135,12 @@
                                     </select>
                                 </div>
                                 <div class="mb-3 col-12 col-sm-4">
-                                    <label for="preparedDate" class="form-label">Tarix</label>
-                                    <input type="date" class="form-control" id="preparedDate" placeholder="Tarix" required>
+                                    <label for="sharedDate" class="form-label">Tarix</label>
+                                    <input type="date" class="form-control" id="sharedDate" required>
                                 </div>
                                 <div class="mb-3 col-12 col-sm-4">
-                                    <label for="preparedTime" class="form-label">Saat</label>
-                                    <input type="time" class="form-control" id="preparedTime" placeholder="Saat" required>
+                                    <label for="sharedTime" class="form-label">Saat</label>
+                                    <input type="time" class="form-control" id="sharedTime" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary" data-item="news">Yarat</button>
@@ -151,10 +151,108 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Düzəliş et</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="basicForm">
+                            <div class="mb-3">
+                                <label class="form-label" for="title">Titul</label>
+                                <input type="text" class="form-control" id="title" placeholder="Adı" required>
+                            </div>
+                            <!-- <div class="mb-3">
+                                <label for="img" class="form-label">Şəkil</label>
+                                <input class="form-control" type="file" id="img" accept="image/*">
+                            </div> -->
+                            <div class="mb-3">
+                                <label for="img" class="form-label">Şəkil</label>
+                                <input class="form-control" type="text" id="img">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="description">Məzmun</label>
+                                <div id="editor"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Kateqoriya</label>
+                                <select class="form-select" id="category" aria-label="Select item category" required>
+                                    <option selected hidden disabled>Seçim edin</option>
+                                    <% categories.forEach((category)=> { %>
+                                        <option value="<%= category.id %>">
+                                            <%= category.name %>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Taglar</label>
+                                <br />
+                                <% tags.forEach((tag)=> { %>
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input" type="checkbox" id="tag"
+                                            value="<%= tag.id %>">
+                                        <label class="form-check-label">
+                                            <%= tag.name %>
+                                        </label>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-12 col-sm-4">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-select" id="status" aria-label="Select item status">
+                                        <option selected="" hidden>Seçim edin</option>
+                                        <option value="0">Passiv</option>
+                                        <option value="1">Aktiv</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-12 col-sm-4">
+                                    <label for="date" class="form-label">Tarix</label>
+                                    <input type="date" class="form-control" id="date">
+                                </div>
+                                <div class="mb-3 col-12 col-sm-4">
+                                    <label for="time" class="form-label">Saat</label>
+                                    <input type="time" class="form-control" id="time">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" data-item="news">Təsdiqlə</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Bağla
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1"  aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="deleteForm">
+                            <div class="mb-3">
+                                <p>Bunu etmək istədiyinizə əminsiniz?</p>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
         <script>
+            let editorInstance;
             // This sample still does not showcase all CKEditor&nbsp;5 features (!)
             // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
             CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
@@ -305,65 +403,10 @@
                 ]
             })
             .then(editor => {
-                function changeLetters(str) {
-                    const azerbaijaniToEnglishMap = {
-                        ə: "e",
-                        ı: "i",
-                        ö: "o",
-                        ğ: "g",
-                        ü: "u",
-                        ş: "s",
-                        ç: "c",
-                        "-": "",
-                        _: "",
-                        " ": "_"
-                    };
-                    return str.replace(/[əıöğüşç\s\-_]/g, (match) => azerbaijaniToEnglishMap[match]);
-                }
-                let createBtn = document.querySelector('#createBtn');
-                let editBtn = document.querySelectorAll('.editBtn');
-                let deleteBtn = document.querySelectorAll('.deleteBtn');
-                let deleteForm = document.querySelector('#deleteForm');
-                let createForm = document.querySelector('#createForm');
-                let editForm = document.querySelector('#editForm');
-
-                createForm.addEventListener('submit', async () => {
-                    let title = createForm.title.value.trim();
-                    let img = createForm.img.files[0]; // Get the selected image file
-                    let key = changeLetters(title.toLowerCase());
-                    let content = editor.getData().trim(); // Retrieve content from CKEditor
-                    let tags = createForm.tag.value.trim().split(',');
-                    let categoryId = createForm.category.value.trim();
-                    let status = createForm.status.value.trim();
-                    let preparedDate = createForm.preparedDate.value.trim();
-                    let preparedTime = createForm.preparedTime.value.trim();
-                    let preparedDateTime = `${preparedDate} ${preparedTime}`;
-
-                    try {
-                        const formData = new FormData();
-                        formData.append('title', title);
-                        formData.append('img', img);
-                        formData.append('key', key);
-                        formData.append('content', content);
-                        formData.append('tags', tags);
-                        formData.append('categoryId', categoryId);
-                        formData.append('status', status);
-                        formData.append('preparedDateTime', preparedDateTime); // Concatenated date and time string
-
-
-                        console.log(formData);
-                        res = await fetch(createForm.action, {
-                            method: "POST",
-                            body: formData,
-                        });
-                        const data = await res.json();
-                        if (data.status == 200) {
-                            location.reload();
-                        }
-                    } catch (error) {
-                        return error;
-                    }
-                });
+                editorInstance = editor;
+            })
+            .catch(error => {
+                console.log(error);
             });
         </script>
 

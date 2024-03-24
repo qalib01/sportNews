@@ -3,6 +3,7 @@ const { sequelize } = require('../../models/index');
 const successMessages = require('../../statusMessages/successMessages.json');
 const errorMessages = require('../../statusMessages/errorMessages.json');
 
+
 const postSubscribes = async (req, res, next) => {
     let inputData = req.body;
     let email = inputData.email;

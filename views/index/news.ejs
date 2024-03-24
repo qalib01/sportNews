@@ -40,7 +40,7 @@
 											</div>
 
 											<p class="f1-s-1 cl6 p-b-24">
-												<%= news.content.slice(0, 100) + '...' %>
+												<%- news.content.slice(0, 100) + '...' %>
 											</p>
 
 											<a href="/news-detail/<%= news.key %>" class="f1-s-1 cl9 hov-cl10 trans-03">
@@ -60,17 +60,28 @@
 
 					<div class="col-md-10 col-lg-4 p-b-80">
 						<div class="p-l-10 p-rl-0-sr991">
+							<div class="flex-c-s p-b-20">
+								<a href="#">
+									<img class="max-w-full" src="/images/banners/banner_320x100.png" alt="IMG">
+								</a>
+							</div>
 							<%- include('./items/subscription_small') %>
 							<%- include('./items/most_popular') %>
 
 							<!-- Ads banner -->
 							<div class="flex-c-s p-b-50">
 								<a href="#">
-									<img class="max-w-full" src="/images/banners/banner-02.jpg" alt="IMG">
+									<img class="max-w-full" src="/images/banners/banner_160x600.png" alt="IMG">
 								</a>
 							</div>
 
 							<%- include('./items/tags') %>
+
+							<div class="flex-c-s p-b-50">
+								<a href="#">
+									<img class="max-w-full" src="/images/banners/banner_300x250.png" alt="IMG">
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>

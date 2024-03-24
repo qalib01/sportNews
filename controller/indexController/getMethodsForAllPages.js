@@ -1,8 +1,10 @@
 const { Sequelize } = require('sequelize');
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
+const { Op } = require('sequelize');
 const moment = require('moment');
 moment.locale('az');
+let now = new Date();
 
 
 const setMomentToLocals = async (req, res, next) => {
@@ -20,7 +22,7 @@ const getPopularCategories = async (req, res, next) => {
             },
         ],
         limit: 5,
-        attributes: [[Sequelize.fn('COUNT', Sequelize.col('news.categoryId')), 'newsCount'], ],
+        attributes: [[Sequelize.fn('COUNT', Sequelize.col('news.categoryId')), 'newsCount'],],
         group: ['category.id'], // Assuming 'id' is the primary key of your Category model
         order: [[Sequelize.literal('newsCount'), 'DESC']], // Sorting by newsCount in descending order
     });
@@ -37,9 +39,14 @@ const getPopularNews = async (req, res, next) => {
             order: [
                 ['createdAt', 'ASC']
             ],
-            attributes: [ 'title', 'key', 'img', 'createdBy' ]
+            where: {
+                sharedAt: {
+                    [Op.lt]: now,
+                },
+            },
+            attributes: ['title', 'key', 'img', 'createdBy']
         });
-    
+
         res.locals.popularNews = popularNews;
         next();
     } catch (error) {
@@ -56,7 +63,12 @@ const getLastThreeNews = async (req, res, next) => {
             order: [
                 ['createdAt', 'DESC']
             ],
-            attributes: [ 'title', 'key', 'img', 'createdAt' ]
+            where: {
+                sharedAt: {
+                    [Op.lt]: now,
+                },
+            },
+            attributes: ['title', 'key', 'img', 'createdAt']
         });
 
         res.locals.lastThreeNews = lastThreeNews;

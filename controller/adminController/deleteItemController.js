@@ -2,6 +2,7 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment');
 
+
 const deleteSelectedTag = async (req, res, next) => {
     let id = req.query.id;
 

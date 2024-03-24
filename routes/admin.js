@@ -1,11 +1,12 @@
 var express = require('express');
+var router = express.Router();
 const { HomePage, usersPage, newsPage, tagsPage, categoriesPage } = require('../controller/adminController/pageController');
 const { createNewTag, createNewCategory } = require('../controller/adminController/postItemController');
 const { getSelectedTagData, getSelectedCategoryData } = require('../controller/adminController/getItemController');
 const { updateSelectedTag, updateSelectedCategory } = require('../controller/adminController/updateItemController');
 const { deleteSelectedTag, deleteSelectedCategory } = require('../controller/adminController/deleteItemController');
 const { authenticateToken, checkUser } = require('../middleware/authMiddleware');
-var router = express.Router();
+const { createNews, getSelectedNewsData, updateSelectedNews, deleteSelectedNews } = require('../controller/adminController/newsController');
 
 /* GET dashboard page. */
 router.get('/', [checkUser, authenticateToken], HomePage);
@@ -26,7 +27,7 @@ router.get('/categories', [checkUser, authenticateToken], categoriesPage);
 router.post('/create-tag', [checkUser, authenticateToken], createNewTag);
 
 /* GET selected tag data. */
-router.get('/tag', [checkUser, authenticateToken], getSelectedTagData);
+router.get('/selected-tag', [checkUser, authenticateToken], getSelectedTagData);
 
 /* UPDATE selected tag data. */
 router.put('/edit-tag', [checkUser, authenticateToken], updateSelectedTag);
@@ -38,7 +39,7 @@ router.delete('/delete-tag', [checkUser, authenticateToken], deleteSelectedTag);
 router.post('/create-category', [checkUser, authenticateToken], createNewCategory);
 
 /* GET selected category data. */
-router.get('/category', [checkUser, authenticateToken], getSelectedCategoryData);
+router.get('/selected-category', [checkUser, authenticateToken], getSelectedCategoryData);
 
 /* UPDATE selected category data. */
 router.put('/edit-category', [checkUser, authenticateToken], updateSelectedCategory);
@@ -47,16 +48,16 @@ router.put('/edit-category', [checkUser, authenticateToken], updateSelectedCateg
 router.delete('/delete-category', [checkUser, authenticateToken], deleteSelectedCategory);
 
 /* POST new news. */
-router.post('/create-news', [checkUser, authenticateToken], createNewCategory);
+router.post('/create-news', [checkUser, authenticateToken], createNews);
 
 /* GET selected news data. */
-router.get('/news', [checkUser, authenticateToken], getSelectedCategoryData);
+router.get('/selected-news', [checkUser, authenticateToken], getSelectedNewsData);
 
 /* UPDATE selected news data. */
-router.put('/edit-news', [checkUser, authenticateToken], updateSelectedCategory);
+router.put('/edit-news', [checkUser, authenticateToken], updateSelectedNews);
 
 /* DELETE selected news data. */
-router.delete('/delete-news', [checkUser, authenticateToken], deleteSelectedCategory);
+router.delete('/delete-news', [checkUser, authenticateToken], deleteSelectedNews);
 
 
 module.exports = router;

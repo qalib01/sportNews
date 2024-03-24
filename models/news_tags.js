@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
   news_tags.init({
     newsId: DataTypes.STRING,
     tagId: DataTypes.STRING,
-    status: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'news_tags',

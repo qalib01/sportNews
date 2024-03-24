@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header">Kateqoriyalar</h5>
-                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#createModal" data-action="/admin/create-category"> Yarat </button>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-category"> Yarat </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
@@ -54,7 +54,7 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editModal" data-action="/admin/edit-category?id=<%= category.id %>" data-item="category" data-id="<%= category.id %>">
+                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-category?id=<%= category.id %>" data-item="category" data-id="<%= category.id %>">
                                                     <i class="bx bx-edit-alt me-1"></i> Düzəlt
                                                 </a>
                                                 <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-category?id=<%= category.id %>" data-bs-toggle="modal" data-item="category" data-bs-target="#deleteModal">
@@ -73,7 +73,7 @@
         </div>
         <!-- / Content -->
 
-        <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
+        <!-- <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -105,17 +105,17 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Düzəliş et</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1"><%= title %></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editForm">
+                        <form id="basicForm">
                             <div class="mb-3">
                                 <label class="form-label" for="name">Ad</label>
                                 <input type="text" class="form-control" id="name" placeholder="Adı" required>

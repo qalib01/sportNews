@@ -14,7 +14,7 @@ const checkUser = async (req, res, next) => {
       } else {
         const localUser = await db.users.findOne({
           where: {
-            id: decodedToken.userId,
+            id: decodedToken.id,
           },
         });
         res.locals.localUser = localUser;
