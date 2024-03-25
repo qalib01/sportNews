@@ -105,8 +105,7 @@
                                 id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
                                 <div class="row">
                                   <!-- Item post -->
-                                  <% category.news.forEach((nws)=> { %>
-                                    <% if (nws.tags.some(t=> t.key === tag.key)) { %>
+                                  <% tag.news.forEach((nws)=> { %>
                                       <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6">
                                         <a href="/news-detail/<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03">
                                           <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>">
@@ -125,7 +124,6 @@
                                           </span>
                                         </div>
                                       </div>
-                                      <% } %>
                                         <% }) %>
                                 </div>
                               </div>

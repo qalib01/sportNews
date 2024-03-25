@@ -92,7 +92,7 @@ const getHomePage = async (req, res, next) => {
                 if (!categoryCounts[categoryName]) {
                     categoryCounts[categoryName] = { count: 1, categoryKey };
                 } else {
-                    categoryCounts[categoryName]++;
+                    categoryCounts[categoryName].count++;
                 }
             }
         });
@@ -106,46 +106,58 @@ const getHomePage = async (req, res, next) => {
         const categoryArray = sortedCategories.map(([categoryName]) => {
             const categoryNews = allNews.filter(news => news.category && news.category.name === categoryName);
             const categoryTags = {};
-
+        
             categoryNews.forEach(news => {
                 news.news_tags.forEach(news_tag => {
                     const tagName = news_tag.tag ? news_tag.tag.name : null;
                     const tagKey = news_tag.tag ? news_tag.tag.key : null;
+                    // console.log(tagName);
                     if (tagName) {
                         if (!categoryTags[tagName]) {
-                            categoryTags[tagName] = { count: 1, key: tagKey }; // Initialize count and key
+                            categoryTags[tagName] = { count: 0, key: tagKey, news: [] }; // Initialize count, key, and news array
                         } else {
-                            categoryTags[tagName].count++; // Increment count
+                            if (categoryTags[tagName].count < 6) { // Limit to 6 news articles per tag
+                                categoryTags[tagName].count++; // Increment count
+                                categoryTags[tagName].news.push(news); // Add news article to the tag's news array
+                            }
                         }
                     }
                 });
             });
-
+            
+        
+            // console.log(categoryNews.length);
             // Convert categoryTags object to an array of tag objects
             const tags = Object.entries(categoryTags)
                 .sort((a, b) => b[1].count - a[1].count) // Sort by count values in descending order
                 .slice(0, 3) // Limit to 3 tags per category
-                .map(([tagName, { count, key }]) => ({ name: tagName, count, key })); // Include name, count, and key for each tag
-
+                .map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news })); // Include name, count, key, and news array for each tag
+                // console.log(tags.map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news }))[2].news);
+        
+                console.log(tags);
             const [, { categoryKey }] = sortedCategories.find(([name]) => name === categoryName);
+        
             return {
                 name: categoryName,
                 key: categoryKey,
-                news: categoryNews.map(news => ({
-                    id: news.id,
-                    title: news.title,
-                    key: news.key,
-                    img: news.img,
-                    content: news.content,
-                    tags: news.news_tags.map(news_tag => ({
-                        name: news_tag.tag.name,
-                        key: news_tag.tag.key
-                    })),
-                    createdAt: news.createdAt
-                })),
-                tags
+                tags: tags.map(tag => ({
+                    ...tag,
+                    news: tag.news.map(news => ({
+                        // id: news.id,
+                        title: news.title,
+                        key: news.key,
+                        img: news.img,
+                        // content: news.content,
+                        // tags: news.news_tags.map(news_tag => ({
+                        //     name: news_tag.tag.name,
+                        //     key: news_tag.tag.key
+                        // })),
+                        createdAt: news.createdAt
+                    }))
+                }))
             };
         });
+        
 
         const youTubeVideoLink = await db.platform_medias.findOne({
             where: {
