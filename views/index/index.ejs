@@ -1,257 +1,276 @@
 <%- include('./_partials/meta') %>
   <%- include('./_partials/header') %>
 
-
-
-
-    <% if (trendNews.length> 0) { %>
-      <div class="container p-t-20 trending bg0">
-        <div class="bg0 flex-wr-sb-c">
-          <div class="f2-s-1 p-r-30 size-w-0 m-tb-6 flex-wr-s-c">
-            <span class="text-uppercase cl2 p-r-8 trending-txt">
-              Trenddə olanlar:
-            </span>
-            <span class="dis-inline-block cl6 slide100-txt pos-relative size-w-0" data-in="fadeInDown"
-              data-out="fadeOutDown">
-              <% trendNews.forEach((news)=> { %>
-                <span class="dis-inline-block slide100-txt-item animated visible-false">
-                  <%= news.title %>
-                </span>
-                <% }) %>
-            </span>
-          </div>
-        </div>
+    <div class="banner-container d-flex justify-content-between">
+      <div id="left-banner" class="d-none d-lg-block">
+        <a href="#">
+          <img src="/images/banners/banner_160x600.png" alt="Banner"
+            style="max-width: 100%; height: auto; display: block;">
+        </a>
       </div>
-      <% } %>
-
-        <!-- Banner -->
-        <div class="container bg0 p-t-20">
-          <div class="flex-c-c justify-content-around flex-lg-row flex-column" style="row-gap: 10px;">
-            <a href="#">
-              <img class="max-w-full" src="/images/banners/banner_320x100.png
-                " alt="IMG">
-            </a>
-            <a href="#">
-              <img class="max-w-full" src="/images/banners/banner_320x100.png
-              " alt="IMG">
-            </a>
-            <a href="#">
-              <img class="max-w-full" src="/images/banners/banner_320x100.png
-            " alt="IMG">
-            </a>
-          </div>
-        </div>
-
-        <!-- Post -->
-        <section>
-          <div class="container bg0 p-t-20">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-8">
-                <div class="p-b-20">
-                  <!-- Categories -->
-
-                  <% categoryArray.forEach((category)=> { %>
-                    <div class="tab01 p-b-20">
-                      <div class="tab01-head how2 how2-cl1 bocl12 flex-s-c m-r-10 m-r-0-sr991">
-                        <!-- Brand tab -->
-                        <h3 class="f1-m-2 cl12 tab01-title">
-                          <%= category.name %>
-                        </h3>
-
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                          <% category.tags.forEach((tag, id)=> { %>
-                            <li class="nav-item">
-                              <a class="nav-link <%= id == 0 ? 'active' : '' %>" data-toggle="tab"
-                                href="#<%= tag.key %>-<%= category.key %>" role="tab">
-                                <%= tag.name %>
-                              </a>
-                            </li>
-                            <% }) %>
-                              <li class="nav-item-more dropdown dis-none">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-                                  aria-expanded="false">
-                                  Taglar
-                                  <i class="fa-solid fa-chevron-down fs-12 ml-2"></i>
-                                </a>
-                                <ul class="dropdown-menu" x-placement="bottom-start"
-                                  style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"
-                                  x-out-of-boundaries=""></ul>
-                              </li>
-                        </ul>
-
-                        <!-- View all button -->
-                        <a href="/news?category=<%= category.key %>" class="tab01-link f1-s-1 cl9 hov-cl10 trans-03">
-                          Hamısı
-                          <i class="fs-12 m-l-5 fa fa-caret-right"></i>
-                        </a>
-                      </div>
-
-
-                      <!-- Tab panes -->
-                      <div class="tab-content p-t-35">
-                        <!-- - -->
-                        <% category.tags.forEach((tag, id)=> { %>
-                          <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>"
-                            id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
-                            <div class="row">
-                              <!-- Item post -->
-                              <% category.news.forEach((nws)=> { %>
-                                <% if (nws.tags.some(t=> t.key === tag.key)) { %>
-                                  <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6">
-                                    <a href="/news-detail/<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03">
-                                      <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>">
-                                    </a>
-
-                                    <div class="size-w-2">
-                                      <h5 class="p-b-5">
-                                        <a href="/news-detail/<%= nws.key %>"
-                                          class="f1-s-5 cl3 hov-cl10 trans-03 font-weight-bold">
-                                          <%= nws.title %>
-                                        </a>
-                                      </h5>
-
-                                      <span class="cl8">
-                                        <span class="f1-s-3">
-                                          <%= moment(nws.createdAt).format('LL') %>
-                                        </span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <% } %>
-                                    <% }) %>
-                            </div>
-                          </div>
-                          <% }) %>
-                      </div>
-                    </div>
+      <div>
+        <% if (trendNews.length> 0) { %>
+          <div class="container p-t-20 trending bg0">
+            <div class="bg0 flex-wr-sb-c">
+              <div class="f2-s-1 p-r-30 size-w-0 m-tb-6 flex-wr-s-c">
+                <span class="text-uppercase cl2 p-r-8 trending-txt">
+                  Trenddə olanlar:
+                </span>
+                <span class="dis-inline-block cl6 slide100-txt pos-relative size-w-0" data-in="fadeInDown"
+                  data-out="fadeOutDown">
+                  <% trendNews.forEach((news)=> { %>
+                    <span class="dis-inline-block slide100-txt-item animated visible-false">
+                      <%= news.title %>
+                    </span>
                     <% }) %>
-
-                </div>
-              </div>
-
-              <div class="col-md-10 col-lg-4">
-                <div class="p-l-10 p-rl-0-sr991 p-b-20">
-                  <%- include('./items/most_popular') %>
-
-                    <!-- Banner -->
-                    <div class="flex-c-s p-t-8">
-                      <a href="#">
-                        <img class="max-w-full" src="/images/banners/banner_160x600.png" alt="IMG">
-                      </a>
-                    </div>
-
-                    <%- include('./items/stay_connected') %>
-                </div>
+                </span>
               </div>
             </div>
           </div>
-        </section>
+          <% } %>
 
-        <!-- Banner -->
-        <div class="container bg0">
-          <div class="flex-c-c justify-content-around flex-lg-row flex-column" style="row-gap: 10px;">
-            <a href="#">
-              <img class="max-w-full" src="/images/banners/banner_300x250.png" alt="IMG">
-            </a>
-          </div>
-        </div>
-
-        <!-- Latest -->
-        <section>
-          <div class="container p-t-60 p-b-35 bg0">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-8 p-b-20">
-                <div class="how2 how2-cl4 flex-s-c m-r-10 m-r-0-sr991">
-                  <h3 class="f1-m-2 cl3 tab01-title"> Son xəbərlər </h3>
+            <!-- Banner -->
+            <div class="container bg0 p-t-20">
+              <div class="flex-c-c justify-content-around flex-md-row flex-column" style="row-gap: 10px;">
+                <div class="">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                  </a>
+                </div>
+                <div class="d-none d-md-block">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                  </a>
+                </div>
+                <div class="d-none d-lg-block">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                  </a>
                 </div>
 
-                <div class="row p-t-35">
-                  <% lastNews.forEach((news)=> { %>
-                    <div class="col-sm-6 p-r-25 p-r-15-sr991">
-                      <!-- Item latest -->
-                      <div class="m-b-45">
-                        <a href="/news-detail/<%= news.key %>" class="wrap-pic-w hov1 trans-03">
-                          <img src="/images/news/<%= news.img %>" alt="<%= news.title %>">
-                        </a>
+              </div>
+            </div>
 
-                        <div class="p-t-16">
-                          <h5 class="p-b-5">
-                            <a href="/news-detail/<%= news.key %>"
-                              class="f1-m-3 cl2 hov-cl10 trans-03 font-weight-bold">
-                              <%= news.title %>
+            <!-- Post -->
+            <section>
+              <div class="container bg0 p-t-20">
+                <div class="row justify-content-center">
+                  <div class="col-md-10 col-lg-8">
+                    <div class="p-b-20">
+                      <!-- Categories -->
+
+                      <% categoryArray.forEach((category)=> { %>
+                        <div class="tab01 p-b-20">
+                          <div class="tab01-head how2 how2-cl1 bocl12 flex-s-c m-r-10 m-r-0-sr991">
+                            <!-- Brand tab -->
+                            <h3 class="f1-m-2 cl12 tab01-title">
+                              <%= category.name %>
+                            </h3>
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                              <% category.tags.forEach((tag, id)=> { %>
+                                <li class="nav-item">
+                                  <a class="nav-link <%= id == 0 ? 'active' : '' %>" data-toggle="tab"
+                                    href="#<%= tag.key %>-<%= category.key %>" role="tab">
+                                    <%= tag.name %>
+                                  </a>
+                                </li>
+                                <% }) %>
+                                  <li class="nav-item-more dropdown dis-none">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+                                      aria-expanded="false">
+                                      Taglar
+                                      <i class="fa-solid fa-chevron-down fs-12 ml-2"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" x-placement="bottom-start"
+                                      style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"
+                                      x-out-of-boundaries=""></ul>
+                                  </li>
+                            </ul>
+
+                            <!-- View all button -->
+                            <a href="/news?category=<%= category.key %>"
+                              class="tab01-link f1-s-1 cl9 hov-cl10 trans-03">
+                              Hamısı
+                              <i class="fs-12 m-l-5 fa fa-caret-right"></i>
                             </a>
-                          </h5>
+                          </div>
 
-                          <span class="cl8 f1-s-3 font-weight-bold">
-                            <span class="f1-s-3">
-                              <%= moment(news.createdAt).format('LL') %>
-                            </span>
-                          </span>
+                          <!-- Tab panes -->
+                          <div class="tab-content p-t-35">
+                            <!-- Category List -->
+                            <% category.tags.forEach((tag, id)=> { %>
+                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>"
+                                id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
+                                <div class="row">
+                                  <!-- Item post -->
+                                  <% category.news.forEach((nws)=> { %>
+                                    <% if (nws.tags.some(t=> t.key === tag.key)) { %>
+                                      <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6">
+                                        <a href="/news-detail/<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03">
+                                          <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>">
+                                        </a>
+                                        <div class="size-w-2">
+                                          <h5 class="p-b-5">
+                                            <a href="/news-detail/<%= nws.key %>"
+                                              class="f1-s-5 cl3 hov-cl10 trans-03 font-weight-bold">
+                                              <%= nws.title %>
+                                            </a>
+                                          </h5>
+                                          <span class="cl8">
+                                            <span class="f1-s-3">
+                                              <%= moment(nws.createdAt).format('LL') %>
+                                            </span>
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <% } %>
+                                        <% }) %>
+                                </div>
+                              </div>
+                              <% }) %>
+                          </div>
                         </div>
-                      </div>
+                        <% }) %>
                     </div>
-                    <% }) %>
+                  </div>
+
+                  <div class="col-md-10 col-lg-4">
+                    <div class="p-l-10 p-rl-0-sr991 p-b-20">
+                      <%- include('./items/most_popular') %>
+
+                        <!-- Banner -->
+                        <div class="flex-c-s p-t-8">
+                          <a href="#">
+                            <img class="max-w-full" src="/images/banners/banner_160x600.png" alt="Banner">
+                          </a>
+                        </div>
+
+                        <%- include('./items/stay_connected') %>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </section>
 
-              <div class="col-md-10 col-lg-4">
-                <div class="p-l-10 p-rl-0-sr991 p-b-20">
-                  <!-- Video -->
-                  <% if (youTubeVideoLink) { %>
-                    <div class="p-b-55">
-                      <div class="how2 how2-cl4 flex-s-c m-b-35">
-                        <h3 class="f1-m-2 cl3 tab01-title">
-                          YouTube video
-                        </h3>
-                      </div>
+            <!-- Banner -->
+            <div class="container bg0">
+              <div class="flex-c-c justify-content-around flex-md-row flex-column" style="row-gap: 10px;">
+                <div class="">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_300x250.png" alt="Banner">
+                  </a>
+                </div>
+                <div class="d-none d-md-block">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_300x250.png" alt="Banner">
+                  </a>
+                </div>
+                <div class="d-none d-lg-block">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_300x250.png" alt="Banner">
+                  </a>
+                </div>
+              </div>
+            </div>
 
-                      <div>
-                        <div class="wrap-pic-w pos-relative">
-                          <img src="/images/uploads/video-01.jpg" alt="YouTube Stream">
-
-                          <button class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03" data-toggle="modal"
-                            data-target="#modal-video-01">
-                            <span class="fab fa-youtube"></span>
-                          </button>
-                        </div>
-
-                        <div class="p-tb-16 p-rl-25 bg3">
-                          <h5 class="p-b-5">
-                            <a href="javascript:void(0)" data-target="#modal-video-01" data-toggle="modal"
-                              class="f1-m-3 cl0 trans-03">
-                              <%= youTubeVideoLink.name %>
-                            </a>
-                          </h5>
-                        </div>
-                      </div>
+            <!-- Latest -->
+            <section>
+              <div class="container p-t-60 p-b-35 bg0">
+                <div class="row justify-content-center">
+                  <div class="col-md-10 col-lg-8 p-b-20">
+                    <div class="how2 how2-cl4 flex-s-c m-r-10 m-r-0-sr991">
+                      <h3 class="f1-m-2 cl3 tab01-title"> Son xəbərlər </h3>
                     </div>
-                    <% } %>
+                    <div class="row p-t-35">
+                      <% lastNews.forEach((news)=> { %>
+                        <div class="col-sm-6 p-r-25 p-r-15-sr991">
+                          <!-- Item latest -->
+                          <div class="m-b-45">
+                            <a href="/news-detail/<%= news.key %>" class="wrap-pic-w hov1 trans-03">
+                              <img src="/images/news/<%= news.img %>" alt="<%= news.title %>">
+                            </a>
+                            <div class="p-t-16">
+                              <h5 class="p-b-5">
+                                <a href="/news-detail/<%= news.key %>"
+                                  class="f1-m-3 cl2 hov-cl10 trans-03 font-weight-bold">
+                                  <%= news.title %>
+                                </a>
+                              </h5>
+                              <span class="cl8 f1-s-3 font-weight-bold">
+                                <span class="f1-s-3">
+                                  <%= moment(news.createdAt).format('LL') %>
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <% }) %>
+                    </div>
+                  </div>
 
+                  <div class="col-md-10 col-lg-4">
+                    <div class="p-l-10 p-rl-0-sr991 p-b-20">
+                      <!-- Video -->
                       <% if (youTubeVideoLink) { %>
-                        <!-- Modal Video 01-->
-                        <div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
-                          <div class="modal-dialog" role="document" data-dismiss="modal">
-                            <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;
+                        <div class="p-b-55">
+                          <div class="how2 how2-cl4 flex-s-c m-b-35">
+                            <h3 class="f1-m-2 cl3 tab01-title">
+                              YouTube video
+                            </h3>
+                          </div>
+                          <div>
+                            <div class="wrap-pic-w pos-relative">
+                              <img src="/images/uploads/video-01.jpg" alt="YouTube Stream">
+                              <button class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03" data-toggle="modal"
+                                data-target="#modal-video-01">
+                                <span class="fab fa-youtube"></span>
+                              </button>
                             </div>
 
-                            <div class="wrap-video-mo-01">
-                              <div class="video-mo-01">
-                                <%- youTubeVideoLink.linkSlug %>
+                            <div class="p-tb-16 p-rl-25 bg3">
+                              <h5 class="p-b-5">
+                                <a href="javascript:void(0)" data-target="#modal-video-01" data-toggle="modal"
+                                  class="f1-m-3 cl0 trans-03">
+                                  <%= youTubeVideoLink.name %>
+                                </a>
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                        <% } %>
+
+                          <% if (youTubeVideoLink) { %>
+                            <!-- Modal Video 01-->
+                            <div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
+                              <div class="modal-dialog" role="document" data-dismiss="modal">
+                                <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;
+                                </div>
+
+                                <div class="wrap-video-mo-01">
+                                  <div class="video-mo-01">
+                                    <%- youTubeVideoLink.linkSlug %>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                        <% }%>
+                            <% }%>
 
-                          <%- include('./items/subscription_small') %>
-                            <%- include('./items/tags') %>
+                              <%- include('./items/subscription_small') %>
+                                <%- include('./items/tags') %>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </section>
+      </div>
+      <div id="right-banner" class="d-none d-lg-block">
+        <a href="#">
+          <img src="/images/banners/banner_160x600.png" alt="Banner"
+            style="max-width: 100%; height: auto; display: block;">
+        </a>
+      </div>
+    </div>
 
-
-            </div>
-          </div>
-        </section>
-
-        <%- include('./_partials/footer') %>
+    <%- include('./_partials/footer') %>

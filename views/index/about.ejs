@@ -1,62 +1,80 @@
 <%- include('./_partials/meta') %>
-	<%- include('./_partials/header') %>
-	<%- include('./items/breadcrumb') %>
+<%- include('./_partials/header') %>
+<!-- Page heading -->
 
-		<!-- Page heading -->
-		<div class="container bg0 p-t-4 p-b-35">
-			<h2 class="f1-l-1 cl2">
-				<%= title %>
-			</h2>
-		</div>
+<div class="banner-container d-flex justify-content-between">
+	<div id="left-banner" class="d-none d-lg-block">
+		<a href="#">
+			<img src="/images/banners/banner_160x600.png" alt="Banner"
+				style="max-width: 100%; height: auto; display: block;">
+		</a>
+	</div>
+	<div>
+		<%- include('./items/breadcrumb') %>
+			<div class="container bg0 p-t-4 p-b-35">
+				<h2 class="f1-l-1 cl2">
+					<%= title %>
+				</h2>
+			</div>
 
-		<!-- Content -->
-		<section>
-			<div class="container bg0 p-b-110">
-				<div class="row justify-content-center">
-					<!-- <div class="col-md-12 col-lg-12 p-b-30"> -->
-					<div class="col-md-10 col-lg-8 p-b-30 text-justify">
-						<div class="p-r-10 p-r-0-sr991">
-							<p class="f1-s-11 cl6 p-b-25">
-								Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper. Aliquam a dui
-								suscipit, fringilla metus id, maximus leo. Vivamus sapien arcu, mollis eu pharetra
-								vitae, condimentum in orci. Integer eu sodales dolor. Maecenas elementum arcu eu
-								convallis rhoncus. Donec tortor sapien, euismod a faucibus eget, porttitor quis libero.
-							</p>
-
-							<p class="f1-s-11 cl6 p-b-25">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet est vel orci
-								luctus sollicitudin. Duis eleifend vestibulum justo, varius semper lacus condimentum
-								dictum. Donec pulvinar a magna ut malesuada. In posuere felis diam, vel sodales metus
-								accumsan in. Duis viverra dui eu pharetra pellentesque. Donec a eros leo. Quisque sed
-								ligula vitae lorem efficitur faucibus. Praesent sit amet imperdiet ante. Nulla id tellus
-								auctor, dictum libero a, malesuada nisi. Nulla in porta nibh, id vestibulum ipsum.
-								Praesent dapibus tempus erat quis aliquet. Donec ac purus id sapien condimentum feugiat.
-							</p>
-
-							<p class="f1-s-11 cl6 p-b-25">
-								Praesent vel mi bibendum, finibus leo ac, condimentum arcu. Pellentesque sem ex,
-								tristique sit amet suscipit in, mattis imperdiet enim. Integer tempus justo nec velit
-								fringilla, eget eleifend neque blandit. Sed tempor magna sed congue auctor. Mauris eu
-								turpis eget tortor ultricies elementum. Phasellus vel placerat orci, a venenatis justo.
-								Phasellus faucibus venenatis nisl vitae vestibulum. Praesent id nibh arcu. Vivamus
-								sagittis accumsan felis, quis vulputate
-							</p>
+			<!-- Content -->
+			<section>
+				<div class="container bg0 p-b-110">
+					<div class="row justify-content-center">
+						<div class="col-md-10 col-lg-8 p-b-30 text-justify">
+							<div class="p-r-10 p-r-0-sr991">
+								<p class="f1-s-11 cl6 p-b-25">
+									Müasir dövrdə informasiya mühitində ənənəvi stereotiplərin yenilikçi
+									üsullarla
+									əvəzlənməsi tendensiyası müşahidə olunmaqdadır. Maraqlı və unikal təqdimat
+									hazırda
+									gələcək inkişafın açarı kimi önəmlidir. Sporter.az yeni idman platforması
+									olaraq
+									2024-cü ildən qarşısına izləyiciləri keyfiyyətli və maraqlı məzmunlarla
+									təmin etmək
+									məqsədini qoyub. Müxtəlif idman kateqoriyalarına aid xəbərlər və mövzu üzrə
+									multimedia materialları ilə saytımızda tanış ola bilərsiniz. "Sporter"
+									sosial
+									şəbəkələr və digər platformalarda da cəlbedici layihələri ilə xidmətinizdə
+									olacaqdır. Bizi izləməyi unutmayın.
+								</p>
+								<p>
+									<span>Bizimlə əlaqə: <span><a href="tel:+994516025902"> +994(51) 602-59-02
+											</a>
+								</p>
+								<p>
+									<span>Email: <span><a href="mailto:info@sporter.az"> info@sporter.az </a>
+								</p>
+							</div>
 						</div>
-					</div>
 
-					<!-- Sidebar -->
-					<div class="col-md-4 col-lg-4 p-b-30">
-						<div class="p-l-10 p-rl-0-sr991 p-t-5">
-							<%- include('./items/subscription_small') %>
-							<%- include('./items/stay_connected') %>
+						<!-- Sidebar -->
+						<div class="col-md-4 col-lg-4 p-b-30">
+							<div class="p-l-10 p-rl-0-sr991 p-t-5">
+								<!-- Banner -->
+								<div class="flex-c-s p-b-20">
+									<div class="flex-c-c justify-content-around flex-lg-row flex-column"
+										style="row-gap: 10px;">
+										<a href="#">
+											<img class="max-w-full" src="/images/banners/banner_320x100.png"
+												alt="Banner">
+										</a>
+									</div>
+								</div>
+								<%- include('./items/subscription_small') %>
+									<%- include('./items/stay_connected') %>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+	</div>
+	<div id="right-banner" class="d-none d-lg-block">
+		<a href="#">
+			<img src="/images/banners/banner_160x600.png" alt="Banner"
+				style="max-width: 100%; height: auto; display: block;">
+		</a>
+	</div>
+</div>
 
-
-
-
-
-		<%- include('./_partials/footer') %>
+<%- include('./_partials/footer') %>

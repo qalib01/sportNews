@@ -23,7 +23,7 @@
 
                         <div class="p-t-15">
                             <% platformSocialMedias.forEach((media) => { %>
-                                <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="fs-18 cl11 hov-cl10 trans-03 m-r-8" target="_blank" title="<%= media.social_media.name %>">
                                     <%- media.social_media.icon %>
                                 </a>
                             <% }) %>
@@ -37,21 +37,18 @@
                             Xəbərlər
                         </h5>
                     </div>
-
                     <ul>
                         <% lastThreeNews.forEach((news) => { %>
                             <li class="flex-wr-sb-s p-b-20">
                                 <a href="/news-detail/<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03">
-                                    <img src="/images/news/<%= news.img %>" alt="IMG">
+                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>">
                                 </a>
-    
                                 <div class="size-w-5">
                                     <h6 class="p-b-5">
                                         <a href="/news-detail/<%= news.key %>" class="f1-s-5 cl11 hov-cl10 trans-03">
                                             <%= news.title %>
                                         </a>
                                     </h6>
-    
                                     <span class="f1-s-3 cl6">
                                         <%= moment(news.createdAt).format('LL') %>
                                     </span>
@@ -67,7 +64,6 @@
                             Kateqoriyalar
                         </h5>
                     </div>
-
                     <ul class="m-t--12">
                         <% popularCategories.forEach((populatCategory) => { %>
                             <li class="how-bor1 p-rl-5 p-tb-10">
@@ -77,14 +73,14 @@
                             </li>
                         <% }) %>
                     </ul>
+
+                    <!-- Banner -->
                     <div class="banner-header">
                         <a href="/">
                             <img src="/images/banners/banner_320x50.png" alt="IMG">
                         </a>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </div>
@@ -93,8 +89,8 @@
         <div class="container size-h-4 flex-c-c p-tb-15">
             <span class="f1-s-1 cl0 txt-center">
                 Copyright © 2024
-                <a href="/" class="f1-s-1 cl10 hov-link1">SporterAz.</a>
-                Bütün haqları qorunur.
+                <a href="/" class="f1-s-1 cl10 hov-link1">Sporter.az</a>.
+                Məlumatlardan istifadə olunduqda istinad mütləqdir.
             </span>
         </div>
     </div>
