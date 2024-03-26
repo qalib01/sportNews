@@ -1,4 +1,4 @@
-<%- include('./_partials/meta') %>
+<%- include('./_partials/head') %>
     <%- include('./_partials/header') %>
 
         <div class="banner-container d-flex justify-content-between">
@@ -13,17 +13,17 @@
                 <div class="container p-t-10 p-b-10 bg0">
                     <div class="headline flex-wr-sb-c p-rl-20 p-tb-8">
                         <div class="f2-s-1 p-r-30 m-tb-6">
-                            <a href="/" class="breadcrumb-item f1-s-3 cl9">
-                                Ana səhifə
-                            </a>
-
-                            <a href="/news" class="breadcrumb-item f1-s-3 cl9">
-                                Xəbərlər
-                            </a>
-
-                            <span class="breadcrumb-item f1-s-3 cl9">
-                                <%= name %>
-                            </span>
+                            <div class="breadcrumb">
+                                <a href="/" class="breadcrumb-item f1-s-3 cl9 text-decoration-none">
+                                    Ana səhifə
+                                </a>
+                                <a href="/news" class="breadcrumb-item f1-s-3 cl9 text-decoration-none">
+                                    Xəbərlər
+                                </a>
+                                <span class="breadcrumb-item active f1-s-3 cl9" aria-current="page">
+                                    <%= name %>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                                     <!-- Blog Detail -->
                                     <div class="p-b-70">
                                         <a href="/news?category=<%= selectedNews.category.key %>"
-                                            class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase">
+                                            class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase text-decoration-none">
                                             <%= selectedNews.category.name %>
                                         </a>
 
@@ -69,7 +69,7 @@
                                             <div class="flex-wr-s-s size-w-0">
                                                 <% selectedNews.news_tags.forEach((news_tag)=> { %>
                                                     <a href="/news?tag=<%= news_tag.tag.key %>"
-                                                        class="f1-s-12 cl8 hov-link1 m-r-15">
+                                                        class="f1-s-12 cl8 hov-link1 m-r-15 text-decoration-none">
                                                         <%= news_tag.tag.name %>
                                                     </a>
                                                     <% }) %>
@@ -83,29 +83,29 @@
                                             </span>
 
                                             <div class="flex-wr-s-s size-w-0">
-                                                <a href="https://www.facebook.com/sharer.php?u=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                                    class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                <a href="https://www.facebook.com/sharer.php?u=https://sporter.az/news-detail/<%= selectedNews.key %>"
+                                                    class="dis-block f1-s-13 cl0 bg-facebook borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03 text-decoration-none"
                                                     target="_blank">
                                                     <i class="fab fa-facebook-f m-r-7"></i>
                                                     Facebook
                                                 </a>
 
-                                                <a href="https://twitter.com/intent/post?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>&text=<%= selectedNews.title %>"
-                                                    class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                <a href="https://twitter.com/intent/post?url=https://sporter.az/news-detail/<%= selectedNews.key %>&text=<%= selectedNews.title %>"
+                                                    class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03 text-decoration-none"
                                                     target="_blank">
                                                     <i class="fab fa-twitter m-r-7"></i>
                                                     Twitter
                                                 </a>
 
-                                                <a href="https://wa.me/?text=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                                    class="dis-block f1-s-13 cl0 bg-whatsapp borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                <a href="https://wa.me/?text=https://sporter.az/news-detail/<%= selectedNews.key %>"
+                                                    class="dis-block f1-s-13 cl0 bg-whatsapp borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03 text-decoration-none"
                                                     target="_blank">
                                                     <i class="fab fa-whatsapp m-r-7"></i>
                                                     Whatsapp
                                                 </a>
 
-                                                <a href="https://telegram.me/share/url?url=https://teqdimatim.az/news-detail/<%= selectedNews.key %>"
-                                                    class="dis-block f1-s-13 cl0 bg-telegram borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03"
+                                                <a href="https://telegram.me/share/url?url=https://sporter.az/news-detail/<%= selectedNews.key %>"
+                                                    class="dis-block f1-s-13 cl0 bg-telegram borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03 text-decoration-none"
                                                     target="_blank">
                                                     <i class="fab fa-telegram m-r-7"></i>
                                                     Telegram

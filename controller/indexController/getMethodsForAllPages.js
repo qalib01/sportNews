@@ -4,7 +4,6 @@ const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
 const moment = require('moment');
 moment.locale('az');
-let now = new Date();
 
 
 const setMomentToLocals = async (req, res, next) => {
@@ -19,8 +18,14 @@ const getPopularCategories = async (req, res, next) => {
                 model: sequelize.model('categories'),
                 as: 'category',
                 attributes: ['name', 'key', 'description'],
+                where: {
+                    status: true,
+                }
             },
         ],
+        where: {
+            status: true,
+        },
         limit: 5,
         attributes: [[Sequelize.fn('COUNT', Sequelize.col('news.categoryId')), 'newsCount'],],
         group: ['category.id'], // Assuming 'id' is the primary key of your Category model
@@ -40,8 +45,9 @@ const getPopularNews = async (req, res, next) => {
                 ['createdAt', 'ASC']
             ],
             where: {
+                status: true,
                 sharedAt: {
-                    [Op.lt]: now,
+                    [Op.lt]: moment(),
                 },
             },
             attributes: ['title', 'key', 'img', 'createdBy']
@@ -59,13 +65,23 @@ const getLastThreeNews = async (req, res, next) => {
     let limit = 3;
     try {
         let lastThreeNews = await db.news.findAll({
+            include: [
+                {
+                    model: sequelize.model('categories'),
+                    as: 'category',
+                    where: {
+                        status: true,
+                    }
+                }
+            ],
             limit,
             order: [
                 ['createdAt', 'DESC']
             ],
             where: {
+                status: true,
                 sharedAt: {
-                    [Op.lt]: now,
+                    [Op.lt]: moment(),
                 },
             },
             attributes: ['title', 'key', 'img', 'createdAt']

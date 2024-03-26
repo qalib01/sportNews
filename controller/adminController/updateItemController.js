@@ -10,6 +10,7 @@ const updateSelectedTag = async (req, res, next) => {
     try {
         await db.tags.update({
             name: inputData.name,
+            key: inputData.key,
             description: inputData.description,
             status: inputData.status,
         },
@@ -39,6 +40,7 @@ const updateSelectedCategory = async (req, res, next) => {
     try {
         await db.categories.update({
             name: inputData.name,
+            key: inputData.key,
             description: inputData.description,
             status: inputData.status,
         },

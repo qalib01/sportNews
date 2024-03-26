@@ -20,8 +20,36 @@ function changeLetters(str) {
         " ": "-",
         '"': '',
         "'": "",
+        ":": "",
+        ";":"",
+        ",": "",
+        ".": ""
     };
-    return str.replace(/[əıöğüşç\s\-_'"']/g, (match) => azerbaijaniToEnglishMap[match]);
+    return str.replace(/[əıöğüşç\s\-_'"':;,.]/g, (match) => azerbaijaniToEnglishMap[match]);
+}
+
+var alertMessage = document.querySelector('#alert-message');
+var timeout = 4000;
+if (alertMessage) {
+    alertIcon = alertMessage.querySelector('i');
+    alertText = alertMessage.querySelector('p');
+    // progressBar = document.querySelector('#progress-bar');
+    getError = () => {
+        alertMessage.appendChild(alertIcon);
+        alertMessage.appendChild(alertText);
+        alertIcon.className = 'fa-solid fa-circle-exclamation';
+        // progressBar.classList.add('active');
+        alertMessage.style.display = 'block';
+        alertMessage.classList.add('error');
+    };
+    getSuccess = () => {
+        alertMessage.appendChild(alertIcon);
+        alertMessage.appendChild(alertText);
+        alertIcon.className = 'fa-solid fa-circle-check';
+        // progressBar.classList.add('active');
+        alertMessage.style.display = 'block';
+        alertMessage.classList.add('success');
+    };
 }
 
 if (createBtn) {
@@ -97,21 +125,22 @@ if (deleteBtn) {
     });
 }
 
-const itemFormCreateUpdate = async (isCreateAction, method) => {
+const itemFormCreateUpdate = async (method) => {
     try {
         let name = basicForm.name.value.trim();
         let description = basicForm.description.value.trim();
         let status = basicForm.status.value.trim();
+        let key = changeLetters(name.toLowerCase());
         
         const requestBody = {
-            name, description, status
+            name, description, status, key
         };
 
         // Add key if it's a create action
-        if (isCreateAction) {
-            let key = changeLetters(name.toLowerCase());
-            requestBody.key = key;
-        }
+        // if (isCreateAction) {
+            
+            // requestBody.key = key;
+        // }
 
         res = await fetch(basicForm.action, {
             method: method,
@@ -248,7 +277,7 @@ if (basicForm) {
         isNewsAction ?  await newsFormCreateUpdate(isCreateAction, method) : null;
         isUserAction ?  await userFormCreateUpdate(method) : null;
         isSocialMediaAction ? await socialMediaFormCreateUpdate(isCreateAction, method) : null;
-        await itemFormCreateUpdate(isCreateAction, method);
+        await itemFormCreateUpdate(method);
 
     })
 }

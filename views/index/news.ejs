@@ -1,4 +1,4 @@
-<%- include('./_partials/meta') %>
+<%- include('./_partials/head') %>
 	<%- include('./_partials/header') %>
 	
 	<div class="banner-container d-flex justify-content-between">
@@ -27,15 +27,13 @@
 											<!-- Item post -->
 											<% allNews.forEach((news)=> { %>
 												<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
-													<a href="/news-detail/<%= news.key %>"
-														class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25">
-														<img src="/images/news/<%= news.img %>" alt="<%= news.title %>">
+													<a href="/news/news-detail?key=<%= news.key %>" class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25" style="height: 200px;">
+														<img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover h-100">
 													</a>
 
 													<div class="size-w-9 w-full-sr575 m-b-25">
 														<h5 class="p-b-12">
-															<a href="/news-detail/<%= news.key %>"
-																class="f1-l-1 cl2 hov-cl10 trans-03 respon2 font-weight-bold">
+															<a href="/news/news-detail?key=<%= news.key %>" class="f1-l-1 cl2 hov-cl10 trans-03 respon2 fw-bold text-decoration-none">
 																<%= news.title %>
 															</a>
 														</h5>
@@ -46,23 +44,22 @@
 															</span>
 														</div>
 
-														<p class="f1-s-1 cl6 p-b-24">
-															<%- news.content.slice(0, 100) + '...' %>
-														</p>
+														<%- news.content.slice(0, 100) + '...' %>
 
-														<a href="/news-detail/<%= news.key %>"
-															class="f1-s-1 cl9 hov-cl10 trans-03">
+														<a href="/news/news-detail/key=<%= news.key %>" class="f1-s-1 cl9 hov-cl10 trans-03 text-decoration-none p-t-10 d-block"">
 															Ətraflı bax
 															<i class="fa fa-long-arrow-alt-right m-l-2"></i>
 														</a>
 													</div>
 												</div>
-												<% }) %>
+											<% }) %>
 										</div>
 
-										<a href="#" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3">
-											Daha çox yüklə
-										</a>
+										<% if (allNews.length > 10) { %>
+											<a href="javascript:void(0)" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3 text-decoration-none">
+												Daha çox yüklə
+											</a>
+										<% } %>
 									</div>
 								</div>
 

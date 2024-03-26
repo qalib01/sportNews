@@ -3,7 +3,6 @@ const { sequelize } = require('../../models/index');
 const moment = require('moment');
 const { Op } = require('sequelize');
 // moment.locale('az');
-let now = new Date();
 
 
 const getHomePage = async (req, res, next) => {
@@ -46,13 +45,13 @@ const getHomePage = async (req, res, next) => {
             where: {
                 status: true,
                 sharedAt: {
-                    [Op.lt]: now,
+                    [Op.lt]: moment(),
                 },
             },
             order: [
                 ['createdAt', 'DESC']
             ],
-            attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
+            attributes: ['title', 'key', 'img', 'createdAt']
         });
         // Filter last 6 news 
         let lastNews = allNews.slice(0, 6);
@@ -112,6 +111,7 @@ const getHomePage = async (req, res, next) => {
                     const tagName = news_tag.tag ? news_tag.tag.name : null;
                     const tagKey = news_tag.tag ? news_tag.tag.key : null;
                     // console.log(tagName);
+                    // console.log(categoryTags);
                     if (tagName) {
                         if (!categoryTags[tagName]) {
                             categoryTags[tagName] = { count: 0, key: tagKey, news: [] }; // Initialize count, key, and news array
@@ -134,7 +134,8 @@ const getHomePage = async (req, res, next) => {
                 .map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news })); // Include name, count, key, and news array for each tag
                 // console.log(tags.map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news }))[2].news);
         
-                console.log(tags);
+                // console.log(tags);
+                
             const [, { categoryKey }] = sortedCategories.find(([name]) => name === categoryName);
         
             return {

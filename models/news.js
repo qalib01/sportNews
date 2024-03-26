@@ -12,17 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       news.hasMany(models.news_tags, {
         foreignKey: 'newsId',
-        as: 'news_tags'
+        as: 'news_tags',
       });
       news.hasOne(models.categories, {
         foreignKey: 'id',
         sourceKey: 'categoryId',
-        as: 'category'
+        as: 'category',
       });
       news.hasOne(models.news_views, {
         sourceKey: 'id',
         foreignKey: 'newsId',
-        as: 'news_view'
+        as: 'news_view',
       });
     };
   };

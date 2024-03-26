@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllNews, getNewsDetail, getAllCategories } = require('../controller/indexController/newsController');
+const { getAllNews, getNewsDetail } = require('../controller/indexController/newsController');
 const { getAboutPage, getHomePage, getLoginPage } = require('../controller/indexController/pageController');
 const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias } = require('../controller/indexController/getMethodsForAllPages');
 const { postSubscribes } = require('../controller/indexController/postMethods');
@@ -20,10 +20,7 @@ router.get('/about', getAboutPage);
 router.get('/news', getAllNews);
 
 /* GET news detail page. */
-router.get('/news-detail/:key', getNewsDetail);
-
-/* GET category list page. */
-router.get('/category-list', getAllCategories);
+router.get('/news/news-detail', getNewsDetail);
 
 /* POST subscribe. */
 router.post('/subscribe', postSubscribes);

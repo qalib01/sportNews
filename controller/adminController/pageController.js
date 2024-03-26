@@ -30,10 +30,7 @@ const newsPage = async (req, res, next) => {
             {
                 model: sequelize.model('categories'),
                 as: 'category',
-                where: {
-                    status: true
-                },
-                // attributes: ['name', 'key', 'description'],
+                attributes: ['name', 'key', 'description'],
             },
             {
                 model: sequelize.model('news_tags'),
@@ -42,7 +39,7 @@ const newsPage = async (req, res, next) => {
                     {
                         model: sequelize.model('tags'),
                         as: 'tag',
-                        // attributes: ['name', 'key', 'description'],
+                        attributes: ['name', 'key', 'description'],
                     },
                 ],
             },
@@ -56,7 +53,7 @@ const newsPage = async (req, res, next) => {
             ['createdAt', 'DESC']
         ],
         // attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
-    })
+    });
     let tags = await db.tags.findAll({
         where: {
             status: true,

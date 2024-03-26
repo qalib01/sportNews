@@ -5,25 +5,23 @@
             <div class="row">
                 <div class="col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
-                        <a href="/">
-                            <img class="max-s-full" src="/images/icons/logo-03.png" style="padding-right: 10px;" alt="LOGO">
+                        <a href="/" class="text-decoration-none">
+                            <img class="max-s-full" src="/images/icons/logo-03.png" style="padding-right: 10px;" alt="SporterAz">
                         </a>
                     </div>
 
                     <div>
                         <p class="f1-s-1 cl11 p-b-16">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor magna eget elit
-                            efficitur, at accumsan sem placerat. Nulla tellus libero, mattis nec molestie at, facilisis
-                            ut turpis. Vestibulum dolor metus, tincidunt eget odio
+                            Müxtəlif idman kateqoriyalarına aid xəbərlər və mövzu üzrə multimedia materialları ilə saytımızda tanış ola bilərsiniz. "Sporter" sosial şəbəkələr və digər platformalarda da cəlbedici layihələri ilə xidmətinizdə olacaqdır. Bizi izləməyi unutmayın.
                         </p>
 
                         <p class="f1-s-1 cl11 p-b-16">
-                            Sualınız var? Bizimlə əlaqə <a style="color: #fff;" href="tel:+994(XX)XXXXXXX">+994 (XX) XXX-XX-XX</a>
+                            Sualınız var? Bizimlə əlaqə <a class="text-decoration-none" style="color: #fff;" href="tel:+994(51)6025902">+994 (51) 602-59-02</a>
                         </p>
 
                         <div class="p-t-15">
                             <% platformSocialMedias.forEach((media) => { %>
-                                <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="fs-18 cl11 hov-cl10 trans-03 m-r-8" target="_blank" title="<%= media.social_media.name %>">
+                                <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="fs-18 cl11 hov-cl10 trans-03 m-r-8 text-decoration-none" target="_blank" title="<%= media.social_media.name %>">
                                     <%- media.social_media.icon %>
                                 </a>
                             <% }) %>
@@ -40,12 +38,12 @@
                     <ul>
                         <% lastThreeNews.forEach((news) => { %>
                             <li class="flex-wr-sb-s p-b-20">
-                                <a href="/news-detail/<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03">
+                                <a href="/news/news-detail?key=<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03 text-decoration-none">
                                     <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>">
                                 </a>
                                 <div class="size-w-5">
                                     <h6 class="p-b-5">
-                                        <a href="/news-detail/<%= news.key %>" class="f1-s-5 cl11 hov-cl10 trans-03">
+                                        <a href="/news/news-detail?key=<%= news.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 text-decoration-none">
                                             <%= news.title %>
                                         </a>
                                     </h6>
@@ -67,7 +65,7 @@
                     <ul class="m-t--12">
                         <% popularCategories.forEach((populatCategory) => { %>
                             <li class="how-bor1 p-rl-5 p-tb-10">
-                                <a href="/news?category=<%= populatCategory.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
+                                <a href="/news?category=<%= populatCategory.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8 text-decoration-none">
                                     <%= populatCategory.category.name %> (<%= populatCategory.dataValues.newsCount %>)
                                 </a>
                             </li>
@@ -77,7 +75,7 @@
                     <!-- Banner -->
                     <div class="banner-header">
                         <a href="/">
-                            <img src="/images/banners/banner_320x50.png" alt="IMG">
+                            <img src="/images/banners/banner_320x50.png" alt="Banner">
                         </a>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       news_tags.hasOne(models.tags, {
         foreignKey: 'id',
         sourceKey: 'tagId',
-        as: 'tag'
+        as: 'tag',
       });
     };
   };
