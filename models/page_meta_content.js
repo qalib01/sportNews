@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class social_medias extends Model {
+  class page_meta_content extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      social_medias.belongsTo(models.platform_medias, {
-        foreignKey: 'id',
-      });
     }
   }
-  social_medias.init({
-    icon: DataTypes.STRING,
-    name: DataTypes.STRING,
-    type: DataTypes.BOOLEAN,
-    link: DataTypes.STRING,
-    meta_key: DataTypes.STRING,
-    status: DataTypes.BOOLEAN,
+  page_meta_content.init({
+    pageId: DataTypes.STRING,
+    socialMediaId: DataTypes.STRING,
+    type: DataTypes.STRING,
+    content: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'social_medias',
+    modelName: 'page_meta_content',
   });
-  return social_medias;
+  return page_meta_content;
 };

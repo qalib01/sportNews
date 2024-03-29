@@ -1,18 +1,18 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('social_medias', {
+    await queryInterface.createTable('page_meta_contents', {
       id: {
         allowNull: false,
-        autoIncrement: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      icon: {
+      pageId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      name: {
+      socialMediaId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -20,17 +20,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      link: {
+      content: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      meta_key: {
-        type: Sequelize.STRING(4),
-      },
-      status: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('social_medias');
+    await queryInterface.dropTable('page_meta_contents');
   }
 };

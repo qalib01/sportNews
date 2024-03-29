@@ -40,6 +40,9 @@ const newsPage = async (req, res, next) => {
                         model: sequelize.model('tags'),
                         as: 'tag',
                         attributes: ['name', 'key', 'description'],
+                        where: {
+                            status: true
+                        }
                     },
                 ],
             },

@@ -127,7 +127,7 @@ const getAllNews = async (req, res, next) => {
 const getNewsDetail = async (req, res, next) => {
     let key = req.query.key;
     const sevenDaysAgo = moment().subtract(7, 'days').toDate();
-
+    let meta;
     if (!key || key == undefined || key == null) {
         next();
     }
@@ -234,35 +234,37 @@ const getNewsDetail = async (req, res, next) => {
             },
         });
 
-        let views = await db.news_views.findOne({
-            where: {
-                newsId: selectedNews.id,
-            }
-        });
-
-        if (!views) {
-            await db.news_views.create({
-                id: guid(),
-                newsId: selectedNews.id,
-                viewsCounts: 1,
-            });
-        } else {
-            const updatedCount = views.viewsCounts + 1; // Increment the count
-            await db.news_views.update({
-                viewsCounts: updatedCount,
-            },
-            {
+        if (selectedNews) {
+            let views = await db.news_views.findOne({
                 where: {
                     newsId: selectedNews.id,
                 }
             });
-            console.log(updatedCount);
+
+            if (!views) {
+                await db.news_views.create({
+                    id: guid(),
+                    newsId: selectedNews.id,
+                    viewsCounts: 1,
+                });
+            } else {
+                const updatedCount = views.viewsCounts + 1; // Increment the count
+                await db.news_views.update({
+                    viewsCounts: updatedCount,
+                },
+                {
+                    where: {
+                        newsId: selectedNews.id,
+                    }
+                });
+            };
         }
         
         if (!selectedNews || selectedNews == null || selectedNews == undefined) {
             next();
         }
-    
+
+        
         res.render('news_detail', {
             title: selectedNews.title,
             name: selectedNews.title,
@@ -270,6 +272,7 @@ const getNewsDetail = async (req, res, next) => {
             selectedNews,
             allTags,
             trendNews,
+            meta,
         });
     } catch (error) {
         return error;

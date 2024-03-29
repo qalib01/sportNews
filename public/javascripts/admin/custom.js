@@ -23,9 +23,14 @@ function changeLetters(str) {
         ":": "",
         ";":"",
         ",": "",
-        ".": ""
+        ".": "",
+        "”": "",
+        "?": "",
+        "!": "",
+        ".": "",
+        ",": ""
     };
-    return str.replace(/[əıöğüşç\s\-_'"':;,.]/g, (match) => azerbaijaniToEnglishMap[match]);
+    return str.replace(/[əıöğüşç\s\-_'"':;,.”?!.,]/g, (match) => azerbaijaniToEnglishMap[match]);
 }
 
 var alertMessage = document.querySelector('#alert-message');
@@ -109,7 +114,7 @@ if (editBtn) {
                 basicForm.status.value = +data.status;
             } else {
                 basicForm.name.value = data.name;
-                basicForm.description = data.description;
+                basicForm.description.value = data.description;
                 basicForm.status.value = +data.status;
             }
         });

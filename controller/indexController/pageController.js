@@ -13,7 +13,11 @@ const getHomePage = async (req, res, next) => {
             order: [
                 ['createdAt', 'ASC']
             ],
-            attributes: ['name', 'key']
+            attributes: ['name', 'key'],
+            where: {
+                
+                status: true
+            }
         });
         let allNews = await db.news.findAll({
             include: [

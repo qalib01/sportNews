@@ -5,7 +5,6 @@ const moment = require('moment');
 
 const getSelectedTag = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
         let data = await db.tags.findOne({
@@ -26,7 +25,6 @@ const getSelectedTag = async (req, res, next) => {
 
 const getSelectedCategory = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
         let data = await db.categories.findOne({
@@ -47,7 +45,6 @@ const getSelectedCategory = async (req, res, next) => {
 
 const getPlatfromSocialMedia = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
         let data = await db.platform_medias.findOne({
