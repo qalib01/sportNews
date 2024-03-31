@@ -29,6 +29,7 @@ const getAllNews = async (req, res, next) => {
             attributes: ['name', 'key']
         });
         let queryOptions = {
+            // limit: 10,
             include: [
                 {
                     model: sequelize.model('news_views'),
@@ -122,6 +123,10 @@ const getAllNews = async (req, res, next) => {
         console.error('Error in fetching homepage data:', error);
         next(error);
     }
+}
+
+const getNewsLoadMore = async (req, res, next) => {
+    console.log(req.query.offset);
 }
 
 const getNewsDetail = async (req, res, next) => {
@@ -227,7 +232,7 @@ const getNewsDetail = async (req, res, next) => {
                     attributes: ['viewsCounts']
                 },
             ],
-            attributes: ['id', 'title', 'key', 'img', 'content', 'createdBy'],
+            attributes: ['id', 'title', 'key', 'img', 'content', 'createdAt'],
             where: {
                 key,
                 status: true
@@ -259,12 +264,11 @@ const getNewsDetail = async (req, res, next) => {
                 });
             };
         }
-        
+
         if (!selectedNews || selectedNews == null || selectedNews == undefined) {
             next();
         }
 
-        
         res.render('news_detail', {
             title: selectedNews.title,
             name: selectedNews.title,
@@ -279,4 +283,4 @@ const getNewsDetail = async (req, res, next) => {
     }
 }
 
-module.exports = { getAllNews, getNewsDetail }
+module.exports = { getAllNews, getNewsDetail, getNewsLoadMore }

@@ -15,7 +15,7 @@ function changeLetters(str) {
         ü: "u",
         ş: "s",
         ç: "c",
-        "-": "",
+        "-": "-",
         _: "",
         " ": "-",
         '"': '',
@@ -24,13 +24,14 @@ function changeLetters(str) {
         ";":"",
         ",": "",
         ".": "",
+        "“": "",
         "”": "",
         "?": "",
         "!": "",
         ".": "",
         ",": ""
     };
-    return str.replace(/[əıöğüşç\s\-_'"':;,.”?!.,]/g, (match) => azerbaijaniToEnglishMap[match]);
+    return str.replace(/[əıöğüşç\s\-_'"':;,.“”?!.,]/g, (match) => azerbaijaniToEnglishMap[match]);
 }
 
 var alertMessage = document.querySelector('#alert-message');

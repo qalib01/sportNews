@@ -57,8 +57,6 @@ const getHomePage = async (req, res, next) => {
             ],
             attributes: ['title', 'key', 'img', 'createdAt']
         });
-        // Filter last 6 news 
-        let lastNews = allNews.slice(0, 6);
 
         // Filter trending news within the last 7 days based on views
         const trendNews = allNews.filter(news => {
@@ -183,7 +181,6 @@ const getHomePage = async (req, res, next) => {
             title: 'Ana səhifə',
             name: 'Ana səhifə',
             key: 'home',
-            lastNews,
             allTags,
             trendNews,
             allNews,

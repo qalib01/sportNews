@@ -35,15 +35,15 @@
     </title>
     <meta name="author" content="SporterAz">
     <meta name="revised" content="SporterAz">
-    <meta name="keywords" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
-    <meta name="description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
+    <meta name="keywords" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
+    <meta name="description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
 
     <!-- * Meta tags for Facebook and LinkedIn -->
     <meta name="og:locale" content="az_AZ">
     <meta name="og:type" content="news">
     <meta name="og:url" content="https://sporter.az/news/news-detail?key=<%= selectedNews.key %>">
     <meta name="og:title" content="<%= selectedNews.title %>">
-    <meta name="og:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
+    <meta name="og:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
     <meta name="og:site_name" content="Sporter İdman İnformasiya Agentliyi">
     <!-- Image for Facebook -->
     <meta name="og:image" content="https://sporter.az/public/images/news/<%= selectedNews.img %>">
@@ -61,7 +61,7 @@
     <meta name="twitter:site" content="@Sporteraz">
     <meta name="twitter:creator" content="@Sporteraz">
     <meta name="twitter:title" content="<%= selectedNews.title %>">
-    <meta name="twitter:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
+    <meta name="twitter:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
     <meta name="twitter:url" content="https://sporter.az/news/news-detail?key=<%= selectedNews.key %>">
     <meta name="twitter:image" content="https://sporter.az/public/images/news/<%= selectedNews.img %>">
     <meta name="twitter:image:alt" content="<%= selectedNews.title %>">
