@@ -99,19 +99,19 @@
                             <p></p>
                             <!-- <div class="progress" id="progress-bar"></div> -->
                         </div>
-                        <form method="POST" id="basicForm" enctype="multipart/form-data">
+                        <form id="basicForm" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label" for="title">Titul</label>
-                                <input type="text" class="form-control" id="title" placeholder="Adı" required>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Adı" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="img" class="form-label">Şəkil</label>
+                                <input class="form-control" type="file" id="img" accept="image/*"> <!-- name="img" -->
                             </div>
                             <!-- <div class="mb-3">
                                 <label for="img" class="form-label">Şəkil</label>
-                                <input class="form-control" type="file" id="img" accept="image/*">
+                                <input class="form-control" type="text" id="img" required>
                             </div> -->
-                            <div class="mb-3">
-                                <label for="img" class="form-label">Şəkil</label>
-                                <input class="form-control" type="text" id="img">
-                            </div>
                             <div class="mb-3">
                                 <label class="form-label" for="description">Məzmun</label>
                                 <div id="editor"></div>

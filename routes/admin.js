@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
+var multer = require('multer');
 const { HomePage, usersPage, newsPage, tagsPage, categoriesPage, socialMediasPage } = require('../controller/adminController/pageController');
 const { createNewTag, createNewCategory, createPlatfromSocialMedia } = require('../controller/adminController/postItemController');
 const { getSelectedTag, getSelectedCategory, getPlatfromSocialMedia } = require('../controller/adminController/getItemController');
@@ -52,14 +54,31 @@ router.put('/edit-category', [checkUser, authenticateToken], updateSelectedCateg
 /* DELETE selected category data. */
 router.delete('/delete-category', [checkUser, authenticateToken], deleteSelectedCategory);
 
+var img;
+var storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, 'public/images/news');
+    },
+    filename: (req, file, callback) => {
+        let fileExtension = path.extname(file.originalname).toLowerCase();
+        img = Date.now() + fileExtension;
+        callback(null, img);
+    },
+});
+var upload = multer({
+    storage,
+    // limits: { fileSize: 1000000000000 }, // Define the maximum file size
+    timeout: 30000, // 30 seconds
+});
+
 /* POST new news. */
-router.post('/create-news', [checkUser, authenticateToken], createNews);
+router.post('/create-news', [checkUser, authenticateToken], upload.single('img'), createNews);
 
 /* GET selected news data. */
 router.get('/selected-news', [checkUser, authenticateToken], getSelectedNews);
 
 /* UPDATE selected news data. */
-router.put('/edit-news', [checkUser, authenticateToken], updateSelectedNews);
+router.put('/edit-news', [checkUser, authenticateToken], upload.single('img'), updateSelectedNews);
 
 /* DELETE selected news data. */
 router.delete('/delete-news', [checkUser, authenticateToken], deleteSelectedNews);

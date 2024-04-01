@@ -83,7 +83,7 @@ if (editBtn) {
                 editorInstance.setData(data.content);
                 basicForm.status.value = +data.status;
                 basicForm.category.value = data.categoryId;
-                basicForm.img.value = data.img;
+                // basicForm.img.value = data.img;
 
                 const longDateString = data.sharedAt;
                 const dateTime = new Date(longDateString);
@@ -168,7 +168,9 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
     try {
         let title = basicForm.title.value.trim();
         let categoryId = basicForm.category.value.trim();
-        let img = basicForm.img.value.trim();
+        let img = document.querySelector('#img');
+        img = img.files[0];
+        console.log(img);
         let content = editorInstance.getData().trim();
         let tags = [];
         document.querySelectorAll('input[type="checkbox"][id="tag"]').forEach(function (checkbox) {
@@ -182,22 +184,39 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
         let sharedAt = `${date} ${time}`;
         let status = basicForm.status.value.trim();
         
-        const requestBody = {
-            title, categoryId, content, status, img, tags, sharedAt
-        };
+        // const requestBody = {
+        //     title, categoryId, content, status, img, tags, sharedAt
+        // };
+
+        let formData = new FormData();
+
+        formData.append('title', title);
+        formData.append('categoryId', categoryId);
+        formData.append('content', content);
+        formData.append('status', status);
+        // if (!img) {
+            formData.append('img', img);
+        // }
+        formData.append('tags', tags);
+        formData.append('sharedAt', sharedAt);
 
         // Add key if it's a create action
         if (isCreateAction) {
             let key = changeLetters(title.toLowerCase());
-            requestBody.key = key;
+            // requestBody.key = key;
+            formData.append('key', key)
         }
+
+
         res = await fetch(basicForm.action, {
-            method: method,
-            body: JSON.stringify( requestBody ),
-            headers: {
-                "Content-type": "application/json",
-            },
+            method,
+            // body: JSON.stringify( requestBody ),
+            body: formData,
+            // headers: {
+            //     "Content-type": "application/json",
+            // },
         });
+        console.log(res);
         const data = await res.json();
         if (data.status == 200) {
             location.reload();

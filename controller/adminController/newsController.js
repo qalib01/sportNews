@@ -1,7 +1,9 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment');
-const fs = require('fs');
+const fs = require('fs-extra');
+const path = require('path');
+const sharp = require('sharp');
 
 
 let guid = () => {
@@ -20,20 +22,39 @@ let guid = () => {
 const createNews = async (req, res, next) => {
   let inputData = req.body;
   let id = guid();
+  let img;
 
+  // if (req.file) {
+  //   try {
+  //     let fileExtension = path.extname(req.file.filename).toLowerCase();
+  //     let fileName = inputData.key + fileExtension;
+  //     let filePath = req.file.path;
+  //     let image = sharp(filePath);
+  //     image.jpeg({ quality: 80 });
+  //     await image.toFile('public/images/news/' + fileName);
+  //     // fs.removeSync(filePath);
+  //     fs.unlinkSync(filePath);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  if (req.file) {
+    img = req.file.filename;
+  }
   try {
     await db.news.create({
       id: id,
       title: inputData.title,
       key: inputData.key,
-      img: inputData.img,
+      img,
       categoryId: inputData.categoryId,
       content: inputData.content,
       status: inputData.status,
       sharedAt: inputData.sharedAt,
     });
 
-    inputData.tags.forEach(async (tag) => {
+    inputData.tags.split(",").forEach(async (tag) => {
       await db.news_tags.create({
         id: guid(),
         newsId: id,
@@ -97,11 +118,11 @@ const updateSelectedNews = async (req, res, next) => {
     });
 
     const beforeTagIds = news.news_tags.map(tag => tag.tagId);
-    const afterTagIds = inputData.tags;
-
+    const afterTagIds = inputData.tags.split(",");
+    
     // Find IDs in afterIds that are not in beforeIds
     const addIds = afterTagIds.filter(id => !beforeTagIds.includes(id));
-
+    
     // Find IDs in beforeIds that are not in afterIds
     const removeIds = beforeTagIds.filter(id => !afterTagIds.includes(id));
 
@@ -111,7 +132,6 @@ const updateSelectedNews = async (req, res, next) => {
       categoryId: inputData.categoryId,
       content: inputData.content,
       status: inputData.status,
-      img: inputData.img,
       sharedAt: inputData.sharedAt,
     },
       {
@@ -119,6 +139,17 @@ const updateSelectedNews = async (req, res, next) => {
           id,
         }
       })
+
+      if (req.file) {
+        await db.news.update({
+          img: req.file.filename,
+        },
+          {
+            where: {
+              id,
+            }
+          })
+      }
 
     if (addIds) {
       addIds.forEach(async (tagId) => {
@@ -150,6 +181,7 @@ const updateSelectedNews = async (req, res, next) => {
     //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
     //   error,
     // });
+    console.log(error);
     return error;
   }
 }
