@@ -57,7 +57,7 @@
                   <% if(allNews.length > 0) { %>
                     <% let firstNews = allNews[0]; %>
                     <div class="col-md-6 p-rl-1 p-b-2">
-                      <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" style="background-image: url('/images/news/<%= firstNews.img %>');">
+                      <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= firstNews.title %>" style="background-image: url('/images/news/<%= firstNews.img %>');">
                         <a href="/news/news-detail?key=<%= firstNews.key %>" class="dis-block how1-child1 trans-03 text-decoration-none"></a>
                         <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                           <a href="/news?category=<%= firstNews.category.key %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
@@ -82,17 +82,22 @@
                         <% for (let i = 1; i < allNews.slice(0,5).length; i++) { %>
                           <% let news = allNews[i]; %>
                           <div class="col-sm-6 p-rl-1 p-b-2">
-                            <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" style="background-image: url('/images/news/<%= news.img %>');">
+                            <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= news.title %>" style="background-image: url('/images/news/<%= news.img %>');">
                               <a href="/news/news-detail?key=<%= news.key %>" class="dis-block how1-child1 trans-03 text-decoration-none"></a>
-                              <div class="flex-col-e-s s-full p-rl-25 p-tb-24">
+                              <div class="flex-col-e-s s-full p-rl-10 p-tb-10">
                                 <a href="/news?category=<%= news.category.key %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
                                   <%= news.category.name %>
                                 </a>
-                                <h3 class="how1-child2 m-t-14">
+                                <h3 class="how1-child2 m-t-10">
                                   <a href="/news/news-detail?key=<%= news.key %>" class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 text-decoration-none">
                                     <%= news.title %>
                                   </a>
                                 </h3>
+                                <span class="how1-child2">
+                                  <span class="f1-s-2 cl11">
+                                    <%= moment(news.createdAt).format('LL') %>
+                                  </span>
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -103,6 +108,27 @@
                 </div>
               </div>
             </section>
+
+            <!-- Banner -->
+            <div class="container bg0 p-t-20 p-b-20">
+              <div class="flex-c-c justify-content-around flex-md-row flex-column" style="row-gap: 10px;">
+                <div class="">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                  </a>
+                </div>
+                <div class="d-none d-md-block">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                  </a>
+                </div>
+                <div class="d-none d-lg-block">
+                  <a href="#">
+                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                  </a>
+                </div>
+              </div>
+            </div>
 
             <!-- Post -->
             <section>

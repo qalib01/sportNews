@@ -185,8 +185,12 @@ header {
 
 /*==================================================================
 [ Top-bar ]*/
-.topbar {
+/* .topbar {
   background-color: #111;
+} */
+
+.topbar-menu-active {
+  color: var(--primary-color) !important;
 }
 
 .content-topbar {

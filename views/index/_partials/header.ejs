@@ -2,6 +2,40 @@
 <header>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
+        <div class="topbar">
+            <div class="content-topbar container h-100">
+                <div class="left-topbar">
+                    <span class="left-topbar-item flex-wr-s-c">
+                        <span>
+                            New York, NY
+                        </span>
+
+                        <img class="m-b-1 m-rl-8" src="images/icons/icon-night.png" alt="IMG">
+
+                        <span>
+                            HI 58° LO 56°
+                        </span>
+                    </span>
+                    <a href="/" class="left-topbar-item text-decoration-none <%= key === 'home' ? 'topbar-menu-active' : '' %>">
+                        Əsas səhifə
+                    </a>
+                    <a href="/about" class="left-topbar-item text-decoration-none <%= key === 'about' ? 'topbar-menu-active' : '' %>">
+                        Haqqımızda
+                    </a>
+                    <a href="/news" class="left-topbar-item text-decoration-none <%= key === 'news' ? 'topbar-menu-active' : '' %>">
+                        Xəbərlər
+                    </a>
+                </div>
+
+                <div class="right-topbar">
+                    <% platformSocialMedias.forEach((media) => { %>
+                        <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="text-decoration-none" target="_blank" title="<%= media.social_media.name %>">
+                            <%- media.social_media.icon %>
+                        </a>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
         <!-- Header Mobile -->
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->

@@ -155,6 +155,9 @@ const getNewsDetail = async (req, res, next) => {
                         {
                             model: sequelize.model('tags'),
                             as: 'tag',
+                            where: {
+                                status: true
+                            },
                             attributes: ['name', 'key', 'description'],
                         },
                     ],
@@ -213,6 +216,9 @@ const getNewsDetail = async (req, res, next) => {
                         {
                             model: sequelize.model('tags'),
                             as: 'tag',
+                            where: {
+                                status: true,
+                            },
                             attributes: ['name', 'key', 'description']
                         },
                     ],

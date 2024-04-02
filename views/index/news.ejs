@@ -54,6 +54,10 @@
 								<% }) %>
 							</div>
 
+							<% if (allNews.length == 0) { %>
+								Hal-hazırda heç bir xəbər materialı əldə olunmadı.
+							<%} %>
+
 							<% if (allNews.length >= 10) { %>
 								<button id="loadMore" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3 text-decoration-none w-100">
 									Daha çox yüklə
