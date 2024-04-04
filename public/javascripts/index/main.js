@@ -72,17 +72,19 @@
 
             if (st > posNav + mainNav.outerHeight()) {
                 $(menuDesktop).addClass('fix-menu-desktop');
+                $(mainNav).addClass('show-main-nav');
             }
             else if (st <= posNav) {
                 $(menuDesktop).removeClass('fix-menu-desktop');
-            }
-
-            if (st > lastScrollTop) {
                 $(mainNav).removeClass('show-main-nav');
             }
-            else {
-                $(mainNav).addClass('show-main-nav');
-            }
+
+            // if (st > lastScrollTop) {
+            //     $(mainNav).removeClass('show-main-nav');
+            // }
+            // else {
+            //     $(mainNav).addClass('show-main-nav');
+            // }
 
             lastScrollTop = st;
         };

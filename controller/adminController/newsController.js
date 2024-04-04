@@ -33,7 +33,9 @@ const createNews = async (req, res, next) => {
   //     image.jpeg({ quality: 80 });
   //     await image.toFile('public/images/news/' + fileName);
   //     // fs.removeSync(filePath);
-  //     fs.unlinkSync(filePath);
+  //     // await fs.unlink(filePath);
+  //     await fs.remove(filePath);
+  //     // fs.rmdirSync(filePath);
   //   } catch (error) {
   //     console.log(error);
   //   }

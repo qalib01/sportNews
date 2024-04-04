@@ -7,13 +7,7 @@
                 <div class="left-topbar">
                     <span class="left-topbar-item flex-wr-s-c">
                         <span>
-                            New York, NY
-                        </span>
-
-                        <img class="m-b-1 m-rl-8" src="images/icons/icon-night.png" alt="IMG">
-
-                        <span>
-                            HI 58° LO 56°
+                            <%= moment().format('LLL') %>
                         </span>
                     </span>
                     <a href="/" class="left-topbar-item text-decoration-none <%= key === 'home' ? 'topbar-menu-active' : '' %>">
@@ -86,7 +80,7 @@
         </div>
 
         <!--  -->
-        <div class="wrap-main-nav">
+        <div class="wrap-main-nav show-main-nav">
             <div class="main-nav">
                 <!-- Menu desktop -->
                 <nav class="menu-desktop">

@@ -39,7 +39,7 @@
                         <% lastThreeNews.forEach((news) => { %>
                             <li class="flex-wr-sb-s p-b-20">
                                 <a href="/news/news-detail?key=<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03 text-decoration-none">
-                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>">
+                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>" class="object-fit-cover" style="aspect-ratio: 4/3;">
                                 </a>
                                 <div class="size-w-5">
                                     <h6 class="p-b-5">
@@ -106,8 +106,9 @@
 <!--===============================================================================================-->
 <script src="/libs/vendor/index/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
-<script src="/libs/vendor/index/bootstrap/js/popper.js"></script>
+<script src="/libs/vendor/index/bootstrap/js/popper.min.js"></script>
 <script src="/libs/vendor/index/bootstrap/js/bootstrap.min.js"></script>
+
 <!--===============================================================================================-->
 <script src="/javascripts/index/main.js"></script>
 <script src="/javascripts/index/custom.js"></script>
