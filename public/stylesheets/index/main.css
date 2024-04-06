@@ -2024,3 +2024,7 @@ a.breadcrumb-item:hover {
 #right-banner {
   right: 0;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

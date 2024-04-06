@@ -1,10 +1,5 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
-const moment = require('moment');
-const fs = require('fs-extra');
-const path = require('path');
-const sharp = require('sharp');
-
 
 let guid = () => {
   let s4 = () => {
@@ -23,23 +18,6 @@ const createNews = async (req, res, next) => {
   let inputData = req.body;
   let id = guid();
   let img;
-
-  // if (req.file) {
-  //   try {
-  //     let fileExtension = path.extname(req.file.filename).toLowerCase();
-  //     let fileName = inputData.key + fileExtension;
-  //     let filePath = req.file.path;
-  //     let image = sharp(filePath);
-  //     image.jpeg({ quality: 80 });
-  //     await image.toFile('public/images/news/' + fileName);
-  //     // fs.removeSync(filePath);
-  //     // await fs.unlink(filePath);
-  //     await fs.remove(filePath);
-  //     // fs.rmdirSync(filePath);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   if (req.file) {
     img = req.file.filename;

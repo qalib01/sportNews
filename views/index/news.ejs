@@ -11,9 +11,9 @@
 		<%- include('./items/breadcrumb') %>
 		<!-- Page heading -->
 		<div class="container p-t-4 p-b-40 bg0">
-			<h2 class="f1-l-1 cl2">
+			<h1 class="f1-l-1 cl2">
 				<%= title %>
-			</h2>
+			</h1>
 		</div>
 
 		<!-- Post -->
@@ -26,16 +26,14 @@
 								<!-- Item post -->
 								<% allNews.forEach((news)=> { %>
 									<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
-										<a href="/news/news-detail?key=<%= news.key %>" class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25 text-decoration-none" style="height: 200px;">
+										<a href="/news/news-detail?key=<%= news.key %>" class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25 text-decoration-none" style="aspect-ratio: 4/3;">
 											<img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover h-100">
 										</a>
 
 										<div class="size-w-9 w-full-sr575 m-b-25">
-											<h5 class="p-b-12">
-												<a href="/news/news-detail?key=<%= news.key %>" class="f1-l-1 cl2 hov-cl10 trans-03 respon2 fw-bold text-decoration-none">
-													<%= news.title %>
-												</a>
-											</h5>
+											<a href="/news/news-detail?key=<%= news.key %>" class="f1-l-1 cl2 hov-cl10 trans-03 respon2 fw-bold text-decoration-none p-b-12">
+												<%= news.title %>
+											</a>
 
 											<div class="cl8 p-b-18">
 												<span class="f1-s-3">

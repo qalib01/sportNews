@@ -1,18 +1,20 @@
-<!-- Category -->
-<div class="p-b-60">
-    <div class="how2 how2-cl4 flex-s-c">
-        <h3 class="f1-m-2 cl3 tab01-title">
-            Kateqoriyalar
-        </h3>
-    </div>
+<% if(popularCategories.length > 0) { %>
+    <!-- Category -->
+    <div class="p-b-60">
+        <div class="how2 how2-cl4 flex-s-c">
+            <h3 class="f1-m-2 cl3 tab01-title" title="Kateqoriyalar">
+                Kateqoriyalar
+            </h3>
+        </div>
 
-    <ul class="p-t-35">
-        <% popularCategories.forEach((popularCategory)=> { %>
-            <li class="how-bor3 p-rl-4">
-                <a href="/news?category=<%= popularCategory.category.key %>" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13 text-decoration-none">
-                    <%= popularCategory.category.name %>
-                </a>
-            </li>
-            <% }) %>
-    </ul>
-</div>
+        <ul class="p-t-35">
+            <% popularCategories.forEach((popularCategory)=> { %>
+                <li class="how-bor3 p-rl-4">
+                    <a href="/news?category=<%= popularCategory.category.key %>" class="dis-block f1-s-10 text-uppercase cl2 hov-cl10 trans-03 p-tb-13 text-decoration-none" title="<%= popularCategory.category.name %>">
+                        <%= popularCategory.category.name %>
+                    </a>
+                </li>
+                <% }) %>
+        </ul>
+    </div>
+<% } %>

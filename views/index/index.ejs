@@ -60,11 +60,11 @@
                       <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= firstNews.title %>" style="background-image: url('/images/news/<%= firstNews.img %>');">
                         <a href="/news/news-detail?key=<%= firstNews.key %>" class="dis-block how1-child1 trans-03 text-decoration-none"></a>
                         <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-                          <a href="/news?category=<%= firstNews.category.key %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
+                          <a href="/news?category=<%= firstNews.category.key %>" title="<%= firstNews.category.name %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
                             <%= firstNews.category.name %>
                           </a>
                           <h3 class="how1-child2 m-t-14 m-b-10">
-                            <a href="/news/news-detail?key=<%= firstNews.key %>" class="how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03 text-decoration-none">
+                            <a href="/news/news-detail?key=<%= firstNews.key %>" title="<%= firstNews.title %>" class="how-txt1 size-a-6 f1-l-2 cl0 hov-cl10 trans-03 text-decoration-none">
                               <%= firstNews.title %>
                             </a>
                           </h3>
@@ -88,11 +88,9 @@
                                 <a href="/news?category=<%= news.category.key %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
                                   <%= news.category.name %>
                                 </a>
-                                <h3 class="how1-child2 m-t-10">
-                                  <a href="/news/news-detail?key=<%= news.key %>" class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 text-decoration-none">
-                                    <%= news.title %>
-                                  </a>
-                                </h3>
+                                <a href="/news/news-detail?key=<%= news.key %>" class="how-txt1 size-a-7 f1-m-1 cl0 hov-cl10 trans-03 text-decoration-none how1-child2 m-t-10">
+                                  <%= news.title %>
+                                </a>
                                 <span class="how1-child2">
                                   <span class="f1-s-2 cl11">
                                     <%= moment(news.createdAt).format('LL') %>
@@ -141,35 +139,31 @@
                         <div class="tab01 p-b-20">
                           <div class="tab01-head how2 how2-cl1 bocl12 flex-s-c m-r-10 m-r-0-sr991">
                             <!-- Brand tab -->
-                            <h3 class="f1-m-2 cl12 tab01-title">
+                            <span class="f1-m-2 cl12 tab01-title">
                               <%= category.name %>
-                            </h3>
+                            </span>
 
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                               <% category.tags.forEach((tag, id)=> { %>
                                 <li class="nav-item">
-                                  <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none"
-                                    data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab">
+                                  <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>">
                                     <%= tag.name %>
                                   </a>
                                 </li>
                                 <% }) %>
                                   <li class="nav-item-more dropdown dis-none">
-                                    <a class="nav-link dropdown-toggle text-decoration-none" data-toggle="dropdown"
-                                      href="#" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle text-decoration-none" data-toggle="dropdown" href="#" aria-expanded="false" title="Taglar">
                                       Taglar
                                       <i class="fa-solid fa-chevron-down fs-12 ml-2"></i>
                                     </a>
-                                    <ul class="dropdown-menu" x-placement="bottom-start"
-                                      style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"
-                                      x-out-of-boundaries=""></ul>
+                                    <ul class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"></ul>
                                   </li>
                             </ul>
 
                             <!-- View all button -->
                             <a href="/news?category=<%= category.key %>"
-                              class="tab01-link f1-s-1 cl9 hov-cl10 trans-03 text-decoration-none">
+                              class="tab01-link f1-s-1 cl9 hov-cl10 trans-03 text-decoration-none" title="Hamısı">
                               Hamısı
                               <i class="fs-12 m-l-5 fa fa-caret-right"></i>
                             </a>
@@ -179,25 +173,22 @@
                           <div class="tab-content p-t-35">
                             <!-- Category List -->
                             <% category.tags.forEach((tag, id)=> { %>
-                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>"
-                                id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
+                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
                                 <div class="row">
                                   <!-- Item post -->
                                   <% tag.news.forEach((nws)=> { %>
                                     <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6">
                                       <a href="/news/news-detail?key=<%= nws.key %>"
                                         class="size-w-1 wrap-pic-w hov1 trans-03 text-decoration-none"
-                                        style="height: 60px;">
+                                        style="height: 60px;" title="<%= nws.title %>">
                                         <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>"
                                           class="object-fit-cover h-100">
                                       </a>
                                       <div class="size-w-2">
-                                        <h5 class="p-b-5">
                                           <a href="/news/news-detail?key=<%= nws.key %>"
-                                            class="f1-s-5 cl3 hov-cl10 trans-03 fw-bold text-decoration-none">
+                                            class="f1-s-5 cl3 hov-cl10 trans-03 fw-bold text-decoration-none p-b-5 d-block" title="<%= nws.title %>">
                                             <%= nws.title %>
                                           </a>
-                                        </h5>
                                         <span class="cl8">
                                           <span class="f1-s-3">
                                             <%= moment(nws.createdAt).format('LL') %>
@@ -258,7 +249,7 @@
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-8 p-b-20">
                     <div class="how2 how2-cl4 flex-s-c m-r-10 m-r-0-sr991 justify-content-between">
-                      <h3 class="f1-m-2 cl3 tab01-title"> Son xəbərlər </h3>
+                      <span class="f1-m-2 cl3 tab01-title"> Son xəbərlər </span>
                       <a href="/news" class="tab01-link f1-s-1 cl9 hov-cl10 trans-03 text-decoration-none">
                         Hamısı
                         <i class="fs-12 m-l-5 fa fa-caret-right"></i>
@@ -270,17 +261,15 @@
                           <!-- Item latest -->
                           <div class="m-b-45">
                             <a href="/news/news-detail?key=<%= news.key %>"
-                              class="wrap-pic-w hov1 trans-03 text-decoration-none" style="height: 240px;">
+                              class="wrap-pic-w hov1 trans-03 text-decoration-none" style="height: 240px;" title="<%= news.title %>">
                               <img src="/images/news/<%= news.img %>" alt="<%= news.title %>"
                                 class="object-fit-cover h-100">
                             </a>
                             <div class="p-t-16">
-                              <h5 class="p-b-5">
                                 <a href="/news/news-detail?key=<%= news.key %>"
-                                  class="f1-m-3 cl2 hov-cl10 trans-03 fw-bold text-decoration-none">
+                                  class="f1-m-3 cl2 hov-cl10 trans-03 fw-bold text-decoration-none p-b-5 d-block" title="<%= news.title %>">
                                   <%= news.title %>
                                 </a>
-                              </h5>
                               <span class="cl8 f1-s-3 fw-bold">
                                 <span class="f1-s-3">
                                   <%= moment(news.createdAt).format('LL') %>
@@ -299,25 +288,23 @@
                       <% if (youTubeVideoLink) { %>
                         <div class="p-b-55">
                           <div class="how2 how2-cl4 flex-s-c m-b-35">
-                            <h3 class="f1-m-2 cl3 tab01-title">
+                            <span class="f1-m-2 cl3 tab01-title">
                               YouTube video
-                            </h3>
+                            </span>
                           </div>
-                          <div>
+                          <div title="<%= youTubeVideoLink.name %>">
                             <div class="wrap-pic-w pos-relative">
                               <img src="/images/uploads/video-01.jpg" alt="YouTube Stream">
-                              <button class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03" data-toggle="modal"
-                                data-target="#modal-video-01">
+                              <span class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03 cursor-pointer" data-toggle="modal" data-target="#modal-video-01">
                                 <span class="fab fa-youtube"></span>
-                              </button>
+                              </span>
                             </div>
 
                             <div class="p-tb-16 p-rl-25 bg3">
                               <h5 class="p-b-5">
-                                <a href="javascript:void(0)" data-target="#modal-video-01" data-toggle="modal"
-                                  class="f1-m-3 cl0 trans-03 text-decoration-none fw-bold">
+                                <span data-target="#modal-video-01" data-toggle="modal" class="f1-m-3 cl0 trans-03 text-decoration-none fw-bold cursor-pointer">
                                   <%= youTubeVideoLink.name %>
-                                </a>
+                                </span>
                               </h5>
                             </div>
                           </div>

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
-                        <a href="/" class="text-decoration-none">
+                        <a href="/" class="text-decoration-none" title="SporterAz">
                             <img class="max-s-full" src="/images/icons/logo-03.png" style="padding-right: 10px;" alt="SporterAz">
                         </a>
                     </div>
@@ -16,7 +16,7 @@
                         </p>
 
                         <p class="f1-s-1 cl11 p-b-16">
-                            Sualınız var? Bizimlə əlaqə <a class="text-decoration-none" style="color: #fff;" href="tel:+994(51)6025902">+994 (51) 602-59-02</a>
+                            Sualınız var? Bizimlə əlaqə <a class="text-decoration-none" style="color: var(--primary-color);" href="tel:+994(51)6025902">+994 (51) 602-59-02</a>
                         </p>
 
                         <div class="p-t-15">
@@ -31,22 +31,20 @@
 
                 <div class="col-sm-6 col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
-                        <h5 class="f1-m-7 cl0">
+                        <span class="f1-m-7 cl0">
                             Xəbərlər
-                        </h5>
+                        </span>
                     </div>
                     <ul>
                         <% lastThreeNews.forEach((news) => { %>
                             <li class="flex-wr-sb-s p-b-20">
                                 <a href="/news/news-detail?key=<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03 text-decoration-none">
-                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>" class="object-fit-cover" style="aspect-ratio: 4/3;">
+                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover" style="aspect-ratio: 4/3;">
                                 </a>
                                 <div class="size-w-5">
-                                    <h6 class="p-b-5">
-                                        <a href="/news/news-detail?key=<%= news.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 text-decoration-none">
-                                            <%= news.title %>
-                                        </a>
-                                    </h6>
+                                    <a href="/news/news-detail?key=<%= news.key %>" title="<%= news.title %>" class="p-b-5 f1-s-5 cl11 hov-cl10 trans-03 text-decoration-none d-block">
+                                        <%= news.title %>
+                                    </a>
                                     <span class="f1-s-3 cl6">
                                         <%= moment(news.createdAt).format('LL') %>
                                     </span>
@@ -58,14 +56,14 @@
 
                 <div class="col-sm-6 col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
-                        <h5 class="f1-m-7 cl0">
+                        <span class="f1-m-7 cl0">
                             Kateqoriyalar
-                        </h5>
+                        </span>
                     </div>
                     <ul class="m-t--12">
                         <% popularCategories.forEach((populatCategory) => { %>
                             <li class="how-bor1 p-rl-5 p-tb-10">
-                                <a href="/news?category=<%= populatCategory.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8 text-decoration-none">
+                                <a href="/news?category=<%= populatCategory.category.key %>" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8 text-decoration-none" title="<%= populatCategory.category.name %>">
                                     <%= populatCategory.category.name %> (<%= populatCategory.dataValues.newsCount %>)
                                 </a>
                             </li>
@@ -87,7 +85,7 @@
         <div class="container size-h-4 flex-c-c p-tb-15">
             <span class="f1-s-1 cl0 txt-center">
                 Copyright © 2024
-                <a href="/" class="f1-s-1 cl10 hov-link1 text-decoration-none">Sporter.az</a>.
+                <a href="/" class="f1-s-1 cl10 hov-link1 text-decoration-none" title="SporterAz">Sporter.az</a>.
                 Məlumatlardan istifadə olunduqda istinad mütləqdir.
             </span>
         </div>
@@ -108,6 +106,8 @@
 <!--===============================================================================================-->
 <script src="/libs/vendor/index/bootstrap/js/popper.min.js"></script>
 <script src="/libs/vendor/index/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.3/js/bootstrap.min.js" integrity="sha512-8qmis31OQi6hIRgvkht0s6mCOittjMa9GMqtK9hes5iEQBQE/Ca6yGE5FsW36vyipGoWQswBj/QBm2JR086Rkw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 <!--===============================================================================================-->
 <script src="/javascripts/index/main.js"></script>

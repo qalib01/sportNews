@@ -1,22 +1,23 @@
-<!-- Most Popular -->
-<div class="p-b-23">
-    <div class="how2 how2-cl4 flex-s-c">
-        <h3 class="f1-m-2 cl3 tab01-title">
-            Populyar olanlar
-        </h3>
+<% if (trendNews.length > 0) { %>
+    <!-- Most Popular -->
+    <div class="p-b-23">
+        <div class="how2 how2-cl4 flex-s-c">
+            <h3 class="f1-m-2 cl3 tab01-title">
+                Populyar olanlar
+            </h3>
+        </div>
+
+        <ul class="p-t-35">
+            <% trendNews.forEach((news, id) => { %>
+                <li class="flex-wr-sb-s p-b-22">
+                    <div class="size-a-8 flex-c-c borad-3 size-a-8 bg12 f1-m-4 cl0 m-b-6">
+                        <%= id + 1 %>
+                    </div>
+                    <a href="/news/news-detail?key=<%= news.key %>" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03 fw-bold text-decoration-none">
+                        <%= news.title %>
+                    </a>
+                </li>
+            <% }) %>
+        </ul>
     </div>
-
-    <ul class="p-t-35">
-        <% trendNews.forEach((news, id) => { %>
-            <li class="flex-wr-sb-s p-b-22">
-                <div class="size-a-8 flex-c-c borad-3 size-a-8 bg12 f1-m-4 cl0 m-b-6">
-                    <%= id + 1 %>
-                </div>
-
-                <a href="/news/news-detail?key=<%= news.key %>" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03 fw-bold text-decoration-none">
-                    <%= news.title %>
-                </a>
-            </li>
-        <% }) %>
-    </ul>
-</div>
+<% } %>
