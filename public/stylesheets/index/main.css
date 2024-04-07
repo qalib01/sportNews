@@ -44,7 +44,10 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 }
 
-
+ul, ol {
+  padding: 0;
+  margin: 0;
+}
 
 
 
@@ -320,10 +323,10 @@ a.left-topbar-item:hover {
   align-items: center;
 }
 
-.logo img {
+/* .logo img {
   max-width: 100%;
   max-height: 50%;
-}
+} */
 
 /*---------------------------------------------*/
 .banner-header {
@@ -363,9 +366,11 @@ a.left-topbar-item:hover {
 }
 
 .logo-stick img {
-  max-width: 115px;
-  max-height: 30px;
+  max-width: 120px;
+  /* max-height: 30px; */
 }
+
+
 
 
 /*==================================================================
@@ -2027,4 +2032,15 @@ a.breadcrumb-item:hover {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.btn-show-menu-mobile i {
+  font-size: 24px;
+  color: #fff;
+}
+
+iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
 }

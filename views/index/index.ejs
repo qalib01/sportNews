@@ -146,7 +146,7 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                               <% category.tags.forEach((tag, id)=> { %>
-                                <li class="nav-item">
+                                <li class="nav-item" role="tab">
                                   <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>">
                                     <%= tag.name %>
                                   </a>
@@ -182,7 +182,7 @@
                                         class="size-w-1 wrap-pic-w hov1 trans-03 text-decoration-none"
                                         style="height: 60px;" title="<%= nws.title %>">
                                         <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>"
-                                          class="object-fit-cover h-100">
+                                          class="object-fit-cover h-100" style="width: 100px;">
                                       </a>
                                       <div class="size-w-2">
                                           <a href="/news/news-detail?key=<%= nws.key %>"
