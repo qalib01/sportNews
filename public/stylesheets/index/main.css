@@ -41,6 +41,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   --purple-light: #7977FA;
   --white: #ffffff;
   --black: #000000;
+  --red-wings: #e00000;
 
 }
 
@@ -773,7 +774,6 @@ footer .hov-cl10:hover {
 
 .trending .trending-txt {
   padding: 4px 8px;
-  background-color: var(--purple-light);
   color: var(--white);
   margin-right: 10px;
 }
@@ -1233,6 +1233,7 @@ a.breadcrumb-item:hover {
 .cl16 {color: #e5e5e5;}
 .cl17 {color: #00b5e9;}
 .cl18 {color: #2489b0;}
+.cl19 {color: var(--red-wings);}
 
 
 .subscription input {

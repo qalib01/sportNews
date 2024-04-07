@@ -58,7 +58,7 @@
                     <% let firstNews = allNews[0]; %>
                     <div class="col-md-6 p-rl-1 p-b-2">
                       <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= firstNews.title %>" style="background-image: url('/images/news/<%= firstNews.img %>');">
-                        <a href="/news/news-detail?key=<%= firstNews.key %>" class="dis-block how1-child1 trans-03 text-decoration-none"></a>
+                        <a href="/news/news-detail?key=<%= firstNews.key %>" class="dis-block how1-child1 trans-03 text-decoration-none" aria-label="<%= firstNews.title %>"></a>
                         <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                           <a href="/news?category=<%= firstNews.category.key %>" title="<%= firstNews.category.name %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
                             <%= firstNews.category.name %>
@@ -76,14 +76,13 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="col-md-6 p-rl-1">
                       <div class="row m-rl--1">
                         <% for (let i = 1; i < allNews.slice(0,5).length; i++) { %>
                           <% let news = allNews[i]; %>
                           <div class="col-sm-6 p-rl-1 p-b-2">
                             <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= news.title %>" style="background-image: url('/images/news/<%= news.img %>');">
-                              <a href="/news/news-detail?key=<%= news.key %>" class="dis-block how1-child1 trans-03 text-decoration-none"></a>
+                              <a href="/news/news-detail?key=<%= news.key %>" class="dis-block how1-child1 trans-03 text-decoration-none" aria-label="<%= news.title %>"></a>
                               <div class="flex-col-e-s s-full p-rl-10 p-tb-10">
                                 <a href="/news?category=<%= news.category.key %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
                                   <%= news.category.name %>
@@ -146,18 +145,18 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                               <% category.tags.forEach((tag, id)=> { %>
-                                <li class="nav-item" role="tab">
-                                  <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>">
+                                <li class="nav-item" role="presentation">
+                                  <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" id="<%= tag.key %>-tab" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>" aria-controls="<%= tag.key %>-<%= category.key %>" aria-selected="<%= id === 0 ? 'true' : 'false' %>">
                                     <%= tag.name %>
                                   </a>
                                 </li>
                                 <% }) %>
                                   <li class="nav-item-more dropdown dis-none">
-                                    <a class="nav-link dropdown-toggle text-decoration-none" data-toggle="dropdown" href="#" aria-expanded="false" title="Taglar">
+                                    <a class="nav-link dropdown-toggle text-decoration-none" data-toggle="dropdown" href="#" aria-expanded="false" title="Taglar" aria-haspopup="true" aria-controls="dropdown-menu">
                                       Taglar
                                       <i class="fa-solid fa-chevron-down fs-12 ml-2"></i>
                                     </a>
-                                    <ul class="dropdown-menu" style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"></ul>
+                                    <ul class="dropdown-menu" id="dropdown-menu" aria-labelledby="dropdown-menu" style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"></ul>
                                   </li>
                             </ul>
 
@@ -170,23 +169,19 @@
                           </div>
 
                           <!-- Tab panes -->
-                          <div class="tab-content p-t-35">
+                          <div class="tab-content p-t-35" role="tablist">
                             <!-- Category List -->
                             <% category.tags.forEach((tag, id)=> { %>
-                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>-<%= category.key %>" role="tabpanel">
-                                <div class="row">
+                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>-<%= category.key %>" role="tabpanel" aria-labelledby="<%= tag.key %>-tab">
+                                <div class="row" role="tablist">
                                   <!-- Item post -->
                                   <% tag.news.forEach((nws)=> { %>
                                     <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6">
-                                      <a href="/news/news-detail?key=<%= nws.key %>"
-                                        class="size-w-1 wrap-pic-w hov1 trans-03 text-decoration-none"
-                                        style="height: 60px;" title="<%= nws.title %>">
-                                        <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>"
-                                          class="object-fit-cover h-100" style="width: 100px;">
+                                      <a href="/news/news-detail?key=<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03 text-decoration-none" role="tab" style="height: 60px;" title="<%= nws.title %>">
+                                        <img src="/images/news/<%= nws.img %>" alt="<%= nws.title %>" class="object-fit-cover h-100" style="width: 100px;">
                                       </a>
                                       <div class="size-w-2">
-                                          <a href="/news/news-detail?key=<%= nws.key %>"
-                                            class="f1-s-5 cl3 hov-cl10 trans-03 fw-bold text-decoration-none p-b-5 d-block" title="<%= nws.title %>">
+                                          <a href="/news/news-detail?key=<%= nws.key %>" class="f1-s-5 cl3 hov-cl10 trans-03 fw-bold text-decoration-none p-b-5 d-block" title="<%= nws.title %>">
                                             <%= nws.title %>
                                           </a>
                                         <span class="cl8">
