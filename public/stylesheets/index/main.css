@@ -307,7 +307,7 @@ a.left-topbar-item:hover {
   justify-content: space-between;
   align-items: center;
   /* height: 125px; */
-  padding: 25px 50px;
+  padding: 25px 10px;
   /* padding-bottom: 10px; */
 }
 
@@ -775,6 +775,7 @@ footer .hov-cl10:hover {
 .trending .trending-txt {
   padding: 4px 8px;
   color: var(--white);
+  background-color: var(--red-wings);
   margin-right: 10px;
 }
 
@@ -1233,7 +1234,6 @@ a.breadcrumb-item:hover {
 .cl16 {color: #e5e5e5;}
 .cl17 {color: #00b5e9;}
 .cl18 {color: #2489b0;}
-.cl19 {color: var(--red-wings);}
 
 
 .subscription input {

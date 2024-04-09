@@ -12,8 +12,8 @@
         <% if (trendNews.length> 0) { %>
           <div class="container p-t-20 trending bg0">
             <div class="bg0 flex-wr-sb-c">
-              <div class="f2-s-1 p-r-30 size-w-0 m-tb-6 flex-wr-s-c">
-                <span class="text-uppercase cl2 p-r-8 trending-txt">
+              <div class="f2-s-1 size-w-0 m-tb-6 flex-wr-s-c">
+                <span class="text-uppercase p-r-8 trending-txt">
                   Trenddə olanlar:
                 </span>
                 <span class="dis-inline-block cl6 slide100-txt pos-relative size-w-0" data-in="fadeInDown"
@@ -146,7 +146,7 @@
                             <ul class="nav nav-tabs" role="tablist">
                               <% category.tags.forEach((tag, id)=> { %>
                                 <li class="nav-item" role="presentation">
-                                  <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" id="<%= tag.key %>-tab" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>" aria-controls="<%= tag.key %>-<%= category.key %>" aria-selected="<%= id === 0 ? 'true' : 'false' %>">
+                                  <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" id="<%= category.key %>-<%= tag.key %>-tab" data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>" aria-controls="<%= tag.key %>-<%= category.key %>" aria-selected="<%= id === 0 ? 'true' : 'false' %>">
                                     <%= tag.name %>
                                   </a>
                                 </li>
@@ -172,7 +172,7 @@
                           <div class="tab-content p-t-35" role="tablist">
                             <!-- Category List -->
                             <% category.tags.forEach((tag, id)=> { %>
-                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>-<%= category.key %>" role="tabpanel" aria-labelledby="<%= tag.key %>-tab">
+                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" id="<%= tag.key %>-<%= category.key %>" role="tabpanel" aria-labelledby="<%= category.key %>-<%= tag.key %>-tab">
                                 <div class="row" role="tablist">
                                   <!-- Item post -->
                                   <% tag.news.forEach((nws)=> { %>
