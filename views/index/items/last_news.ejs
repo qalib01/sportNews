@@ -1,0 +1,29 @@
+<% if(allNews.length > 0) { %>
+    <div class="col-md-10 col-lg-8 p-b-20">
+        <div class="how2 how2-cl4 flex-s-c m-r-10 m-r-0-sr991">
+            <span class="f1-m-2 cl3 tab01-title"> Son xəbərlər </span>
+        </div>
+        <div class="row p-t-35">
+            <% allNews.slice(0, 6).forEach((news)=> { %>
+                <div class="col-sm-6 p-r-25 p-r-15-sr991">
+                    <!-- Item latest -->
+                    <div class="m-b-45">
+                        <a href="/news/news-detail?key=<%= news.key %>"
+                            class="wrap-pic-w hov1 trans-03 text-decoration-none" style="height: 240px;">
+                            <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover h-100">
+                        </a>
+                        <div class="p-t-16">
+                            <a href="/news/news-detail?key=<%= news.key %>"
+                                class="p-b-5 f1-m-3 cl2 hov-cl10 trans-03 fw-bold text-decoration-none d-block">
+                                <%= news.title %>
+                            </a>
+                            <span class="cl19 f1-s-3">
+                                <%= moment(news.createdAt).format('LL') %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+<% } %>

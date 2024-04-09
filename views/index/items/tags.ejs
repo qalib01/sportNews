@@ -2,14 +2,14 @@
     <!-- Tag -->
     <div class="p-b-55">
         <div class="how2 how2-cl4 flex-s-c m-b-30">
-            <h3 class="f1-m-2 cl3 tab01-title">
+            <span class="f1-m-2 cl3 tab01-title">
                 Taglar
-            </h3>
+            </span>
         </div>
 
         <div class="flex-wr-s-s m-rl--5">
             <% allTags.forEach((tag)=> { %>
-                <a href="/news?tag=<%= tag.key %>" class="flex-c-c size-h-2 bo-1-rad-20 bocl12 f1-s-1 cl8 hov-btn3 trans-03 p-rl-20 p-tb-5 m-all-5 text-decoration-none" title="<%= tag.name %>">
+                <a href="/news?tag=<%= tag.key %>" title="<%= tag.name %>" class="flex-c-c size-h-2 bo-1-rad-20 bocl19 f1-s-1 cl19 hov-btn3 trans-03 p-rl-20 p-tb-5 m-all-5 text-decoration-none">
                     <%= tag.name %>
                 </a>
             <% }) %>

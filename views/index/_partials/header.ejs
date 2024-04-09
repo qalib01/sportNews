@@ -2,40 +2,12 @@
 <header>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
-        <div class="topbar">
-            <div class="content-topbar container h-100">
-                <div class="left-topbar">
-                    <span class="left-topbar-item flex-wr-s-c">
-                        <span>
-                            <%= moment().format('LLL') %>
-                        </span>
-                    </span>
-                    <a href="/" class="left-topbar-item text-decoration-none <%= key === 'home' ? 'topbar-menu-active' : '' %>">
-                        Əsas səhifə
-                    </a>
-                    <a href="/about" class="left-topbar-item text-decoration-none <%= key === 'about' ? 'topbar-menu-active' : '' %>">
-                        Haqqımızda
-                    </a>
-                    <a href="/news" class="left-topbar-item text-decoration-none <%= key === 'news' ? 'topbar-menu-active' : '' %>">
-                        Xəbərlər
-                    </a>
-                </div>
-
-                <div class="right-topbar">
-                    <% platformSocialMedias.forEach((media) => { %>
-                        <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="text-decoration-none" target="_blank" title="<%= media.social_media.name %>">
-                            <%- media.social_media.icon %>
-                        </a>
-                    <% }) %>
-                </div>
-            </div>
-        </div>
         <!-- Header Mobile -->
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->
             <div class="logo-mobile">
-                <a href="/" class="text-decoration-none" title="SporterAz">
-                    <img src="/images/icons/logo.png" alt="SproterAz">
+                <a href="/" class="text-decoration-none">
+                    <img src="/images/icons/logo.png" alt="SporterAz">
                 </a>
             </div>
 
@@ -64,15 +36,8 @@
         <div class="wrap-logo container d-none d-lg-flex">
             <!-- Logo desktop -->
             <div class="logo">
-                <a href="/" class="d-flex text-decoration-none" title="SporterAz">
+                <a href="/" class="d-none d-lg-block text-decoration-none" title="SporterAz">
                     <img src="/images/icons/logo.png" alt="SporterAz" width="250px">
-                </a>
-            </div>
-
-            <!-- Banner -->
-            <div class="banner-header">
-                <a href="/">
-                    <img src="/images/banners/banner_728x90.png" alt="Banner">
                 </a>
             </div>
         </div>
@@ -82,10 +47,9 @@
             <div class="main-nav">
                 <!-- Menu desktop -->
                 <nav class="menu-desktop">
-                    <a class="logo-stick text-decoration-none" href="/" title="SporterAz">
+                    <a class="logo-stick" href="/" title="SporterAz">
                         <img src="/images/icons/logo.png" alt="SporterAz">
                     </a>
-
                     <ul class="main-menu" style="column-gap: 10px;">
                         <li class="<%= key === 'home' ? 'main-menu-active' : '' %>">
                             <a href="/" class="text-decoration-none"> Ana səhifə </a>

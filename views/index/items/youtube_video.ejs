@@ -1,0 +1,45 @@
+<% if (youTubeVideoLink) { %>
+    <!-- Video -->
+    <div class="p-b-55">
+        <div class="how2 how2-cl4 flex-s-c m-b-35">
+            <span class="f1-m-2 cl3 tab01-title">
+                YouTube video
+            </span>
+        </div>
+        <div>
+            <div class="wrap-pic-w pos-relative">
+                <img src="/images/uploads/video-01.jpg" alt="YouTube Stream">
+                <span class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03 cursor-pointer" data-toggle="modal"
+                    data-target="#modal-video-01">
+                    <span class="fab fa-youtube"></span>
+                </span>
+            </div>
+
+            <div class="p-tb-16 p-rl-25 bg3">
+                <p class="p-b-5">
+                    <span data-target="#modal-video-01" data-toggle="modal"
+                        class="f1-m-3 cl0 trans-03 text-decoration-none fw-bold cursor-pointer">
+                        <%= youTubeVideoLink.name %>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Video 01-->
+    <div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content w-auto bg-transparent">
+                <div class="modal-body p-0">
+                    <div class="wrap-video-mo-01" style="max-width: 800px; margin: 0 auto;">
+                        <div class="video-mo-01">
+                            <%- youTubeVideoLink.linkSlug %>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>

@@ -53,6 +53,7 @@ ul, ol {
 
 
 
+
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
@@ -189,12 +190,8 @@ header {
 
 /*==================================================================
 [ Top-bar ]*/
-/* .topbar {
+.topbar {
   background-color: #111;
-} */
-
-.topbar-menu-active {
-  color: var(--primary-color) !important;
 }
 
 .content-topbar {
@@ -224,7 +221,7 @@ header {
 
 .left-topbar-item {
   font-family: Roboto-Regular;
-  font-size: 14px;
+  font-size: 12px;
   color: #ccc;
   line-height: 1.8;
   padding: 0 13px;
@@ -370,8 +367,6 @@ a.left-topbar-item:hover {
   max-width: 120px;
   /* max-height: 30px; */
 }
-
-
 
 
 /*==================================================================
@@ -1212,6 +1207,7 @@ a.breadcrumb-item:hover {
 .bocl11 {border-color: #e6e6e6;}
 .bocl12 {border-color: #ccc;}
 .bocl13 {border-color: #d9d9d9;}
+.bocl19 {border-color: #606060;}
 
 /*---------------------------------------------*/
 .cl-none {color: transparent;}
@@ -1234,6 +1230,8 @@ a.breadcrumb-item:hover {
 .cl16 {color: #e5e5e5;}
 .cl17 {color: #00b5e9;}
 .cl18 {color: #2489b0;}
+.cl19 {color: #606060}
+.cl20 {color: var(--purple-dark)}
 
 
 .subscription input {
@@ -1816,8 +1814,7 @@ a.breadcrumb-item:hover {
 }
 
 .how2-cl1::before {
-  /* background-color: #e71d69; */
-  background-color: var(--purple-light);
+  background-color: var(--purple-dark);
 }
 
 .how2-cl2::before {
@@ -2031,17 +2028,59 @@ a.breadcrumb-item:hover {
   right: 0;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .btn-show-menu-mobile i {
-  font-size: 24px;
   color: #fff;
+  font-size: 24px;
 }
 
 iframe {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.running-text {
+  height: 32px;
+  display: flex;
+  white-space: nowrap;
+  list-style: none;
+  animation: ticker 10s infinite linear;
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+}
+
+.running-text:hover {
+  animation-play-state: paused;
+}
+
+.running-text li {
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  background-color: #f0f4ef;
+  padding: 0px 15px;
+  margin-right: 50px;
+  color: #000;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.running-text li a {
+  color: #000;
+  text-decoration: none;
+}
+
+@keyframes ticker {
+  0% {
+      transform: translateX(0)
+  }
+
+  to {
+      transform: translateX(-50%)
+  }
 }

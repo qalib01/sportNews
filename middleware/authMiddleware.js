@@ -34,7 +34,8 @@ const authenticateToken = async (req, res, next) => {
       jwt.verify(token, process.env.JWT_SECRET, (err) => {
         if (err) {
           console.log(err.message);
-          res.redirect("/");
+          // res.redirect("/");
+          next();
         } else {
           next();
         }
