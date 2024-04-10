@@ -171,8 +171,7 @@
     try {
         var srcOld = $('.video-mo-01').children('iframe').attr('src');
 
-
-        $('[data-target="#modal-video-01"]').on('click', function () {
+        $('#modal-video-01').on('shown.bs.modal', function () {
             $('.video-mo-01').children('iframe')[0].src += "&autoplay=1";
 
             setTimeout(function () {
@@ -180,29 +179,10 @@
             }, 300);
         });
 
-        // Old method when the modal is closed the video inside the modal stop automatically. This method worked on Bootstrap V4
-        // $('[data-dismiss="modal"]').on('click', function () {
-        //     $('.video-mo-01').children('iframe')[0].src = srcOld;
-        //     $('.video-mo-01').css('opacity', '0');
-        // });
-
-        // New method when the modal is closed the video inside the modal stop automatically. This method worked on Bootstrap V5
         $('#modal-video-01').on('hidden.bs.modal', function () {
             $('.video-mo-01').children('iframe')[0].src = srcOld;
         });
     } catch (er) { console.log(er); }
-
-
-    // try {
-    //     $('#modal-video-01').on('hidden.bs.modal', function (e) {
-    //         var iframe = $(this).find('iframe');
-    //         var videoSrc = iframe.attr('src');
-    //         // Stop video playback when modal is closed
-    //         iframe.attr('src', '');
-    //         iframe.attr('src', videoSrc);
-    //       });
-    // } catch(er) {console.log(er);}
-
 
     /*==================================================================
     [ Tab mega menu ]*/

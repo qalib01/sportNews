@@ -18,8 +18,8 @@ router.get('/about', getAboutPage);
 /* GET news list page. */
 router.get('/news', getAllNews);
 
-/* GET news. */
-// router.get('/news/news-loadmore', getNewsLoadMore);
+/* GET news load more data */
+router.get('/news/load-more', getNewsLoadMore);
 
 /* GET news detail page. */
 router.get('/news/news-detail', getNewsDetail);

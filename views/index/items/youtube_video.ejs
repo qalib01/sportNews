@@ -9,16 +9,14 @@
         <div>
             <div class="wrap-pic-w pos-relative">
                 <img src="/images/uploads/video-01.jpg" alt="YouTube Stream">
-                <span class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03 cursor-pointer" data-toggle="modal"
-                    data-target="#modal-video-01">
+                <span class="s-full ab-t-l flex-c-c fs-32 cl0 trans-03 cursor-pointer" data-bs-toggle="modal" data-bs-target="#modal-video-01">
                     <span class="fab fa-youtube"></span>
                 </span>
             </div>
 
             <div class="p-tb-16 p-rl-25 bg3">
                 <p class="p-b-5">
-                    <span data-target="#modal-video-01" data-toggle="modal"
-                        class="f1-m-3 cl0 trans-03 text-decoration-none fw-bold cursor-pointer">
+                    <span data-bs-toggle="modal" data-bs-target="#modal-video-01" class="f1-m-3 cl0 trans-03 text-decoration-none fw-bold cursor-pointer">
                         <%= youTubeVideoLink.name %>
                     </span>
                 </p>
@@ -36,10 +34,9 @@
                             <%- youTubeVideoLink.linkSlug %>
                         </div>
                     </div>
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             </div>
         </div>
     </div>
-    <% } %>
+<% } %>

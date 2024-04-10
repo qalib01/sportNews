@@ -16,6 +16,72 @@ let guid = () => {
     );
 };
 
+let generateQueryOptions = (queryParams) => {
+    let queryOptions = {
+        include: [
+            {
+                model: sequelize.model('news_views'),
+                as: 'news_view',
+                attributes: ['viewsCounts'],
+            },
+            {
+                model: sequelize.model('categories'),
+                as: 'category',
+                where: {
+                    status: true,
+                },
+                attributes: ['name', 'key', 'description']
+            }
+        ],
+        where: {
+            status: true,
+            sharedAt: {
+                [Op.lt]: moment(),
+            },
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        attributes: ['title', 'key', 'img', 'content', 'createdAt'],
+    };
+
+    // Conditionally include category filtering if req.query.category is provided
+    if (queryParams.category) {
+        queryOptions.include.push({
+            model: sequelize.model('categories'),
+            as: 'category',
+            where: {
+                status: true,
+                key: queryParams.category, // Filter category by key
+            },
+            attributes: ['name', 'key', 'description']
+        });
+        queryOptions.where['$news.categoryId$'] = { [Op.ne]: null };
+    };
+
+    // Conditionally include tag filtering if req.query.tag is provided
+    if (queryParams.tag) {
+        queryOptions.include.push({
+            model: sequelize.model('news_tags'),
+            as: 'news_tags',
+            include: [
+                {
+                    model: sequelize.model('tags'),
+                    as: 'tag',
+                    where: {
+                        key: queryParams.tag, // Filter tags by key
+                        status: true,
+                    },
+                    attributes: ['name', 'key', 'description']
+                },
+            ],
+        });
+        // queryOptions.where['$news_tags.tagId$'] = { [Op.ne]: null };
+    };
+
+    return queryOptions;
+}
+
 const getAllNews = async (req, res, next) => {
     const sevenDaysAgo = moment().subtract(7, 'days').toDate();
     try {
@@ -28,69 +94,8 @@ const getAllNews = async (req, res, next) => {
             ],
             attributes: ['name', 'key']
         });
-        let queryOptions = {
-            // limit: 10,
-            include: [
-                {
-                    model: sequelize.model('news_views'),
-                    as: 'news_view',
-                    attributes: ['viewsCounts'],
-                },
-            ],
-            where: {
-                status: true,
-                sharedAt: {
-                    [Op.lt]: moment(),
-                },
-            },
-            order: [
-                ['createdAt', 'DESC']
-            ],
-            attributes: ['title', 'key', 'img', 'content', 'createdAt'],
-        };
 
-        queryOptions.include.push({
-            model: sequelize.model('categories'),
-            as: 'category',
-            where: {
-                status: true,
-            },
-            attributes: ['name', 'key', 'description']
-        });
-
-        // Conditionally include category filtering if req.query.category is provided
-        if (req.query.category) {
-            queryOptions.include.push({
-                model: sequelize.model('categories'),
-                as: 'category',
-                where: {
-                    status: true,
-                    key: req.query.category, // Filter category by key
-                },
-                attributes: ['name', 'key', 'description']
-            });
-            queryOptions.where['$news.categoryId$'] = { [Op.ne]: null };
-        };
-        // Conditionally include tag filtering if req.query.tag is provided
-        if (req.query.tag) {
-            queryOptions.include.push({
-                model: sequelize.model('news_tags'),
-                as: 'news_tags',
-                include: [
-                    {
-                        model: sequelize.model('tags'),
-                        as: 'tag',
-                        where: {
-                            key: req.query.tag, // Filter tags by key
-                            status: true,
-                        },
-                        attributes: ['name', 'key', 'description']
-                    },
-                ],
-            });
-            queryOptions.where['$news_tags.tagId$'] = { [Op.ne]: null };
-        };
-
+        const queryOptions = generateQueryOptions(req.query);
         let allNews = await db.news.findAll(queryOptions);
 
         const trendNews = allNews.filter(news => {
@@ -110,14 +115,12 @@ const getAllNews = async (req, res, next) => {
             }
             return viewsB - viewsA;
         }).slice(0, 6);
-
         res.render('news', {
             title: 'Xəbərlər',
             name: 'Xəbərlər',
             key: 'news',
-            allNews,
             allTags,
-            trendNews
+            trendNews,
         });
     } catch (error) {
         console.error('Error in fetching homepage data:', error);
@@ -126,7 +129,26 @@ const getAllNews = async (req, res, next) => {
 }
 
 const getNewsLoadMore = async (req, res, next) => {
-    console.log(req.query.offset);
+    let limit = parseInt(req.query.limit);
+    let startIndex = parseInt(req.query.startIndex) || 0;
+
+    try {
+        const queryOptions = generateQueryOptions(req.query);
+        queryOptions.limit = limit;
+        queryOptions.offset = startIndex;
+        let allNews = await db.news.findAll(queryOptions);
+    
+        allNews = allNews.map((news) => {
+            return {
+                ...news.toJSON(),
+                createdAt: moment(news.createdAt).format('LL'),
+            }
+        });
+        res.json(allNews);
+    } catch (error) {
+        console.error('Error in fetching homepage data:', error);
+        next(error);
+    }
 }
 
 const getNewsDetail = async (req, res, next) => {
@@ -206,7 +228,7 @@ const getNewsDetail = async (req, res, next) => {
             }
             return viewsB - viewsA;
         }).slice(0, 6);
-    
+
         selectedNews = await db.news.findOne({
             include: [
                 {
@@ -219,10 +241,11 @@ const getNewsDetail = async (req, res, next) => {
                             where: {
                                 status: true,
                             },
-                            attributes: ['name', 'key', 'description']
+                            attributes: ['name', 'key', 'description'],
+                            required: false,
                         },
                     ],
-                    attributes: ''
+                    attributes: '',
                 },
                 {
                     model: sequelize.model('categories'),

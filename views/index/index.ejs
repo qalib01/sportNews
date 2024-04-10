@@ -1,11 +1,10 @@
 <%- include('./_partials/head') %>
   <%- include('./_partials/header') %>
 
-    <div class="banner-container d-flex justify-content-between">
+    <div class="banner-container d-lg-flex justify-content-between">
       <div id="left-banner" class="d-none d-lg-block">
         <a href="#">
-          <img src="/images/banners/banner_160x600.png" alt="Banner"
-            style="max-width: 100%; height: auto; display: block;">
+          <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
         </a>
       </div>
       <div>
@@ -14,40 +13,20 @@
             <div class="bg0 flex-wr-sb-c">
               <div class="f2-s-1 size-w-0 m-tb-6 d-flex align-items-center flex-row justify-content-between overflow-hidden">
                 <div class="text-uppercase p-r-8 trending-txt">
-                  Trenddə olanlar:
+                  <span class="d-none d-md-block">Trenddə olanlar:</span>
+                  <div class="d-block d-md-none f2-s-1">
+                    <i class="fa-solid fa-bolt"></i>
+                  </div>
                 </div>
                 <div class="d-flex align-items-center overflow-hidden" style="flex: 1;">
-                  <ul class="running-text" style="animation-duration: 20s;">
+                  <ul class="running-text" style="animation-duration: 20s;" role="tablist">
                     <% trendNews.forEach((news)=> { %>
-                      <li>
-                        <a href="/news/news-detail?key=<%= news.key %>"><%= news.title %></a>
-                      </li>
-                    <% }) %>
-                    <% trendNews.forEach((news)=> { %>
-                      <li>
-                        <a href="/news/news-detail?key=<%= news.key %>"><%= news.title %></a>
-                      </li>
-                    <% }) %>
-                    <% trendNews.forEach((news)=> { %>
-                      <li>
-                        <a href="/news/news-detail?key=<%= news.key %>"><%= news.title %></a>
-                      </li>
-                    <% }) %>
-                    <% trendNews.forEach((news)=> { %>
-                      <li>
+                      <li role="tab">
                         <a href="/news/news-detail?key=<%= news.key %>"><%= news.title %></a>
                       </li>
                     <% }) %>
                   </ul>
                 </div>
-                <!-- <span class="dis-inline-block slide100-txt pos-relative size-w-0" data-in="fadeInDown"
-                  data-out="fadeOutDown">
-                  <% trendNews.forEach((news)=> { %>
-                    <span class="dis-inline-block slide100-txt-item animated cl19 f1-s-11 visible-false">
-                      <%= news.title %>
-                    </span>
-                    <% }) %>
-                </span> -->
               </div>
             </div>
           </div>
@@ -156,7 +135,7 @@
             <section>
               <div class="container bg0 p-t-20">
                 <div class="row justify-content-center">
-                  <div class="col-md-10 col-lg-8">
+                  <div class="col-md-12 col-lg-8">
                     <div class="p-b-20">
                       <!-- Categories -->
                       <% categoryArray.forEach((category)=> { %>
@@ -171,17 +150,19 @@
                               <% category.tags.forEach((tag, id)=> { %>
                                 <li class="nav-item" role="presentation">
                                   <a class="nav-link <%= id == 0 ? 'active' : '' %> text-decoration-none" id="<%= category.key %>-<%= tag.key %>-tab"
-                                    data-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>" aria-controls="<%= tag.key %>-<%= category.key %>" aria-selected="<%= id === 0 ? 'true' : 'false' %>">
+                                    data-bs-toggle="tab" href="#<%= tag.key %>-<%= category.key %>" role="tab" title="<%= tag.name %>" aria-controls="<%= tag.key %>-<%= category.key %>" aria-selected="<%= id === 0 ? 'true' : 'false' %>">
                                     <%= tag.name %>
                                   </a>
                                 </li>
                               <% }) %>
                               <li class="nav-item-more dropdown dis-none" role="presentation">
-                                <a class="nav-link dropdown-toggle text-decoration-none" href="#" role="tab" data-toggle="dropdown" aria-expanded="false" title="Taglar" aria-haspopup="true" aria-controls="dropdown-menu">
-                                  Taglar
-                                  <i class="fa-solid fa-chevron-down fs-12 ml-2"></i>
-                                </a>
-                                <ul class="dropdown-menu" id="<%= category.key %>-dropdown-menu" role="tablist" aria-labelledby="<%= category.key %>-dropdown-menu" style="position: absolute; transform: translate3d(0px, 644px, 0px); top: 0px; left: 0px; will-change: transform;"></ul>
+                                <div class="dropdown">
+                                  <a href="#" class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" role="tab" aria-expanded="false" title="Taglar" aria-haspopup="true" aria-controls="dropdown-menu">
+                                    Taglar
+                                    <i class="fa-solid fa-chevron-down fs-12" style="margin-left: 6px;"></i>
+                                  </a>
+                                  <ul class="dropdown-menu" id="<%= category.key %>-dropdown-menu" role="tablist" aria-labelledby="<%= category.key %>-dropdown-menu"></ul>
+                                </div>
                               </li>
                             </ul>
 
@@ -197,7 +178,7 @@
                           <div class="tab-content p-t-35" role="tablist">
                             <!-- Category List -->
                             <% category.tags.forEach((tag, id)=> { %>
-                              <div class="tab-pane fade <%= id === 0 ? 'show active' : '' %>" role="tab" id="<%= tag.key %>-<%= category.key %>" aria-labelledby="<%= category.key %>-<%= tag.key %>-tab">
+                              <div class="tab-pane fade show <%= id === 0 ? 'active' : '' %>" role="tab" id="<%= tag.key %>-<%= category.key %>" aria-labelledby="<%= category.key %>-<%= tag.key %>-tab">
                                 <div class="row" role="tabpanel">
                                   <!-- Item post -->
                                   <% tag.news.forEach((nws)=> { %>
@@ -227,7 +208,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-10 col-lg-4">
+                  <div class="col-md-12 col-lg-4">
                     <div class="p-l-10 p-rl-0-sr991 p-b-20">
                       <%- include('./items/most_popular') %>
 
@@ -247,7 +228,7 @@
 
             <!-- Banner -->
             <div class="container bg0">
-              <div class="flex-c-c justify-content-around flex-md-row flex-column" style="row-gap: 10px;">
+              <div class="flex-c-c justify-content-between flex-md-row flex-column" style="row-gap: 10px;">
                 <div class="">
                   <a href="#">
                     <img class="max-w-full" src="/images/banners/banner_300x250.png" alt="Banner">
@@ -271,7 +252,7 @@
               <div class="container p-t-60 p-b-35 bg0">
                 <div class="row justify-content-center">
                   <%- include('./items/last_news') %>
-                  <div class="col-md-10 col-lg-4">
+                  <div class="col-md-12 col-lg-4">
                     <div class="p-l-10 p-rl-0-sr991 p-b-20">
                       <%- include('./items/youtube_video') %>
                       <%- include('./items/tags') %>

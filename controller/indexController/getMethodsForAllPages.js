@@ -122,7 +122,7 @@ const getPlatformSocialMedias = async (req, res, next) => {
 
 const getPageMetaContents = async(req, res, next) => {
     let meta;
-    res.locale.meta = meta;
+    res.locals.meta = meta;
 }
 
 module.exports = { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias, getPageMetaContents }

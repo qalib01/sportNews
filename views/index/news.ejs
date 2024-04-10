@@ -20,51 +20,16 @@
 		<section>
 			<div class="container bg0 p-b-55">
 				<div class="row justify-content-center">
-					<div class="col-md-10 col-lg-8 p-b-80">
+					<div class="col-md-12 col-lg-8 p-b-80">
 						<div class="p-r-10 p-r-0-sr991">
-							<div class="m-t--40 p-b-40">
-								<!-- Item post -->
-								<% allNews.forEach((news)=> { %>
-									<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
-										<a href="/news/news-detail?key=<%= news.key %>" class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25 text-decoration-none" style="aspect-ratio: 4/3;">
-											<img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover h-100">
-										</a>
-
-										<div class="size-w-9 w-full-sr575 m-b-25">
-											<a href="/news/news-detail?key=<%= news.key %>" class="f1-l-1 cl2 hov-cl10 trans-03 respon2 fw-bold text-decoration-none p-b-12">
-												<%= news.title %>
-											</a>
-
-											<div class="cl8 p-b-18">
-												<span class="f1-s-3">
-													<%= moment(news.createdAt).format('LL') %>
-												</span>
-											</div>
-
-											<%- news.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>
-
-											<a href="/news/news-detail?key=<%= news.key %>" class="f1-s-1 cl9 hov-cl10 trans-03 text-decoration-none p-t-10 d-block"">
-												Ətraflı bax
-												<i class="fa fa-long-arrow-alt-right m-l-2"></i>
-											</a>
-										</div>
-									</div>
-								<% }) %>
-							</div>
-
-							<% if (allNews.length == 0) { %>
-								Hal-hazırda heç bir xəbər materialı əldə olunmadı.
-							<%} %>
-
-							<% if (allNews.length >= 10) { %>
-								<button id="loadMore" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3 text-decoration-none w-100">
-									Daha çox yüklə
-								</button>
-							<% } %>
+							<div class="m-t--40 p-b-40" id="news-items"></div>
+							<button id="load-more" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3 text-decoration-none w-100">
+								Daha çox yüklə
+							</button>
 						</div>
 					</div>
 
-					<div class="col-md-10 col-lg-4 p-b-80">
+					<div class="col-md-12 col-lg-4 p-b-80">
 						<div class="p-l-10 p-rl-0-sr991">
 							<div class="flex-c-s p-b-20">
 								<a href="#">
