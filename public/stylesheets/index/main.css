@@ -6,44 +6,16 @@
   --black: #000000;
   --red-wings: #e00000;
 
+  --font-attribute-roboto-regular: "Roboto", sans-serif 400 normal;
+  --font-attribute-roboto-medium: "Roboto", sans-serif 500 normal;
+  --font-attribute-roboto-bold: "Roboto", sans-serif 700 normal;
+  --font-attribute-roboto-black: "Roboto", sans-serif 900 normal;
+  --font-attribute-lato-regular: "Lato", sans-serif 400 normal;
 }
 
 ul, ol {
   padding: 0;
   margin: 0;
-}
-
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
-
-/*------------------------------------------------------------------
-[ 1 ]*/
-
-@font-face {
-  font-family: Roboto-Regular;
-  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Regular.ttf'); 
-}
-
-@font-face {
-  font-family: Roboto-Medium;
-  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Medium.ttf'); 
-}
-
-@font-face {
-  font-family: Roboto-Bold;
-  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Bold.ttf'); 
-}
-
-@font-face {
-  font-family: Roboto-Black;
-  src: url('/libs/vendor/index/fonts/Roboto/Roboto-Black.ttf'); 
-}
-
-/*------------------------------------------------------------------
-[ 2 ]*/
-@font-face {
-  font-family: Lato-Regular;
-  src: url('/libs/vendor/index/fonts/Lato/Lato-Regular.ttf'); 
 }
 
 
@@ -53,42 +25,6 @@ ul, ol {
 /*------------------------------------------------------------------
 [ Bootstrap ]*/
 .container {max-width: 1080px;}
-
-
-
-/*//////////////////////////////////////////////////////////////////
-[ LOADDING ]*/
-.animsition-loading-1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.loader05 {
-  width: 56px;
-  height: 56px;
-  border: 4px solid var(--primary-color);
-  border-radius: 50%;
-  position: relative;
-  animation: loader-scale 1s ease-out infinite;
-  top: 50%;
-  margin: -28px auto 0 auto; }
-
-@keyframes loader-scale {
-  0% {
-    transform: scale(0);
-    opacity: 0; }
-  50% {
-    opacity: 1; }
-  100% {
-    transform: scale(1);
-    opacity: 0; } 
-}
 
 
 /*//////////////////////////////////////////////////////////////////
@@ -128,14 +64,10 @@ ul, ol {
 
 @media (max-width: 575px) {
   .btn-back-to-top {
-    /* bottom: 0px; */
     bottom: 40px;
     right: 15px;
   }
 }
-
-/* .show-btn-back-to-top {bottom: 0;} */
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Header ]*/
@@ -179,7 +111,7 @@ header {
 }
 
 .left-topbar-item {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 12px;
   color: #ccc;
   line-height: 1.8;
@@ -192,7 +124,6 @@ header {
 }
 
 a.left-topbar-item:hover {
-  /* color: #17b978; */
   color: var(--primary-color);
 }
 
@@ -230,7 +161,6 @@ a.left-topbar-item:hover {
 }
 
 .right-topbar a:hover {
-  /* color: #17b978; */
   color: var(--primary-color);
 }
 
@@ -262,9 +192,7 @@ a.left-topbar-item:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* height: 125px; */
   padding: 25px 10px;
-  /* padding-bottom: 10px; */
 }
 
 /*---------------------------------------------*/
@@ -280,15 +208,8 @@ a.left-topbar-item:hover {
   align-items: center;
 }
 
-/* .logo img {
-  max-width: 100%;
-  max-height: 50%;
-} */
-
 /*---------------------------------------------*/
 .banner-header {
-  /* width: 60%; */
-  /* height: 100%; */
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -340,15 +261,12 @@ a.left-topbar-item:hover {
 .main-nav {
   width: 100%;
   height: 55px;
-  /* background-color: #1A123B;*/
   background: linear-gradient(0deg,#1A123B 0,#282052 100%);
-
   box-shadow: 0 3px 8px 0px rgba(0,0,0,0.05);
   -moz-box-shadow: 0 3px 8px 0px rgba(0,0,0,0.05);
   -webkit-box-shadow: 0 3px 8px 0px rgba(0,0,0,0.05);
   -o-box-shadow: 0 3px 8px 0px rgba(0,0,0,0.05);
   -ms-box-shadow: 0 3px 8px 0px rgba(0,0,0,0.05);
-
   -webkit-transform: translateY(0%);
   -moz-transform: translateY(0%);
   -ms-transform: translateY(0%);
@@ -383,7 +301,7 @@ a.left-topbar-item:hover {
 }
 
 .main-menu > li > a {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 16px;
   line-height: 1.5;
   color: var(--white);
@@ -423,20 +341,6 @@ a.left-topbar-item:hover {
   -o-transform: scaleX(0);
   transform: scaleX(0);
 }
-
-/* .main-menu > li > a::after {
-  content: "\f2f9";
-  font-family: Material-Design-Iconic-Font;
-  font-size: 16px;
-  color: #222;
-  line-height: 1.5;
-  margin-left: 6px;
-  margin-bottom: 1px;
-  transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-} */
 
 li.main-menu-active > a::before {
   -webkit-transform: scaleX(1);
@@ -520,7 +424,7 @@ li.respon-sub-menu > .sub-menu .sub-menu {
 }
 
 .sub-menu a {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 14px;
   line-height: 1.7857;
   color: #222;
@@ -621,7 +525,7 @@ li.respon-sub-menu > .sub-menu .sub-menu {
 
 /*---------------------------------------------*/
 .sub-mega-menu .nav-pills .nav-link {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 14px;
   line-height: 1.8;
   color: #222;
@@ -774,7 +678,7 @@ footer .hov-cl10:hover {
 }
 
 .main-menu-m > li > a {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 16px;
   color: var(--white);
   line-height: 2.8;
@@ -792,8 +696,6 @@ footer .hov-cl10:hover {
 
 .main-menu-m > li {
   position: relative;
-  /* background-color: #17b978; */
-  /* background-color: var(--primary-color); */
 }
 
 .main-menu-m-active a {
@@ -842,9 +744,8 @@ footer .hov-cl10:hover {
 }
 
 .sub-menu-m a {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 15px;
-  /* color: #17b978; */
   color: var(--primary-color);
   line-height: 2.5;
   padding: 5px 15px 5px 15px;
@@ -879,16 +780,6 @@ footer .hov-cl10:hover {
     height: auto;
   }
 
-  /* .wrap-header-mobile {
-
-    .logo-mobile {
-
-      a {
-        font-s
-      }
-    }
-  } */
-
   .banner-header {  
     width: 100%;
     justify-content: center;
@@ -919,17 +810,15 @@ footer .hov-cl10:hover {
 
 .tab01 .nav-tabs .nav-item-more,
 .tab01 .nav-tabs .nav-item {
-  /* height: 100%; */
   padding: 0px;
   margin: 0px;
 }
 
 .tab01 .nav-link {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 14px;
   color: #555;
   line-height: 1.7;
-  
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -941,7 +830,6 @@ footer .hov-cl10:hover {
   border-radius: 0px;
   border: none;
   position: relative;
-
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   -moz-transition: all 0.3s;
@@ -1112,25 +1000,14 @@ body {padding-right: 0px !important;}
   display: flex;
 }
 
-/* .breadcrumb-item+.breadcrumb-item::before {
-  height: 100%;
-  content: "/";
-  font-family: FontAwesome;
-  font-size: 12px;
-  padding-right: 10px;
-  padding-left: 12px;
-  color: #999;
-} */
-
 a.breadcrumb-item:hover {
-  /* color: #17b978; */
   color: var(--primary-color);
 }
 
 /*//////////////////////////////////////////////////////////////////
 [ Pagination ]*/
 .pagi-item {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 13px;
   line-height: 1.5;
   color: #808080;
@@ -1223,86 +1100,86 @@ a.breadcrumb-item:hover {
 /*//////////////////////////////////////////////////////////////////
 [ S-Text 0 - 15 ]*/
 .f1-s-1 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 14px;
   line-height: 1.7;
 }
 
 .f1-s-2 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 14px;
   line-height: 1.2;
 }
 
 .f1-s-3 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 12px;
   line-height: 1.7;
 }
 
 .f1-s-4 {
-  font-family: Roboto-Bold;
+  font: var(--font-attribute-roboto-bold);
   font-size: 12px;
   line-height: 1.7;
 }
 
 .f1-s-5 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 15px;
   line-height: 1.333333;
 }
 
 .f1-s-6 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 12px;
   line-height: 1.7;
 }
 
 .f1-s-7 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 15px;
   line-height: 1.466667;
 }
 
 .f1-s-8 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 14px;
   line-height: 1.5;
 }
 
 .f1-s-9 {
-  font-family: Roboto-Black;
+  font: var(--font-attribute-roboto-black);
   font-size: 12px;
   line-height: 1.5;
 }
 
 .f1-s-10 {
-  font-family: Roboto-Bold;
+  font: var(--font-attribute-roboto-bold);
   font-size: 13px;
   line-height: 1.3;
 }
 
 .f1-s-11 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 14px;
   line-height: 1.8;
 }
 
 .f1-s-12 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 15px;
   line-height: 1.8;
 }
 
 .f1-s-13 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 14px;
   line-height: 1.7;
 }
 
 /*---------------------------------------------*/
 .f2-s-1 {
-  font-family: Lato-Regular;
+  font: var(--font-attribute-lato-regular);
   font-size: 14px;
   line-height: 1.7;
 }
@@ -1311,43 +1188,43 @@ a.breadcrumb-item:hover {
 /*//////////////////////////////////////////////////////////////////
 [ M-Text 16 - 25 ]*/
 .f1-m-1 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 16px;
   line-height: 1.5;
 }
 
 .f1-m-2 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 18px;
   line-height: 1.333333;
 }
 
 .f1-m-3 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 20px;
   line-height: 1.25;
 }
 
 .f1-m-4 {
-  font-family: Roboto-Bold;
+  font: var(--font-attribute-roboto-bold);
   font-size: 16px;
   line-height: 1.5;
 }
 
 .f1-m-5 {
-  font-family: Roboto-Bold;
+  font: var(--font-attribute-roboto-bold);
   font-size: 24px;
   line-height: 1.3;
 }
 
 .f1-m-6 {
-  font-family: Roboto-Regular;
+  font: var(--font-attribute-roboto-regular);
   font-size: 18px;
   line-height: 1.333333;
 }
 
 .f1-m-7 {
-  font-family: Roboto-Bold;
+  font: var(--font-attribute-roboto-bold);
   font-size: 20px;
   line-height: 1.3;
 }
@@ -1356,31 +1233,31 @@ a.breadcrumb-item:hover {
 /*//////////////////////////////////////////////////////////////////
 [ L-Text >= 26 ]*/
 .f1-l-1 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 24px;
   line-height: 1.2;
 }
 
 .f1-l-2 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 22px;
   line-height: 1.272727;
 }
 
 .f1-l-3 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 30px;
   line-height: 1.3;
 }
 
 .f1-l-4 {
-  font-family: Roboto-Bold;
+  font: var(--font-attribute-roboto-bold);
   font-size: 22px;
   line-height: 1.545454;
 }
 
 .f1-l-5 {
-  font-family: Roboto-Medium;
+  font: var(--font-attribute-roboto-medium);
   font-size: 36px;
   line-height: 1.333333;
 }
@@ -1957,9 +1834,6 @@ a.breadcrumb-item:hover {
 @media (max-width: 480px) {
   
 }
-
-
-
 
 
 /*=====================================================================
