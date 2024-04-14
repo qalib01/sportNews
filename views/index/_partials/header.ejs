@@ -2,6 +2,39 @@
 <header>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
+        <div class="topbar">
+            <div class="content-topbar container h-100">
+                <div class="left-topbar">
+                    <span class="left-topbar-item flex-wr-s-c">
+                        <span class="m-r-5">
+                            Bakı, AZ
+                        </span>
+                        -
+                        <span class="m-l-5">
+                            <%= moment().tz('Asia/Baku').format('LLLL') %>
+                        </span>
+                    </span>
+
+                    <a href="/" class="left-topbar-item text-decoration-none">
+                        Ana səhifə
+                    </a>
+                    <a href="/about" class="left-topbar-item text-decoration-none">
+                        Haqqımızda
+                    </a>
+                    <a href="/contact" class="left-topbar-item text-decoration-none">
+                        Əlaqə
+                    </a>
+                </div>
+
+                <div class="right-topbar">
+                    <% platformSocialMedias.forEach((media) => { %>
+                        <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="text-decoration-none" target="_blank" title="<%= media.social_media.name %>">
+                            <%- media.social_media.icon %>
+                        </a>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
         <!-- Header Mobile -->
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->
@@ -19,6 +52,39 @@
 
         <!-- Menu Mobile -->
         <div class="menu-mobile">
+            <ul class="topbar-mobile">
+                <li class="left-topbar">
+                    <span class="left-topbar-item flex-wr-s-c">
+                        <span class="m-r-5">
+                            Bakı, AZ
+                        </span>
+                        - 
+                        <span class="m-l-5">
+                            <%= moment().tz('Asia/Baku').format('LLLL') %>
+                        </span>
+                    </span>
+                </li>
+
+                <li class="left-topbar">
+                    <a href="/" class="left-topbar-item text-decoration-none">
+                        Ana səhifə
+                    </a>
+                    <a href="/about" class="left-topbar-item text-decoration-none">
+                        Haqqımızda
+                    </a>
+                    <a href="/contact" class="left-topbar-item text-decoration-none">
+                        Əlaqə
+                    </a>
+                </li>
+
+                <div class="right-topbar">
+                    <% platformSocialMedias.forEach((media) => { %>
+                        <a href="<%= media.social_media.link %><%= media.linkSlug %>" class="text-decoration-none" target="_blank" title="<%= media.social_media.name %>">
+                            <%- media.social_media.icon %>
+                        </a>
+                    <% }) %>
+                </div>
+            </ul>
             <ul class="main-menu-m">
                 <li class="<%= key === 'home' ? 'main-menu-m-active' : '' %>">
                     <a href="/" class="text-decoration-none"> Ana səhifə </a>

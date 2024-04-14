@@ -3,21 +3,28 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Xəbərlər /</span> <%= title %> </h4>
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Xəbərlər /</span>
+                <%= title %>
+            </h4>
 
             <!-- Hoverable Table rows -->
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
-                    <h5 class="card-header"><%= title %></h5>
-                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-news"> Yarat </button>
+                    <h5 class="card-header">
+                        <%= title %>
+                    </h5>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal"
+                        data-bs-target="#basicModal" data-action="/admin/create-news"> <span
+                            class="d-none d-md-block">Yarat</span> <span class="d-block d-md-none"><i
+                                class='bx bx-plus-circle'></i></span> </button>
                 </div>
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="dataTable">
                         <caption class="ms-4">
                             Ümumi tapılan xəbərlər: <%= news.length %>
                         </caption>
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th>#</th>
                                 <th>Titul</th>
                                 <th>Kateqoriya</th>
@@ -26,7 +33,7 @@
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
+                        <tbody class="table-border-bottom-0 text-center">
                             <% news.forEach((nws, id)=> { %>
                                 <tr>
                                     <td>
@@ -56,9 +63,9 @@
                                     <td>
                                         <% if (nws.status==true) { %>
                                             <span class="badge bg-label-primary me-1">Aktiv</span>
-                                            <% } else { %>
-                                                <span class="badge bg-label-danger me-1">Passiv</span>
-                                                <% } %>
+                                        <% } else { %>
+                                            <span class="badge bg-label-danger me-1">Passiv</span>
+                                        <% } %>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -67,10 +74,16 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-news?id=<%= nws.id %>"data-id="<%= nws.id %>" data-item="news">
+                                                <a class="dropdown-item editBtn" href="javascript:void(0);"
+                                                    data-bs-toggle="modal" data-bs-target="#basicModal"
+                                                    data-action="/admin/edit-news?id=<%= nws.id %>"
+                                                    data-id="<%= nws.id %>" data-item="news">
                                                     <i class="bx bx-edit-alt me-1"></i> Düzəlt
                                                 </a>
-                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-news?id=<%= nws.id %>" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item="news">
+                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);"
+                                                    data-action="/admin/delete-news?id=<%= nws.id %>"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                    data-item="news">
                                                     <i class="bx bx-trash me-1"></i> Sil
                                                 </a>
                                             </div>
@@ -80,6 +93,23 @@
                                 <% }) %>
                         </tbody>
                     </table>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center" id="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class='bx bx-skip-previous'></i>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class='bx bx-skip-next'></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
             <!--/ Hoverable Table rows -->
@@ -90,7 +120,9 @@
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1"><%= title %></h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">
+                            <%= title %>
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -102,16 +134,13 @@
                         <form id="basicForm" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label" for="title">Titul</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="Adı" required>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Adı"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="img" class="form-label">Şəkil</label>
                                 <input class="form-control" type="file" id="img" accept="image/*"> <!-- name="img" -->
                             </div>
-                            <!-- <div class="mb-3">
-                                <label for="img" class="form-label">Şəkil</label>
-                                <input class="form-control" type="text" id="img" required>
-                            </div> -->
                             <div class="mb-3">
                                 <label class="form-label" for="description">Məzmun</label>
                                 <div id="editor"></div>
@@ -132,8 +161,7 @@
                                 <br />
                                 <% tags.forEach((tag)=> { %>
                                     <div class="form-check form-check-inline mb-3">
-                                        <input class="form-check-input" type="checkbox" id="tag"
-                                            value="<%= tag.id %>">
+                                        <input class="form-check-input" type="checkbox" id="tag" value="<%= tag.id %>">
                                         <label class="form-check-label">
                                             <%= tag.name %>
                                         </label>
@@ -168,7 +196,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="deleteModal" tabindex="-1"  aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -181,13 +209,13 @@
                                 <p>Bunu etmək istədiyinizə əminsiniz?</p>
                             </div>
                             <button type="submit" class="btn btn-danger">Sil</button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <script>
             let editorInstance;
@@ -340,12 +368,40 @@
                     'PasteFromOfficeEnhanced'
                 ]
             })
-            .then(editor => {
-                editorInstance = editor;
-            })
-            .catch(error => {
-                console.log(error);
-            });
+                .then(editor => {
+                    editorInstance = editor;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        </script>
+
+        <script>
+            function gotoPage(page) {
+                fetch(`/get-all-news?page=${page}&limit=<%= data.rowsPerPage %>`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const tableBody = document.querySelector('#dataTable tbody');
+                        tableBody.innerHTML = '';
+                        data.rows.forEach(row => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `<td>${row.id}</td><td>${row.name}</td><td>${row.email}</td>`;
+                            tableBody.appendChild(tr);
+                        });
+
+                        const pagination = document.getElementById('pagination');
+                        pagination.innerHTML = '';
+                        for (let i = 1; i <= data.pageCount; i++) {
+                            const li = document.createElement('li');
+                            li.className = `page-item ${i === page ? 'active' : ''}`;
+                            li.innerHTML = `<a class="page-link" href="#" onclick="gotoPage(${i})">${i}</a>`;
+                            pagination.appendChild(li);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            }
         </script>
 
         <%- include('../_partials/footer') %>

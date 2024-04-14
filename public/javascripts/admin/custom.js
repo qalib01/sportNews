@@ -76,14 +76,17 @@ if (editBtn) {
             basicForm.action = action;
 
             let res = await fetch(`/admin/selected-${item}?id=${id}`);
-            let data = await res.json();
+            // let data = await res.json();
+            // console.log(data);
+            let dataAsString = await res.text(); // Get the response as text
+            let data = JSON.parse(dataAsString); // Parse the string as JSON
+            console.log(data);
 
             if (item == 'news') {
                 basicForm.title.value = data.title;
                 editorInstance.setData(data.content);
                 basicForm.status.value = +data.status;
                 basicForm.category.value = data.categoryId;
-                // basicForm.img.value = data.img;
 
                 const longDateString = data.sharedAt;
                 const dateTime = new Date(longDateString);

@@ -8,7 +8,7 @@ const { getSelectedTag, getSelectedCategory, getPlatfromSocialMedia } = require(
 const { updateSelectedTag, updateSelectedCategory, updatePlatfromSocialMedia } = require('../controller/adminController/updateItemController');
 const { deleteSelectedTag, deleteSelectedCategory, deletePlatfromSocialMedia } = require('../controller/adminController/deleteItemController');
 const { authenticateToken, checkUser } = require('../middleware/authMiddleware');
-const { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews } = require('../controller/adminController/newsController');
+const { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews, getAllNews } = require('../controller/adminController/newsController');
 const { createUser, getSelectedUser, updateSelectedUser, deleteSelectedUser } = require('../controller/adminController/usersConroller');
 
 
@@ -82,6 +82,9 @@ router.put('/edit-news', [checkUser, authenticateToken], upload.single('img'), u
 
 /* DELETE selected news data. */
 router.delete('/delete-news', [checkUser, authenticateToken], deleteSelectedNews);
+
+/* GET all news data */
+router.get('/get-all-news', [checkUser, authenticateToken], getAllNews);
 
 /* POST new user. */
 router.post('/create-user', [checkUser, authenticateToken], createUser);

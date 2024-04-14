@@ -39,7 +39,7 @@
                         <% lastThreeNews.forEach((news) => { %>
                             <li class="flex-wr-sb-s p-b-20">
                                 <a href="/news/news-detail?key=<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03 text-decoration-none">
-                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>" class="object-fit-cover"  style="aspect-ratio: 4/3;">
+                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>" class="object-fit-cover lazyload"  loading="lazy" style="aspect-ratio: 4/3;">
                                 </a>
                                 <div class="size-w-5">
                                     <a href="/news/news-detail?key=<%= news.key %>" title="<%= news.title %>" class="p-b-5 f1-s-5 cl0 hov-cl10 trans-03 text-decoration-none d-block">
@@ -98,13 +98,15 @@
 </div>
 
 <!--===============================================================================================-->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous" defer></script>
 <!--===============================================================================================-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <!--===============================================================================================-->
-<script src="/javascripts/index/main.min.js"></script>
-<script src="/javascripts/index/custom.min.js"></script>
+<script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" defer></script>
+<!--===============================================================================================-->
+<script src="/javascripts/index/main.min.js" defer></script>
+<script src="/javascripts/index/custom.min.js" defer></script>
 </body>
 
 </html>

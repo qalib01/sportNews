@@ -185,8 +185,7 @@
                                     <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6" role="complementary">
                                       <a href="/news/news-detail?key=<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03 text-decoration-none"
                                         style="height: 60px;" aria-label="<%= nws.title.replaceAll('"', "") %>">
-                                        <img src="/images/news/<%= nws.img %>" alt="<%= nws.title.replaceAll('"', "") %>"
-                                          class="object-fit-cover h-100">
+                                        <img src="/images/news/<%= nws.img %>" alt="<%= nws.title.replaceAll('"', "") %>" class="object-fit-cover h-100 lazyload" style="aspect-ratio: 4/3;" loading="lazy">
                                       </a>
                                       <div class="size-w-2">
                                         <a href="/news/news-detail?key=<%= nws.key %>"

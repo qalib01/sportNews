@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
-const moment = require('moment');
+const moment = require('moment-timezone');
 moment.locale('az');
 
 

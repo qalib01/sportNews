@@ -90,7 +90,7 @@ header {
 /*==================================================================
 [ Top-bar ]*/
 .topbar {
-  background-color: #111;
+  background-color: var(--purple-dark);
 }
 
 .content-topbar {
@@ -175,7 +175,7 @@ a.left-topbar-item:hover {
 /*------------------------------------------------------------------
 [ Topbar mobile ]*/
 .topbar-mobile {
-  background-color: #222;
+  background-color: var(--purple-dark);
   padding: 8px 25px 5px 25px;
 }
 
