@@ -1,7 +1,7 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 let guid = () => {
     let s4 = () => {
@@ -36,7 +36,7 @@ let generateQueryOptions = (queryParams) => {
         where: {
             status: true,
             sharedAt: {
-                [Op.lt]: moment(),
+                [Op.lt]: moment().tz('Asia/Baku'),
             },
         },
         order: [
@@ -83,7 +83,7 @@ let generateQueryOptions = (queryParams) => {
 }
 
 const getAllNews = async (req, res, next) => {
-    const sevenDaysAgo = moment().subtract(7, 'days').toDate();
+    const sevenDaysAgo = moment().tz('Asia/Baku').subtract(7, 'days').toDate();
     try {
         let allTags = await db.tags.findAll({
             where: {
@@ -153,7 +153,7 @@ const getNewsLoadMore = async (req, res, next) => {
 
 const getNewsDetail = async (req, res, next) => {
     let key = req.query.key;
-    const sevenDaysAgo = moment().subtract(7, 'days').toDate();
+    const sevenDaysAgo = moment().tz('Asia/Baku').subtract(7, 'days').toDate();
     let meta;
     if (!key || key == undefined || key == null) {
         next();
@@ -193,7 +193,7 @@ const getNewsDetail = async (req, res, next) => {
             where: {
                 status: true,
                 sharedAt: {
-                    [Op.lt]: moment(),
+                    [Op.lt]: moment().tz('Asia/Baku'),
                 },
             },
             order: [
@@ -264,7 +264,10 @@ const getNewsDetail = async (req, res, next) => {
             attributes: ['id', 'title', 'key', 'img', 'content', 'createdAt'],
             where: {
                 key,
-                status: true
+                status: true,
+                sharedAt: {
+                    [Op.lt]: moment().tz('Asia/Baku'),
+                },
             },
         });
 

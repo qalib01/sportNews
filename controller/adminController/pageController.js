@@ -31,6 +31,9 @@ const newsPage = async (req, res, next) => {
                 model: sequelize.model('categories'),
                 as: 'category',
                 attributes: ['name', 'key', 'description'],
+                where: {
+                    status: true
+                }
             },
             {
                 model: sequelize.model('news_tags'),

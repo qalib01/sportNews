@@ -76,11 +76,8 @@ if (editBtn) {
             basicForm.action = action;
 
             let res = await fetch(`/admin/selected-${item}?id=${id}`);
-            // let data = await res.json();
-            // console.log(data);
             let dataAsString = await res.text(); // Get the response as text
             let data = JSON.parse(dataAsString); // Parse the string as JSON
-            console.log(data);
 
             if (item == 'news') {
                 basicForm.title.value = data.title;
@@ -89,7 +86,7 @@ if (editBtn) {
                 basicForm.category.value = data.categoryId;
 
                 const longDateString = data.sharedAt;
-                const dateTime = new Date(longDateString);
+                const dateTime = new Date(longDateString.replaceAll('Z', ''));
                 
                 const formatterTime = new Intl.DateTimeFormat('az-AZ', { hour: '2-digit', minute: '2-digit' });
                 const formattedTime = formatterTime.format(dateTime);
@@ -118,7 +115,7 @@ if (editBtn) {
                 basicForm.status.value = +data.status;
             } else {
                 basicForm.name.value = data.name;
-                basicForm.description.value = data.description;
+                basicForm.description = data.description;
                 basicForm.status.value = +data.status;
             }
         });
@@ -171,9 +168,9 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
     try {
         let title = basicForm.title.value.trim();
         let categoryId = basicForm.category.value.trim();
+        // let img = basicForm.img.value.trim();
         let img = document.querySelector('#img');
         img = img.files[0];
-        console.log(img);
         let content = editorInstance.getData().trim();
         let tags = [];
         document.querySelectorAll('input[type="checkbox"][id="tag"]').forEach(function (checkbox) {
@@ -192,7 +189,6 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
         // };
 
         let formData = new FormData();
-
         formData.append('title', title);
         formData.append('categoryId', categoryId);
         formData.append('content', content);
@@ -209,17 +205,13 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
             // requestBody.key = key;
             formData.append('key', key)
         }
-
-
         res = await fetch(basicForm.action, {
-            method,
-            // body: JSON.stringify( requestBody ),
+            method: method,
             body: formData,
             // headers: {
             //     "Content-type": "application/json",
             // },
         });
-        console.log(res);
         const data = await res.json();
         if (data.status == 200) {
             location.reload();
@@ -259,7 +251,6 @@ const userFormCreateUpdate = async (method) => {
 
 const socialMediaFormCreateUpdate = async (isCreateAction, method) => {
     try {
-        console.log(method);
         let name = basicForm.name.value.trim();
         let linkSlug = basicForm.linkSlug.value.trim();
         let socialMediaId = basicForm.socialMediaId.value.trim();
@@ -269,8 +260,6 @@ const socialMediaFormCreateUpdate = async (isCreateAction, method) => {
             name, linkSlug, socialMediaId, status
         };
 
-        console.log(requestBody);
-        
         res = await fetch(basicForm.action, {
             method: method,
             body: JSON.stringify( requestBody ),

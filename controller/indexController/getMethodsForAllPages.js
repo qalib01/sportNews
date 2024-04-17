@@ -5,7 +5,6 @@ const { Op } = require('sequelize');
 const moment = require('moment-timezone');
 moment.locale('az');
 
-
 const setMomentToLocals = async (req, res, next) => {
     res.locals.moment = moment;
     next();
@@ -25,13 +24,15 @@ const getPopularCategories = async (req, res, next) => {
         ],
         where: {
             status: true,
+            sharedAt: {
+                [Op.lt]: moment().tz('Asia/Baku'),
+            },
         },
         limit: 5,
         attributes: [[Sequelize.fn('COUNT', Sequelize.col('news.categoryId')), 'newsCount'],],
         group: ['category.id'], // Assuming 'id' is the primary key of your Category model
         order: [[Sequelize.literal('newsCount'), 'DESC']], // Sorting by newsCount in descending order
     });
-
     res.locals.popularCategories = popularCategories;
     next();
 }
@@ -47,10 +48,10 @@ const getPopularNews = async (req, res, next) => {
             where: {
                 status: true,
                 sharedAt: {
-                    [Op.lt]: moment(),
+                    [Op.lt]: moment().tz('Asia/Baku'),
                 },
             },
-            attributes: ['title', 'key', 'img', 'createdBy']
+            attributes: ['title', 'key', 'img', 'createdBy', 'sharedAt']
         });
 
         res.locals.popularNews = popularNews;
@@ -81,7 +82,7 @@ const getLastThreeNews = async (req, res, next) => {
             where: {
                 status: true,
                 sharedAt: {
-                    [Op.lt]: moment(),
+                    [Op.lt]: moment().tz('Asia/Baku'),
                 },
             },
             attributes: ['title', 'key', 'img', 'createdAt']
@@ -120,9 +121,4 @@ const getPlatformSocialMedias = async (req, res, next) => {
     }
 }
 
-const getPageMetaContents = async(req, res, next) => {
-    let meta;
-    res.locals.meta = meta;
-}
-
-module.exports = { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias, getPageMetaContents }
+module.exports = { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias }

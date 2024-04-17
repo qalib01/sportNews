@@ -1,8 +1,9 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
+const moment = require('moment-timezone');
+const fs = require('fs');
 const sharp = require('sharp');
-const fs = require('fs-extra');
-const moment = require('moment');
+
 
 let guid = () => {
   let s4 = () => {
@@ -22,50 +23,48 @@ const createNews = async (req, res, next) => {
   let id = guid();
   let img;
 
-  console.log(inputData.sharedAt);
+  // if (req.file) {
+  //   img = req.file.filename;
+  // }
 
-  // try {
-  //   if(req.file) {
-  //     img = inputData.key + '.webp';
-  //     let imgPath = sharp(req.file.path)
-  //     .webp({ quality: 80 });
-  //     await imgPath.toFile('public/images/news/' + img);
-  //     fs.unlinkSync(req.file.path);
-  //   }
+  try {
+    if(req.file) {
+      img = inputData.key + '_' + req.file.filename.split('.').slice(0, -1).join('.') + '.webp';
+      let filePath = req.file.path;
+      let image = sharp(filePath)
+      .webp({ quality: 80 });
+      await image.toFile('public/images/news/' + img);
+      fs.unlinkSync(filePath);
+    }
 
-  //   await db.news.create({
-  //     id: id,
-  //     title: inputData.title,
-  //     key: inputData.key,
-  //     img,
-  //     categoryId: inputData.categoryId,
-  //     content: inputData.content,
-  //     status: inputData.status,
-  //     sharedAt: inputData.sharedAt,
-  //   });
+    await db.news.create({
+      id: id,
+      title: inputData.title,
+      key: inputData.key,
+      img,
+      categoryId: inputData.categoryId,
+      content: inputData.content,
+      status: inputData.status,
+      sharedAt: inputData.sharedAt,
+      createdBy: res.locals.localUser.id,
+    });
 
-  //   inputData.tags.split(",").forEach(async (tag) => {
-  //     await db.news_tags.create({
-  //       id: guid(),
-  //       newsId: id,
-  //       tagId: tag,
-  //     });
-  //   })
+    inputData.tags.split(",").forEach(async (tag) => {
+      await db.news_tags.create({
+        id: guid(),
+        newsId: id,
+        tagId: tag,
+      });
+    })
 
-  //   res.status(200).json({
-  //     status: 200,
-  //     statusText: 'Data has been successfully added to the database!',
-  //   });
-  // } catch (error) {
-  //   res.status(500).json({
-  //     status: 500,
-  //     statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-  //   });
-  //   if (req.file) {
-  //     fs.unlinkSync('public/images/news/' + img);
-  //   }
-  //   return error;
-  // };
+    res.status(200).json({
+      status: 200,
+      statusText: 'Data has been successfully added to the database!',
+    });
+  } catch (error) {
+    console.log(error)
+    return error;
+  };
 }
 
 const getSelectedNews = async (req, res, next) => {
@@ -81,13 +80,10 @@ const getSelectedNews = async (req, res, next) => {
           model: sequelize.model('news_tags'),
           as: 'news_tags',
         }
-      ],
+      ]
     });
 
-    // console.log(data);
-
     data = JSON.stringify(data);
-
     res.send(data);
   } catch (error) {
     res.status(500).json({
@@ -128,11 +124,12 @@ const updateSelectedNews = async (req, res, next) => {
 
     if (hasNews) {
       if(req.file) {
-        img = inputData.key + '.webp';
-        let imgPath = sharp(req.file.path)
+        img = hasNews.key + '_' + req.file.filename.split('.').slice(0, -1).join('.') + '.webp';
+        let filePath = req.file.path;
+        let image = sharp(filePath)
         .webp({ quality: 80 });
-        await imgPath.toFile('public/images/news/' + img);
-        fs.unlinkSync(req.file.path);
+        await image.toFile('public/images/news/' + img);
+        fs.unlinkSync(filePath);
       }
 
       await db.news.update({
@@ -141,6 +138,7 @@ const updateSelectedNews = async (req, res, next) => {
         content: inputData.content,
         status: inputData.status,
         sharedAt: inputData.sharedAt,
+        updatedBy: res.locals.localUser.id,
       },
       {
         where: {
@@ -149,6 +147,8 @@ const updateSelectedNews = async (req, res, next) => {
       })
 
       if (req.file) {
+        fs.unlinkSync('public/images/news/' + hasNews.img);
+        
         await db.news.update({
           img,
         },
@@ -196,9 +196,10 @@ const updateSelectedNews = async (req, res, next) => {
       status: 500,
       statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
     });
-    if (req.file) {
-      fs.unlinkSync('public/images/news/' + img);
-    }
+    // if (req.file) {
+    //   fs.unlinkSync('public/images/news/' + img);
+    // }
+    console.log(error)
     return error;
   }
 }
@@ -226,6 +227,12 @@ const deleteSelectedNews = async (req, res, next) => {
         }
       });
 
+      await db.news_views.destroy({
+        where: {
+          newsId: id,
+        }
+      })
+
       fs.unlinkSync('public/images/news/' + hasNews.img);
       
       res.status(200).json({
@@ -238,44 +245,18 @@ const deleteSelectedNews = async (req, res, next) => {
         statusText: "Belə bir xəbər tapılmadı!",
       });
     }
-  } catch (error) {
-    res.status(500).json({
-      status: 500,
-      statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
+
+    res.status(200).json({
+      status: 200,
+      statusText: "Məlumatlar uğurla silindi!",
     });
+  } catch (error) {
+    // res.status(500).json({
+    //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
+    //   error,
+    // });
     return error;
   }
 }
 
-const getAllNews = async (req, res, next) => {
-  try {
-    let allNews = await db.news.findAll({
-      include: [
-        {
-          model: sequelize.model('categories'),
-          as: 'category',
-        },
-        {
-          model: sequelize.model('news_tags'),
-          as: 'news_tag',
-          include: [
-            {
-              model: sequelize.model('tags'),
-              as: 'tag'
-            },
-          ],
-        },
-      ],
-    });
-
-    res.send(allNews);
-  } catch (error) {
-    res.status(500).send({
-      status: 500,
-      statusText: 'Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!'
-    })
-    return error;
-  }
-}
-
-module.exports = { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews, getAllNews }
+module.exports = { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews }

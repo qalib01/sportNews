@@ -1,6 +1,6 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const { Op } = require('sequelize');
 // moment.locale('az');
 
@@ -15,7 +15,6 @@ const getHomePage = async (req, res, next) => {
             ],
             attributes: ['name', 'key'],
             where: {
-                
                 status: true
             }
         });
@@ -36,9 +35,6 @@ const getHomePage = async (req, res, next) => {
                         {
                             model: sequelize.model('tags'),
                             as: 'tag',
-                            where: {
-                                status: true,
-                            },
                             attributes: ['name', 'key', 'description'],
                         },
                     ],
@@ -52,7 +48,7 @@ const getHomePage = async (req, res, next) => {
             where: {
                 status: true,
                 sharedAt: {
-                    [Op.lt]: moment(),
+                    [Op.lt]: moment().tz('Asia/Baku'),
                 },
             },
             order: [
@@ -115,6 +111,8 @@ const getHomePage = async (req, res, next) => {
                 news.news_tags.forEach(news_tag => {
                     const tagName = news_tag.tag ? news_tag.tag.name : null;
                     const tagKey = news_tag.tag ? news_tag.tag.key : null;
+                    // console.log(tagName);
+                    // console.log(categoryTags);
                     if (tagName) {
                         if (!categoryTags[tagName]) {
                             categoryTags[tagName] = { count: 0, key: tagKey, news: [] }; // Initialize count, key, and news array
@@ -126,14 +124,20 @@ const getHomePage = async (req, res, next) => {
                     }
                 });
             });
-
+            
+        
+            // console.log(categoryNews.length);
             // Convert categoryTags object to an array of tag objects
             const tags = Object.entries(categoryTags)
                 .sort((a, b) => b[1].count - a[1].count) // Sort by count values in descending order
                 .slice(0, 3) // Limit to 3 tags per category
                 .map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news })); // Include name, count, key, and news array for each tag
+                // console.log(tags.map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news }))[2].news);
+        
+                // console.log(tags);
+                
             const [, { categoryKey }] = sortedCategories.find(([name]) => name === categoryName);
-
+        
             return {
                 name: categoryName,
                 key: categoryKey,
@@ -154,6 +158,7 @@ const getHomePage = async (req, res, next) => {
                 }))
             };
         });
+        
 
         const youTubeVideoLink = await db.platform_medias.findOne({
             where: {
