@@ -2,10 +2,12 @@
 <%- include('./_partials/header') %>
 
 <div class="banner-container d-flex justify-content-between">
-	<div id="left-banner" class="d-none d-lg-block">
-		<a href="#">
-			<img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
-		</a>
+	<div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+		<div id="left-banner" class="d-none d-lg-block">
+			<a href="#">
+				<img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
+			</a>
+		</div>
 	</div>
 	<div>
 		<%- include('./items/breadcrumb') %>
@@ -60,11 +62,12 @@
 			</div>
 		</section>
 	</div>
-	<div id="right-banner" class="d-none d-lg-block">
-		<a href="#">
-			<img src="/images/banners/banner_160x600.png" alt="Banner"
-				style="max-width: 100%; height: auto; display: block;">
-		</a>
+	<div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+		<div id="right-banner" class="d-none d-lg-block">
+			<a href="#">
+				<img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
+			</a>
+		</div>
 	</div>
 </div>
 

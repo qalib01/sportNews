@@ -2,14 +2,16 @@
   <%- include('./_partials/header') %>
 
     <div class="banner-container d-lg-flex justify-content-between">
-      <div id="left-banner" class="d-none d-lg-block">
-        <a href="#">
-          <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
-        </a>
+      <div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+        <div id="left-banner" class="d-none d-lg-block">
+          <a href="#">
+            <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
+          </a>
+        </div>
       </div>
       <div>
         <% if (trendNews.length> 0) { %>
-          <div class="container p-t-20 trending bg0">
+          <section class="container p-t-20 trending bg0">
             <div class="bg0 flex-wr-sb-c">
               <div class="f2-s-1 size-w-0 m-tb-6 d-flex align-items-center flex-row justify-content-between overflow-hidden">
                 <div class="text-uppercase p-r-8 trending-txt">
@@ -29,11 +31,11 @@
                 </div>
               </div>
             </div>
-          </div>
+          </section>
           <% } %>
 
             <!-- Banner -->
-            <div class="container bg0 p-t-20 p-b-20">
+            <section class="container bg0 p-t-20 p-b-20">
               <div class="flex-c-c justify-content-between flex-md-row flex-column" style="row-gap: 10px;">
                 <div class="">
                   <a href="#">
@@ -51,7 +53,7 @@
                   </a>
                 </div>
               </div>
-            </div>
+            </section>
 
             <!-- Feature post -->
             <section class="bg0">
@@ -111,7 +113,7 @@
             </section>
 
             <!-- Banner -->
-            <div class="container bg0 p-t-20 p-b-20">
+            <section class="container bg0 p-t-20 p-b-20">
               <div class="flex-c-c justify-content-between flex-md-row flex-column" style="row-gap: 10px;">
                 <div class="">
                   <a href="#">
@@ -129,7 +131,7 @@
                   </a>
                 </div>
               </div>
-            </div>
+            </section>
 
             <!-- Post -->
             <section>
@@ -226,7 +228,7 @@
             </section>
 
             <!-- Banner -->
-            <div class="container bg0">
+            <section class="container bg0">
               <div class="flex-c-c justify-content-between flex-md-row flex-column" style="row-gap: 10px;">
                 <div class="">
                   <a href="#">
@@ -244,7 +246,7 @@
                   </a>
                 </div>
               </div>
-            </div>
+            </section>
 
             <!-- Latest -->
             <section>
@@ -261,11 +263,12 @@
               </div>
             </section>
       </div>
-      <div id="right-banner" class="d-none d-lg-block">
-        <a href="#">
-          <img src="/images/banners/banner_160x600.png" alt="Banner"
-            style="max-width: 100%; height: auto; display: block;">
-        </a>
+      <div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+        <div id="right-banner" class="d-none d-lg-block">
+          <a href="#">
+            <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
+          </a>
+        </div>
       </div>
     </div>
 

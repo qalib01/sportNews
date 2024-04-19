@@ -29,9 +29,10 @@ function changeLetters(str) {
         "?": "",
         "!": "",
         ".": "",
-        ",": ""
+        ",": "",
+        "/": "", 
     };
-    return str.replace(/[əıöğüşç\s\-_'"':;,.“”?!.,]/g, (match) => azerbaijaniToEnglishMap[match]);
+    return str.replace(/[əıöğüşç\s\-_'"':;,.“”?!.,/]/g, (match) => azerbaijaniToEnglishMap[match]);
 }
 
 var alertMessage = document.querySelector('#alert-message');
@@ -182,6 +183,13 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
         let time = basicForm.time.value.trim();
         
         let sharedAt = `${date} ${time}`;
+        console.log(sharedAt)
+        console.log(!sharedAt)
+        if (!sharedAt) {
+            console.log(!sharedAt)
+            sharedAt = new Date();
+            console.log(new Date())
+        }
         let status = basicForm.status.value.trim();
         
         // const requestBody = {
@@ -213,9 +221,9 @@ const newsFormCreateUpdate = async (isCreateAction, method) => {
             // },
         });
         const data = await res.json();
-        if (data.status == 200) {
-            location.reload();
-        }
+        // if (data.status == 200) {
+        //     location.reload();
+        // }
     } catch (error) {
         return error;
     }
