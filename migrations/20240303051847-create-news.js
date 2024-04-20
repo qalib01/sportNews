@@ -32,6 +32,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      isHeadNews: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       createdBy: {
         type: Sequelize.STRING,
         allowNull: false,

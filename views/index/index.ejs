@@ -55,12 +55,12 @@
               </div>
             </section>
 
-            <!-- Feature post -->
+            <!-- Head news -->
+            <% if(headNews.length > 0 && headNews.length == 5) { %>
             <section class="bg0">
               <div class="container">
                 <div class="row m-rl--1">
-                  <% if(allNews.length > 0) { %>
-                    <% let firstNews = allNews[0]; %>
+                    <% let firstNews = headNews[0]; %>
                     <div class="col-md-6 p-rl-1 p-b-2">
                       <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= firstNews.title.replaceAll('"', '') %>" style="background-image: url('/images/news/<%= firstNews.img %>');">
                         <a href="/news/news-detail?key=<%= firstNews.key %>" class="dis-block how1-child1 trans-03 text-decoration-none" aria-label="<%= firstNews.title.replaceAll('"', '') %>"></a>
@@ -84,8 +84,8 @@
 
                     <div class="col-md-6 p-rl-1">
                       <div class="row m-rl--1">
-                        <% for (let i = 1; i < allNews.slice(0,5).length; i++) { %>
-                          <% let news = allNews[i]; %>
+                        <% for (let i = 1; i < headNews.length; i++) { %>
+                          <% let news = headNews[i]; %>
                           <div class="col-sm-6 p-rl-1 p-b-2">
                             <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= news.title.replaceAll('"', '') %>" style="background-image: url('/images/news/<%= news.img %>');">
                               <a href="/news/news-detail?key=<%= news.key %>" class="dis-block how1-child1 trans-03 text-decoration-none" aria-label="<%= news.title.replaceAll('"', '') %>"></a>
@@ -107,31 +107,33 @@
                         <% } %>
                       </div>
                     </div>
-                  <% } %>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            <% } %>
 
             <!-- Banner -->
-            <section class="container bg0 p-t-20 p-b-20">
-              <div class="flex-c-c justify-content-between flex-md-row flex-column" style="row-gap: 10px;">
-                <div class="">
-                  <a href="#">
-                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
-                  </a>
+            <% if (headNews.length == 5) { %>
+              <section class="container bg0 p-t-20 p-b-20">
+                <div class="flex-c-c justify-content-between flex-md-row flex-column" style="row-gap: 10px;">
+                  <div class="">
+                    <a href="#">
+                      <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                    </a>
+                  </div>
+                  <div class="d-none d-md-block">
+                    <a href="#">
+                      <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                    </a>
+                  </div>
+                  <div class="d-none d-lg-block">
+                    <a href="#">
+                      <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
+                    </a>
+                  </div>
                 </div>
-                <div class="d-none d-md-block">
-                  <a href="#">
-                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
-                  </a>
-                </div>
-                <div class="d-none d-lg-block">
-                  <a href="#">
-                    <img class="max-w-full" src="/images/banners/banner_320x100.png" alt="Banner">
-                  </a>
-                </div>
-              </div>
-            </section>
+              </section>
+            <% } %>
 
             <!-- Post -->
             <section>

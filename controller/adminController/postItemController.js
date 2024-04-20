@@ -1,7 +1,6 @@
 const db = require('../../models/index');
-const { sequelize } = require('../../models/index');
-const moment = require('moment');
-
+const { errorMessages } = require('../../statusMessages/errorMessages');
+const { successMessages } = require('../../statusMessages/successMessages');
 
 let guid = () => {
     let s4 = () => {
@@ -10,7 +9,6 @@ let guid = () => {
             .substring(1)
             .toUpperCase();
     };
-    //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
     return (
         s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4()
     );
@@ -20,24 +18,28 @@ const createNewTag = async (req, res, next) => {
     let inputData = req.body;
 
     try {
-        await db.tags.create({
-            id: guid(),
-            name: inputData.name,
-            key: inputData.key,
-            description: inputData.description,
-            status: inputData.status,
-        })
-
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla bazaya əlavə olundu!",
+        let hasTag = await db.tags.findOne({
+            where: {
+                key: inputData.key,
+            }
         });
+
+        if (hasTag) {
+            res.status(409).json( errorMessages.HAS_ALREADY_TAG )
+        } else {
+            await db.tags.create({
+                id: guid(),
+                name: inputData.name,
+                key: inputData.key,
+                description: inputData.description,
+                status: inputData.status,
+                createdBy: res.locals.localUser.id,
+            })
+    
+            res.status(200).json( successMessages.ADDED_TAG );
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR )
     }
 }
 
@@ -45,24 +47,29 @@ const createNewCategory = async (req, res, next) => {
     let inputData = req.body;
 
     try {
-        await db.categories.create({
-            id: guid(),
-            name: inputData.name,
-            key: inputData.key,
-            description: inputData.description,
-            status: inputData.status,
+        let hasCategory = await db.categories.findOne({
+            where: {
+                key: inputData.key,
+            }
         })
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla bazaya əlavə olundu!",
-        });
+        if (hasCategory) {
+            res.status(409).json( errorMessages.HAS_ALREADY_CATEGORY )
+        } else {
+            await db.categories.create({
+                id: guid(),
+                name: inputData.name,
+                key: inputData.key,
+                description: inputData.description,
+                status: inputData.status,
+                createdBy: res.locals.localUser.id,
+            })
+
+            res.status(200).json( successMessages.ADDED_CATEGRORY )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 
@@ -70,24 +77,31 @@ const createPlatfromSocialMedia = async (req, res, next) => {
     let inputData = req.body;
 
     try {
-        await db.platform_medias.create({
-            id: guid(),
-            name: inputData.name,
-            linkSlug: inputData.linkSlug,
-            socialMediaId: inputData.socialMediaId,
-            status: inputData.status,
+        let hasPlatform = await db.platform_medias.findOne({
+            where: {
+                name: inputData.name,
+                linkSlug: inputData.linkSlug,
+                socialMediaId: inputData.socialMediaId
+            }
         })
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla bazaya əlavə olundu!",
-        });
+        if (hasPlatform) {
+            res.status(409).json( errorMessages.HAS_ALREADY_PLATFORM )
+        } else {
+            await db.platform_medias.create({
+                id: guid(),
+                name: inputData.name,
+                linkSlug: inputData.linkSlug,
+                socialMediaId: inputData.socialMediaId,
+                status: inputData.status,
+                createdBy: res.locals.localUser.id,
+            })
+    
+            res.status(200).json( successMessages.ADDED_PLATFORM );
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 

@@ -33,7 +33,7 @@
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0 text-center">
+                        <tbody class="table-border-bottom-0 text-center" id="news-items">
                             <% news.forEach((nws, id)=> { %>
                                 <tr>
                                     <td>
@@ -45,10 +45,15 @@
                                         <%= nws.title %>
                                     </td>
                                     <td>
-                                        <% if (!nws.category) { %>
-                                            Təyin edilmədi
+                                        <% if (nws.category) { %>
+                                            <%= nws.category.name %> 
+                                            <% if (nws.category.status) { %>
+                                                <i class='bx bx-check-circle' style="color: #198754;"></i>
+                                            <% } else { %>
+                                                <i class='bx bx-x-circle' style="color: #ED4337"></i>
+                                            <% } %>
                                         <% } else { %>
-                                            <%= nws.category.name %>
+                                            Təyin edilmədi <i class='bx bx-x-circle' style="color: #ED4337"></i>
                                         <% } %>
                                     </td>
                                     <td class="text-wrap">
@@ -85,6 +90,9 @@
                                                     data-bs-toggle="modal" data-bs-target="#deleteModal"
                                                     data-item="news">
                                                     <i class="bx bx-trash me-1"></i> Sil
+                                                </a>
+                                                <a class="dropdown-item" href="/news/news-detail?key=<%= nws.key %>">
+                                                    <i class='bx bx-link-alt'></i> Xəbərə get
                                                 </a>
                                             </div>
                                         </div>
@@ -126,16 +134,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div style="display: none" class="alert-modal d-flex flex-column-center" id="alert-message">
-                            <i></i>
-                            <p></p>
-                            <!-- <div class="progress" id="progress-bar"></div> -->
-                        </div>
                         <form id="basicForm" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label" for="title">Titul</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="Adı"
-                                    required>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
                                 <label for="img" class="form-label">Şəkil</label>
@@ -145,19 +147,29 @@
                                 <label class="form-label" for="description">Məzmun</label>
                                 <div id="editor"></div>
                             </div>
-                            <div class="mb-3">
-                                <label for="category" class="form-label">Kateqoriya</label>
-                                <select class="form-select" id="category" aria-label="Select item category" required>
-                                    <option selected hidden disabled>Seçim edin</option>
-                                    <% categories.forEach((category)=> { %>
-                                        <option value="<%= category.id %>">
-                                            <%= category.name %>
-                                        </option>
+                            <div class="row">
+                                <div class="mb-3 col-12 col-sm-9">
+                                    <label for="category" class="form-label">Kateqoriya</label>
+                                    <select class="form-select" id="category" aria-label="Select item category" required>
+                                        <option selected hidden disabled>Seçim edin</option>
+                                        <% categories.forEach((category)=> { %>
+                                            <option value="<%= category.id %>">
+                                                <%= category.name %>
+                                            </option>
                                         <% }) %>
-                                </select>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-12 col-sm-3">
+                                    <label for="headNews" class="form-label"> Əsas xəbər </label>
+                                    <select class="form-select" id="headNews" aria-label="Select head news">
+                                        <option selected hidden disabled>Seçim edin</option>
+                                        <option value="0">Passiv</option>
+                                        <option value="1">Aktiv</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <label for="tags" class="form-label">Taglar</label>
+                                <label class="form-label">Taglar</label>
                                 <br />
                                 <% tags.forEach((tag)=> { %>
                                     <div class="form-check form-check-inline mb-3">
@@ -166,13 +178,13 @@
                                             <%= tag.name %>
                                         </label>
                                     </div>
-                                    <% }) %>
+                                <% }) %>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-12 col-sm-4">
                                     <label for="status" class="form-label">Status</label>
                                     <select class="form-select" id="status" aria-label="Select item status">
-                                        <option selected="" hidden>Seçim edin</option>
+                                        <option selected hidden disabled>Seçim edin</option>
                                         <option value="0">Passiv</option>
                                         <option value="1">Aktiv</option>
                                     </select>
@@ -186,10 +198,8 @@
                                     <input type="time" class="form-control" id="time">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" data-item="news">Təsdiqlə</button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Bağla
-                            </button>
+                            <button type="submit" class="btn btn-primary" data-item="news"> Təsdiqlə </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
                         </form>
                     </div>
                 </div>
@@ -200,21 +210,24 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Sil</h5>
+                        <h5 class="modal-title"> Sil </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="deleteForm">
                             <div class="mb-3">
-                                <p>Bunu etmək istədiyinizə əminsiniz?</p>
+                                <p> Bunu etmək istədiyinizə əminsiniz? </p>
                             </div>
-                            <button type="submit" class="btn btn-danger">Sil</button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
-                            </button>
+                            <button type="submit" class="btn btn-danger"> Sil </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
+        <div style="display: none" class="alert-modal flex-column align-items-center" id="alert-message">
+            <i></i>
+            <p></p>
         </div>
 
         <script>

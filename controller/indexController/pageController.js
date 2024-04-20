@@ -54,8 +54,10 @@ const getHomePage = async (req, res, next) => {
             order: [
                 ['createdAt', 'DESC']
             ],
-            attributes: ['title', 'key', 'img', 'createdAt']
+            attributes: ['title', 'key', 'img', 'createdAt', 'isHeadNews'],
         });
+
+        let headNews = allNews.filter(news => news.isHeadNews === true).slice(0,5);
 
         // Filter trending news within the last 7 days based on views
         const trendNews = allNews.filter(news => {
@@ -126,15 +128,10 @@ const getHomePage = async (req, res, next) => {
             });
             
         
-            // console.log(categoryNews.length);
-            // Convert categoryTags object to an array of tag objects
             const tags = Object.entries(categoryTags)
                 .sort((a, b) => b[1].count - a[1].count) // Sort by count values in descending order
                 .slice(0, 3) // Limit to 3 tags per category
                 .map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news })); // Include name, count, key, and news array for each tag
-                // console.log(tags.map(([tagName, { count, key, news }]) => ({ name: tagName, count, key, news }))[2].news);
-        
-                // console.log(tags);
                 
             const [, { categoryKey }] = sortedCategories.find(([name]) => name === categoryName);
         
@@ -182,6 +179,7 @@ const getHomePage = async (req, res, next) => {
             allTags,
             trendNews,
             allNews,
+            headNews,
             categoryArray,
             youTubeVideoLink,
         });

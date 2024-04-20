@@ -1,28 +1,31 @@
 const db = require('../../models/index');
-const { sequelize } = require('../../models/index');
-const moment = require('moment');
+const { successMessages } = require('../../statusMessages/successMessages');
+const { errorMessages } = require('../../statusMessages/errorMessages');
 
 
 const deleteSelectedTag = async (req, res, next) => {
     let id = req.query.id;
 
     try {
-        await db.tags.destroy({
+        let hasTag = await db.tags.findOne({
             where: {
                 id,
             }
         })
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla silindi!",
-        });
+        if (hasTag) {
+            await db.tags.destroy({
+                where: {
+                    id,
+                }
+            })
+            res.status(200).json( successMessages.DELETED_TAG );
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_TAG )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 
@@ -30,22 +33,25 @@ const deleteSelectedCategory = async (req, res, next) => {
     let id = req.query.id;
 
     try {
-        await db.categories.destroy({
+        let hasCategory = await db.categories.findOne({
             where: {
                 id,
             }
         })
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla silindi!",
-        });
+        if (hasCategory) {
+            await db.categories.destroy({
+                where: {
+                    id,
+                }
+            })
+            res.status(200).json( successMessages.DELETED_CATEGRORY );
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_CATEGORY )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 
@@ -53,22 +59,25 @@ const deletePlatfromSocialMedia = async (req, res, next) => {
     let id = req.query.id;
 
     try {
-        await db.platform_medias.destroy({
+        let hasPlatform = await db.platform_medias.findOne({
             where: {
                 id,
             }
         })
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla silindi!",
-        });
+        if (hasPlatform) {
+            await db.platform_medias.destroy({
+                where: {
+                    id,
+                }
+            })
+
+            res.status(200).json( successMessages.DELETED_PLATFORM );
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_PLATFORM );
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
     }
 }
 

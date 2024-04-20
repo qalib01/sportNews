@@ -122,3 +122,35 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+/************ Alert Modal ************/
+.alert-modal {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: #fff;
+  padding: 20px 10px;
+  max-width: 250px;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 2000;
+}
+
+.success {
+  background-color: #198754;
+}
+
+.error {
+  background-color: #ED4337;
+}
+
+.alert-modal i {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.alert-modal p {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}

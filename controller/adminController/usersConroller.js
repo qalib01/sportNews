@@ -1,9 +1,7 @@
 const db = require('../../models/index');
-const { sequelize } = require('../../models/index');
-const moment = require('moment');
 let bcrypt = require('bcrypt');
-
-
+const { successMessages } = require('../../statusMessages/successMessages');
+const { errorMessages } = require('../../statusMessages/errorMessages');
 
 let guid = () => {
     let s4 = () => {
@@ -12,7 +10,6 @@ let guid = () => {
             .substring(1)
             .toUpperCase();
     };
-    //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
     return (
         s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4()
     );
@@ -23,7 +20,6 @@ const createUser = async (req, res, next) => {
     let id = guid();
 
     try {
-
         let isUser = await db.users.findOne({
             where: {
                 email: inputData.email,
@@ -39,40 +35,40 @@ const createUser = async (req, res, next) => {
                 password: await bcrypt.hash(inputData.password, 10),
                 status: inputData.status,
             });
-            res.status(200).json({
-                status: 200,
-                statusText: 'Data has been successfully added to the database!',
-            });
+            res.status(200).json( successMessages.ADDED_USER )
+        } else {
+            res.status(409).json( errorMessages.HAS_ALREADY_USER )
         }
-
-        res.status(409).json({
-            status: 409,
-            statusText: 'Data has already in the database!',
-        });
     } catch (error) {
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     };
 
 }
 
 const getSelectedUser = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
-        let data = await db.users.findOne({
+        let hasUser = await db.users.findOne({
             where: {
                 id,
-            },
-        });
+            }
+        })
 
-        res.json(data);
+        if (hasUser) {
+            let data = await db.users.findOne({
+                where: {
+                    id,
+                },
+            });
+
+            res.json(data);
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_USER )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR )
     }
 }
 
@@ -81,29 +77,43 @@ const updateSelectedUser = async (req, res, next) => {
     let inputData = req.body;
 
     try {
-        await db.users.update({
-            name: inputData.name,
-            surname: inputData.surname,
-            email: inputData.email,
-            password: await bcrypt.hash(inputData.password, 10),
-            status: inputData.status,
-        },
+        let hasUser = await db.users.findOne({
+            where: {
+                id,
+            }
+        })
+
+        if (hasUser) {
+            await db.users.update({
+                name: inputData.name,
+                surname: inputData.surname,
+                email: inputData.email,
+                status: inputData.status,
+            },
             {
                 where: {
                     id,
                 }
-            })
+            });
+    
+            if (inputData.password != '' || inputData.password !== undefined || inputData.password !== null) {
+                await db.users.update({
+                    password: await bcrypt.hash(inputData.password, 10),
+                },
+                {
+                    where: {
+                        id,
+                    }
+                });
+            }
 
-            res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla yeniləndi!",
-        });
+            res.status(200).json( successMessages.UPDATED_USER )
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_USER )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR )
+        console.log(error);
     }
 }
 
@@ -111,22 +121,25 @@ const deleteSelectedUser = async (req, res, next) => {
     let id = req.query.id;
 
     try {
-        await db.users.destroy({
+        let hasUser = await db.users.findOne({
             where: {
-                id,
+                id
             }
         })
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla silindi!",
-        });
+        if (hasUser) {
+            await db.users.destroy({
+                where: {
+                    id,
+                }
+            });
+            res.status(200).json( successMessages.DELETED_USER )
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_USER )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR )
+        console.log(error);
     }
 }
 

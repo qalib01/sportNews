@@ -1,68 +1,68 @@
 const db = require('../../models/index');
-const { sequelize } = require('../../models/index');
-const moment = require('moment');
-
+const { errorMessages } = require('../../statusMessages/errorMessages');
 
 const getSelectedTag = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
-        let data = await db.tags.findOne({
+        let hasTag = await db.tags.findOne({
             where: {
                 id,
             },
         });
 
-        res.json(data);
+        if (hasTag) {
+            res.json(hasTag);
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_TAG )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error)
     }
 }
 
 const getSelectedCategory = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
-        let data = await db.categories.findOne({
+        let hasCategory = await db.categories.findOne({
             where: {
                 id,
             },
         });
 
-        res.json(data);
+        if (hasCategory) {
+            res.json(hasCategory);
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_CATEGORY )
+        }
+
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR )
+        console.log(error);
     }
 }
 
 const getPlatfromSocialMedia = async (req, res, next) => {
     let id = req.query.id;
-    id = id.replace(':', '');
 
     try {
-        let data = await db.platform_medias.findOne({
+        let hasPlatform = await db.platform_medias.findOne({
             where: {
                 id,
             },
         });
 
-        res.json(data);
+        console.log(hasPlatform);
+
+        if (hasPlatform) {
+            res.json(hasPlatform);
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_PLATFORM )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
     }
 }
 

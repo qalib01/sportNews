@@ -23,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     linkSlug: DataTypes.TEXT,
     socialMediaId: DataTypes.STRING,
     status: DataTypes.BOOLEAN,
+    createdBy: DataTypes.STRING,
+    updatedBy: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'platform_medias',

@@ -1,8 +1,5 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
-const moment = require('moment');
-// moment.locale('az');
-
 
 const HomePage = async (req, res, next) => {
     res.render('admin/dashboard', {
@@ -30,10 +27,7 @@ const newsPage = async (req, res, next) => {
             {
                 model: sequelize.model('categories'),
                 as: 'category',
-                attributes: ['name', 'key', 'description'],
-                where: {
-                    status: true
-                }
+                attributes: ['name', 'key', 'description', 'status'],
             },
             {
                 model: sequelize.model('news_tags'),
@@ -58,7 +52,6 @@ const newsPage = async (req, res, next) => {
         order: [
             ['createdAt', 'DESC']
         ],
-        // attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
     });
     let tags = await db.tags.findAll({
         where: {

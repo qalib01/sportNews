@@ -1,35 +1,64 @@
 const db = require('../../models/index');
-const { sequelize } = require('../../models/index');
-const moment = require('moment');
-
+const { errorMessages } = require('../../statusMessages/errorMessages');
+const { successMessages } = require('../../statusMessages/successMessages');
 
 const updateSelectedTag = async (req, res, next) => {
     let id = req.query.id;
     let inputData = req.body;
 
     try {
-        await db.tags.update({
-            name: inputData.name,
-            key: inputData.key,
-            description: inputData.description,
-            status: inputData.status,
-        },
-            {
-                where: {
-                    id,
-                }
-            })
-
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla yeniləndi!",
+        let hasTag = await db.tags.findOne({
+            where: {
+                id,
+            }
         });
+
+        let checkNewTag = await db.tags.findOne({
+            where: {
+                key: inputData.key,
+            }
+        });
+
+        if (hasTag) {
+            if (hasTag.key == inputData.key) {
+                await db.tags.update({
+                    description: inputData.description,
+                    status: inputData.status,
+                    updatedBy: res.locals.localUser.id,
+                },
+                {
+                    where: {
+                        id,
+                    }
+                })
+
+                res.status(200).json( successMessages.UPDATED_TAG )
+            } else {
+                if (checkNewTag) {
+                    res.status(409).json( errorMessages.HAS_ALREADY_TAG );
+                } else {
+                    await db.tags.update({
+                        name: inputData.name,
+                        key: inputData.key,
+                        description: inputData.description,
+                        status: inputData.status,
+                        updatedBy: res.locals.localUser.id,
+                    },
+                    {
+                        where: {
+                            id,
+                        }
+                    })
+
+                    res.status(200).json( successMessages.UPDATED_TAG )
+                }
+            }
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_TAG )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 
@@ -38,28 +67,58 @@ const updateSelectedCategory = async (req, res, next) => {
     let inputData = req.body;
 
     try {
-        await db.categories.update({
-            name: inputData.name,
-            key: inputData.key,
-            description: inputData.description,
-            status: inputData.status,
-        },
-            {
-                where: {
-                    id,
-                }
-            })
-
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla yeniləndi!",
+        let hasCategory = await db.categories.findOne({
+            where: {
+                id,
+            }
         });
+
+        let checkNewCategory = await db.categories.findOne({
+            where: {
+                key: inputData.key,
+            }
+        });
+
+        if (hasCategory) {
+            if (hasCategory.key == inputData.key) {
+                await db.categories.update({
+                    description: inputData.description,
+                    status: inputData.status,
+                    updatedBy: res.locals.localUser.id,
+                },
+                {
+                    where: {
+                        id,
+                    }
+                })
+
+                res.status(200).json( successMessages.UPDATED_CATEGORY )
+            } else {
+                if (checkNewCategory) {
+                    res.status(409).json( errorMessages.HAS_ALREADY_CATEGORY );
+                } else {
+                    await db.categories.update({
+                        name: inputData.name,
+                        key: inputData.key,
+                        description: inputData.description,
+                        status: inputData.status,
+                        updatedBy: res.locals.localUser.id,
+                    },
+                    {
+                        where: {
+                            id,
+                        }
+                    })
+
+                    res.status(200).json( successMessages.UPDATED_CATEGORY )
+                }
+            }
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_CATEGORY )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 
@@ -68,28 +127,33 @@ const updatePlatfromSocialMedia = async (req, res, next) => {
     let inputData = req.body;
 
     try {
-        await db.platform_medias.update({
-            name: inputData.name,
-            linkSlug: inputData.linkSlug,
-            socialMediaId: inputData.socialMediaId,
-            status: inputData.status,
-        },
+        let hasPlatform = await db.platform_medias.findOne({
+            where: {
+                id,
+            }
+        })
+
+        if (hasPlatform) {
+            await db.platform_medias.update({
+                name: inputData.name,
+                linkSlug: inputData.linkSlug,
+                socialMediaId: inputData.socialMediaId,
+                status: inputData.status,
+                updatedBy: res.locals.localUser.id,
+            },
             {
                 where: {
                     id,
                 }
-            })
+            });
 
-        res.status(200).json({
-            status: 200,
-            statusText: "Məlumatlar uğurla yeniləndi!",
-        });
+            res.status(200).json( successMessages.UPDATED_PLATFORM )
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_PLATFORM )
+        }
     } catch (error) {
-        // res.status(500).json({
-        //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-        //   error,
-        // });
-        return error;
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
     }
 }
 

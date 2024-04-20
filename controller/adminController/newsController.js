@@ -3,7 +3,8 @@ const { sequelize } = require('../../models/index');
 const moment = require('moment-timezone');
 const fs = require('fs');
 const sharp = require('sharp');
-
+const { errorMessages } = require('../../statusMessages/errorMessages');
+const { successMessages } = require('../../statusMessages/successMessages');
 
 let guid = () => {
   let s4 = () => {
@@ -12,7 +13,6 @@ let guid = () => {
       .substring(1)
       .toUpperCase();
   };
-  //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
   return (
     s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4()
   );
@@ -23,53 +23,59 @@ const createNews = async (req, res, next) => {
   let id = guid();
   let img;
 
-  // if (req.file) {
-  //   img = req.file.filename;
-  // }
-
   try {
-    if(req.file) {
-      img = inputData.key + '_' + req.file.filename.split('.').slice(0, -1).join('.') + '.webp';
-      let filePath = req.file.path;
-      let image = sharp(filePath)
-      .webp({ quality: 80 });
-      await image.toFile('public/images/news/' + img);
-      fs.unlinkSync(filePath);
-    }
-
-    await db.news.create({
-      id: id,
-      title: inputData.title,
-      key: inputData.key,
-      img,
-      categoryId: inputData.categoryId,
-      content: inputData.content,
-      status: inputData.status,
-      sharedAt: inputData.sharedAt,
-      createdBy: res.locals.localUser.id,
+    let hasNews = await db.news.findOne({
+      where: {
+        key: inputData.key,
+      }
     });
 
-    inputData.tags.split(",").forEach(async (tag) => {
-      await db.news_tags.create({
-        id: guid(),
-        newsId: id,
-        tagId: tag,
+    if (hasNews) {
+      res.status(409).json( errorMessages.HAS_ALREADY_NEWS );
+    } else {
+      if(req.file) {
+        img = inputData.key + '_' + req.file.filename.split('.').slice(0, -1).join('.') + '.webp';
+        let filePath = req.file.path;
+        let image = sharp(filePath)
+        .webp({ quality: 80 });
+        await image.toFile('public/images/news/' + img);
+        fs.unlinkSync(filePath);
+      }
+
+      await db.news.create({
+        id: id,
+        title: inputData.title,
+        key: inputData.key,
+        img,
+        categoryId: inputData.categoryId,
+        content: inputData.content,
+        status: inputData.status,
+        isHeadNews: inputData.isHeadNews,
+        sharedAt: moment(inputData.sharedAt).tz('Asia/Baku'),
+        createdBy: res.locals.localUser.id,
       });
-    })
 
-    res.status(200).json({
-      status: 200,
-      statusText: 'Data has been successfully added to the database!',
-    });
+      inputData.tags.split(",").forEach(async (tag) => {
+        await db.news_tags.create({
+          id: guid(),
+          newsId: id,
+          tagId: tag,
+        });
+      });
+
+      res.status(200).json( successMessages.ADDED_NEWS );
+    }
   } catch (error) {
-    console.log(error)
-    return error;
+    res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+    console.log(error);
+    if (req.file) {
+      fs.unlinkSync('public/images/news/' + img);
+    }
   };
 }
 
 const getSelectedNews = async (req, res, next) => {
   let id = req.query.id;
-
   try {
     let data = await db.news.findOne({
       where: {
@@ -83,14 +89,15 @@ const getSelectedNews = async (req, res, next) => {
       ]
     });
 
-    data = JSON.stringify(data);
-    res.send(data);
+    if (data) {
+      data = JSON.stringify(data);
+      res.send(data);
+    } else {
+      res.status(404).json( errorMessages.NOT_FOUND_NEWS )
+    }
   } catch (error) {
-    res.status(500).json({
-      status: 500,
-      statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-    });
-    return error;
+    res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+    console.log(error);
   }
 }
 
@@ -113,16 +120,12 @@ const updateSelectedNews = async (req, res, next) => {
       },
     });
 
-    const beforeTagIds = hasNews.news_tags.map(tag => tag.tagId);
-    const afterTagIds = inputData.tags.split(",");
-    
-    // Find IDs in afterIds that are not in beforeIds
-    const addIds = afterTagIds.filter(id => !beforeTagIds.includes(id));
-    
-    // Find IDs in beforeIds that are not in afterIds
-    const removeIds = beforeTagIds.filter(id => !afterTagIds.includes(id));
-
     if (hasNews) {
+      const beforeTagIds = hasNews.news_tags.map(tag => tag.tagId);
+      const afterTagIds = inputData.tags.split(",");
+      const addIds = afterTagIds.filter(id => !beforeTagIds.includes(id));
+      const removeIds = beforeTagIds.filter(id => !afterTagIds.includes(id));
+
       if(req.file) {
         img = hasNews.key + '_' + req.file.filename.split('.').slice(0, -1).join('.') + '.webp';
         let filePath = req.file.path;
@@ -137,6 +140,7 @@ const updateSelectedNews = async (req, res, next) => {
         categoryId: inputData.categoryId,
         content: inputData.content,
         status: inputData.status,
+        isHeadNews: inputData.isHeadNews,
         sharedAt: inputData.sharedAt,
         updatedBy: res.locals.localUser.id,
       },
@@ -158,7 +162,7 @@ const updateSelectedNews = async (req, res, next) => {
           }
         })
       }
-  
+
       if (addIds) {
         addIds.forEach(async (tagId) => {
           await db.news_tags.create({
@@ -179,30 +183,42 @@ const updateSelectedNews = async (req, res, next) => {
           });
         });
       }
-  
-      res.status(200).json({
-        status: 200,
-        statusText: "Məlumatlar uğurla yeniləndi!",
-      });
+
+      res.status(200).json( successMessages.UPDATED_NEWS );
     } else {
-      res.status(404).json({
-        status: 404,
-        statusText: "Belə bir xəbər tapılmadı!",
-      });
+      res.status(404).json( errorMessages.NOT_FOUND_NEWS );
     }
-    
   } catch (error) {
-    res.status(500).json({
-      status: 500,
-      statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-    });
-    // if (req.file) {
-    //   fs.unlinkSync('public/images/news/' + img);
-    // }
-    console.log(error)
-    return error;
+    res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+    console.log(error);
+    if (req.file) {
+      fs.unlinkSync('public/images/news/' + img);
+    }
   }
 }
+
+// const getAdminNewsLoadMore = async (req, res, next) => {
+//   let limit = parseInt(req.query.limit);
+//   let startIndex = parseInt(req.query.startIndex) || 0;
+
+//   try {
+//       // const queryOptions = generateQueryOptions(req.query);
+//       // queryOptions.limit = limit;
+//       // queryOptions.offset = startIndex;
+//       let allNews = await db.news.findAll(queryOptions);
+  
+//       allNews = allNews.map((news) => {
+//           return {
+//               ...news.toJSON(),
+//               createdAt: moment(news.createdAt).format('LL'),
+//           }
+//       });
+//       res.json(allNews);
+//   } catch (error) {
+//       console.error('Error in fetching homepage data:', error);
+//       next(error);
+//   }
+// }
 
 const deleteSelectedNews = async (req, res, next) => {
   let id = req.query.id;
@@ -232,30 +248,15 @@ const deleteSelectedNews = async (req, res, next) => {
           newsId: id,
         }
       })
+      // fs.unlinkSync('public/images/news/' + hasNews.img);
 
-      fs.unlinkSync('public/images/news/' + hasNews.img);
-      
-      res.status(200).json({
-        status: 200,
-        statusText: "Məlumatlar uğurla silindi!",
-      });
+      res.status(200).json( successMessages.DELETED_NEWS );
     } else {
-      res.status(404).json({
-        status: 404,
-        statusText: "Belə bir xəbər tapılmadı!",
-      });
+      res.status(404).json( errorMessages.NOT_FOUND_NEWS );
     }
-
-    res.status(200).json({
-      status: 200,
-      statusText: "Məlumatlar uğurla silindi!",
-    });
   } catch (error) {
-    // res.status(500).json({
-    //   statusText: "Gözlənilməz xəta baş verdi. Xahiş olunur, daha sonra təkrar yoxlayasınız!",
-    //   error,
-    // });
-    return error;
+    res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+    console.log(error);
   }
 }
 

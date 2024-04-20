@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     key: DataTypes.STRING,
     description: DataTypes.TEXT,
     status: DataTypes.BOOLEAN,
+    createdBy: DataTypes.STRING,
+    updatedBy: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'categories',

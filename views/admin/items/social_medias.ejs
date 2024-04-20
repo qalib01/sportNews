@@ -38,7 +38,7 @@
                                         <%= media.name %>
                                     </td>
                                     <td>
-                                        <%= media.social_media.name %>
+                                        <%= media.social_media ? media.social_media.name : 'Təyin edilməyib'  %>
                                     </td>
                                     <td>
                                         <% if (media.status==true) { %>
@@ -135,5 +135,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div style="display: none" class="alert-modal flex-column align-items-center" id="alert-message">
+            <i></i>
+            <p></p>
         </div>
         <%- include('../_partials/footer') %>
