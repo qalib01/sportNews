@@ -1,8 +1,9 @@
 'use strict';
-const { Model } = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class categories extends Model {
+  class sub_categories extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -10,27 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      categories.belongsTo(models.news, {
+      sub_categories.hasOne(models.categories, {
+        foreignKey: 'id',
+        sourceKey: 'categoryId',
+        as: 'category',
+      });
+      sub_categories.belongsTo(models.news, {
         foreignKey: 'id',
       });
-      categories.hasMany(models.sub_categories, {
-        foreignKey: 'categoryId',
-        sourceKey: 'id',
-        as: 'sub_categories',
-      });
-    };
-  };
-  categories.init({
+    }
+  }
+  sub_categories.init({
     name: DataTypes.STRING,
     key: DataTypes.STRING,
     description: DataTypes.TEXT,
+    categoryId: DataTypes.STRING,
     status: DataTypes.BOOLEAN,
-    inOrder: DataTypes.INTEGER,
     createdBy: DataTypes.STRING,
     updatedBy: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'categories',
+    modelName: 'sub_categories',
   });
-  return categories;
+  return sub_categories;
 };

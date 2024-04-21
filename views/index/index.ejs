@@ -75,7 +75,7 @@
                           </h3>
                           <span class="how1-child2">
                             <span class="f1-s-2 cl0">
-                              <%= moment(firstNews.createdAt).format('LL') %>
+                              <%= moment(firstNews.sharedAt).format('LL') %>
                             </span>
                           </span>
                         </div>
@@ -98,7 +98,7 @@
                                 </a>
                                 <span class="how1-child2">
                                   <span class="f1-s-2 cl0">
-                                    <%= moment(news.createdAt).format('LL') %>
+                                    <%= moment(news.sharedAt).format('LL') %>
                                   </span>
                                 </span>
                               </div>
@@ -197,7 +197,7 @@
                                           <%= nws.title %>
                                         </a>
                                         <span class="cl19 f1-s-3">
-                                          <%= moment(nws.createdAt).format('LL') %>
+                                          <%= moment(nws.sharedAt).format('LL') %>
                                         </span>
                                       </div>
                                     </div>

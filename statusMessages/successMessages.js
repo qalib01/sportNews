@@ -16,6 +16,11 @@ let successMessages = {
         key,
         message: "Kateqoriya materialı uğurla əlavə edildi!"
     },
+    ADDED_SUB_CATEGRORY: {
+        status,
+        key,
+        message: "Alt kateqoriya materialı uğurla əlavə edildi!"
+    },
     ADDED_PLATFORM: {
         status,
         key,
@@ -41,6 +46,11 @@ let successMessages = {
         key,
         message: "Kateqoriya materialı uğurla düzəliş edildi!"
     },
+    UPDATED_SUB_CATEGORY: {
+        status,
+        key,
+        message: "Alt kateqoriya materialı uğurla düzəliş edildi!"
+    },
     UPDATED_PLATFORM: {
         status,
         key,
@@ -65,6 +75,11 @@ let successMessages = {
         status,
         key,
         message: "Kateqoriya materialı uğurla silindi!"
+    },
+    DELETED_SUB_CATEGRORY: {
+        status,
+        key,
+        message: "Alt kateqoriya materialı uğurla silindi!"
     },
     DELETED_PLATFORM: {
         status,

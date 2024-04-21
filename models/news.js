@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'categoryId',
         as: 'category',
       });
+      news.hasOne(models.sub_categories, {
+        foreignKey: 'id',
+        sourceKey: 'subCategoryId',
+        as: 'sub_category',
+      });
       news.hasOne(models.news_views, {
         sourceKey: 'id',
         foreignKey: 'newsId',
@@ -31,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     key: DataTypes.STRING,
     img: DataTypes.STRING,
     categoryId: DataTypes.STRING,
+    subCategoryId: DataTypes.STRING,
     content: DataTypes.TEXT,
     status: DataTypes.BOOLEAN,
     isHeadNews: DataTypes.BOOLEAN,

@@ -21,8 +21,8 @@
                     <a href="/about" class="left-topbar-item text-decoration-none">
                         Haqqımızda
                     </a>
-                    <a href="/contact" class="left-topbar-item text-decoration-none">
-                        Əlaqə
+                    <a href="/news" class="left-topbar-item text-decoration-none">
+                        Xəbərlər
                     </a>
                 </div>
 
@@ -72,8 +72,8 @@
                     <a href="/about" class="left-topbar-item text-decoration-none">
                         Haqqımızda
                     </a>
-                    <a href="/contact" class="left-topbar-item text-decoration-none">
-                        Əlaqə
+                    <a href="/news" class="left-topbar-item text-decoration-none">
+                        Xəbərlər
                     </a>
                 </li>
 
@@ -86,46 +86,53 @@
                 </div>
             </ul>
             <ul class="main-menu-m">
-                <li class="<%= key === 'home' ? 'main-menu-m-active' : '' %>">
-                    <a href="/" class="text-decoration-none"> Ana səhifə </a>
-                </li>
-                <li class="<%= key === 'about' ? 'main-menu-m-active' : '' %>">
-                    <a href="/about" class="text-decoration-none"> Haqqımızda </a>
-                </li>
-                <li class="<%= key === 'news' ? 'main-menu-m-active' : '' %>">
-                    <a href="/news" class="text-decoration-none"> Xəbərlər </a>
-                </li>
+                <% listedCategories.forEach((category) => { %>
+                    <li>
+                        <a class="text-decoration-none" href="/news?category=<%= category.key %>"> <%= category.name %> </a>
+                        <ul class="sub-menu-m">
+                            <a class="nav-link active" data-toggle="pill" href="/news?category=<%= category.key %>" role="tab"> Hamısı </a>
+                            <% category.sub_categories.forEach((sub_category) => { %>
+                                <li>
+                                    <a class="text-decoration-none" href="/news?sub_category=<%= sub_category.key %>"> <%= sub_category.name %> </a>
+                                </li>
+                            <% }) %>
+                        </ul>
+    
+                        <span class="arrow-main-menu-m">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </span>
+                    </li>
+                <% }) %>
             </ul>
         </div>
 
-        <!--  -->
         <div class="wrap-logo container d-none d-lg-flex">
-            <!-- Logo desktop -->
             <div class="logo">
                 <a href="/" class="d-none d-lg-block text-decoration-none" title="SporterAz">
                     <img src="/images/icons/logo.webp" alt="SporterAz" style="padding-right:10px;max-width:250px;width:100%;height:100%;">
                 </a>
             </div>
         </div>
-
-        <!--  -->
         <div class="wrap-main-nav">
             <div class="main-nav">
-                <!-- Menu desktop -->
                 <nav class="menu-desktop">
                     <a class="logo-stick" href="/" title="SporterAz">
                         <img src="/images/icons/logo.webp" alt="SporterAz">
                     </a>
-                    <ul class="main-menu" style="column-gap: 10px;">
-                        <li class="<%= key === 'home' ? 'main-menu-active' : '' %>">
-                            <a href="/" class="text-decoration-none"> Ana səhifə </a>
-                        </li>
-                        <li class="<%= key === 'about' ? 'main-menu-active' : '' %>">
-                            <a href="/about" class="text-decoration-none"> Haqqımızda </a>
-                        </li>
-                        <li class="<%= key === 'news' ? 'main-menu-active' : '' %>">
-                            <a href="/news" class="text-decoration-none"> Xəbərlər </a>
-                        </li>
+                    <ul class="main-menu">
+                        <% listedCategories.forEach((category) => { %>
+                            <li>
+                                <a class="text-decoration-none" href="/news?category=<%= category.key %>"> <%= category.name %> </a>
+                                <div class="sub-mega-menu">
+                                    <div class="nav flex-column nav-pills" role="tablist">
+                                        <a class="nav-link active" data-toggle="pill" href="/news?category=<%= category.key %>" role="tab"> Hamısı </a>
+                                        <% category.sub_categories.forEach((sub_category) => { %>
+                                            <a class="nav-link text-decoration-none" data-toggle="pill" href="/news?sub_category=<%= sub_category.key %>" role="tab"> <%= sub_category.name %> </a>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </li>
+                        <% }) %>
                     </ul>
                 </nav>
             </div>

@@ -16,6 +16,10 @@ let errorMessages = {
         key,
         message: "Bu kateqoriya materialı artıq sistemdə mövcuddur. Xahiş olunur başqasını əlavə edin!"
     },
+    HAS_ALREADY_SUB_CATEGORY: {
+        key,
+        message: "Bu alt kateqoriya materialı artıq sistemdə mövcuddur. Xahiş olunur başqasını əlavə edin!"
+    },
     HAS_ALREADY_PLATFORM: {
         key,
         message: "Bu sosial medya platform materialı artıq sistemdə mövcuddur. Xahiş olunur başqasını əlavə edin!"
@@ -35,6 +39,14 @@ let errorMessages = {
     NOT_FOUND_CATEGORY: {
         key,
         message: "Belə bir kateqoriya materialı sistemdə tapılmadı. Bu bir xətadırsa, xahiş olunur daha sonra yenidən cəhd edin!"
+    },
+    NOT_FOUND_SUB_CATEGORY: {
+        key,
+        message: "Belə bir alt kateqoriya materialı sistemdə tapılmadı. Bu bir xətadırsa, xahiş olunur daha sonra yenidən cəhd edin!"
+    },
+    NOT_FOUND_CATEGORY_SUB_CATEGORY: {
+        key,
+        message: "Bu kateqoriyaya uyğun bir alt kateqoriya tapılmadı. Zəhmət olmasa, əlavə edin və yenidən cəhd edin!"
     },
     NOT_FOUND_PLATFORM: {
         key,

@@ -27,7 +27,6 @@
         }
     </style>
 
-
     <title>
         <%= title %>
     </title>
@@ -39,7 +38,7 @@
             "author": "SporterAz",
             "image": "https://sporter.az/public/images/news/<%= selectedNews.img %>",
             "description": "<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>",
-            "datePublished": "<%= moment(selectedNews.createdAt).format('L') %>"
+            "datePublished": "<%= moment(selectedNews.sharedAt).format('L') %>"
         }
     </script>
     <meta name="author" content="SporterAz">
@@ -114,9 +113,15 @@
                                 <div class="p-r-10 p-r-0-sr991">
                                     <!-- Blog Detail -->
                                     <div class="p-b-70">
-                                        <a href="/news?category=<%= selectedNews.category.key %>" class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase text-decoration-none" title="<%= selectedNews.category.name %>">
+                                        <a href="/news?category=<%= selectedNews.category.key %>" class="f1-s-10 cl2 bocl0 how1-child2 trans-03 text-decoration-none" title="<%= selectedNews.category.name %>">
                                             <%= selectedNews.category.name %>
                                         </a>
+
+                                        <% if (selectedNews.sub_category) { %>
+                                            <a href="/news?sub_category=<%= selectedNews.sub_category.key %>" class="f1-s-10 cl2 hov-cl10 trans-03 text-decoration-none" title="<%= selectedNews.sub_category.name %>">
+                                                <%= selectedNews.sub_category.name %>
+                                            </a>
+                                        <% } %>
 
                                         <h1 class="f1-l-3 cl2 p-b-16 p-t-33 respon2" title="<%= selectedNews.title %>">
                                             <%= selectedNews.title %>
@@ -125,7 +130,7 @@
                                         <div class="flex-wr-s-s p-b-40">
                                             <span class="f1-s-3 cl8 m-r-15">
                                                 <span>
-                                                    <%= moment(selectedNews.createdAt).format('LL') %>
+                                                    <%= moment(selectedNews.sharedAt).format('LL') %>
                                                 </span>
                                             </span>
                                         </div>
@@ -138,25 +143,26 @@
                                             <%- selectedNews.content %>
                                         </p>
 
-                                        <!-- Tag -->
-                                        <div class="flex-s-s p-t-12 p-b-15">
-                                            <span class="f1-s-12 cl5 m-r-8">
-                                                Tags:
-                                            </span>
-
-                                            <div class="flex-wr-s-s size-w-0">
-                                                <% selectedNews.news_tags.forEach((news_tag)=> { %>
-                                                    <% if (news_tag.tag != null) { %>
-                                                        <a href="/news?tag=<%= news_tag.tag.key %>" class="f1-s-12 cl8 hov-link1 m-r-15 text-decoration-none" title="<%= news_tag.tag.name %>">
-                                                            <%= news_tag.tag.name %>
-                                                        </a>
-                                                    <% } %>
-                                                <% }) %>
+                                        <% if (selectedNews.news_tags.length > 0) { %>
+                                            <!-- Tag -->
+                                            <div class="flex-s-s p-t-12">
+                                                <span class="f1-s-12 cl5 m-r-8">
+                                                    Tags:
+                                                </span>
+                                                <div class="flex-wr-s-s size-w-0">
+                                                    <% selectedNews.news_tags.forEach((news_tag)=> { %>
+                                                        <% if (news_tag.tag != null) { %>
+                                                            <a href="/news?tag=<%= news_tag.tag.key %>" class="f1-s-12 cl8 hov-link1 m-r-15 text-decoration-none" title="<%= news_tag.tag.name %>">
+                                                                <%= news_tag.tag.name %>
+                                                            </a>
+                                                        <% } %>
+                                                    <% }) %>
                                                 </div>
-                                        </div>
+                                            </div>
+                                        <% } %>
 
                                         <!-- Share -->
-                                        <div class="flex-s-s p-b-50">
+                                        <div class="flex-s-s p-b-50 p-t-20">
                                             <span class="f1-s-12 cl5 p-t-1 m-r-15">
                                                 Xəbəri paylaş:
                                             </span>

@@ -40,9 +40,9 @@ let generateQueryOptions = (queryParams) => {
             },
         },
         order: [
-            ['createdAt', 'DESC']
+            ['sharedAt', 'DESC']
         ],
-        attributes: ['title', 'key', 'img', 'content', 'createdAt'],
+        attributes: ['title', 'key', 'img', 'content', 'sharedAt'],
     };
 
     // Conditionally include category filtering if req.query.category is provided
@@ -58,6 +58,19 @@ let generateQueryOptions = (queryParams) => {
         });
         queryOptions.where['$news.categoryId$'] = { [Op.ne]: null };
     };
+
+    if (queryParams.sub_category) {
+        queryOptions.include.push({
+            model: sequelize.model('sub_categories'),
+            as: 'sub_category',
+            where: {
+                status: true,
+                key: queryParams.sub_category, // Filter category by key
+            },
+            attributes: ['name', 'key', 'description']
+        });
+        queryOptions.where['$news.subCategoryId$'] = { [Op.ne]: null };
+    }
 
     // Conditionally include tag filtering if req.query.tag is provided
     if (queryParams.tag) {
@@ -103,7 +116,7 @@ const getAllNews = async (req, res, next) => {
             if (news.news_view) {
                 totalViews = news.news_view.viewsCounts;
             }
-            return totalViews > 0 && moment(news.createdAt).isAfter(sevenDaysAgo);
+            return totalViews > 0 && moment(news.sharedAt).isAfter(sevenDaysAgo);
         }).sort((a, b) => {
             let viewsA = 0;
             let viewsB = 0;
@@ -141,7 +154,7 @@ const getNewsLoadMore = async (req, res, next) => {
         allNews = allNews.map((news) => {
             return {
                 ...news.toJSON(),
-                createdAt: moment(news.createdAt).format('LL'),
+                sharedAt: moment(news.sharedAt).format('LL'),
             }
         });
         res.json(allNews);
@@ -197,9 +210,9 @@ const getNewsDetail = async (req, res, next) => {
                 },
             },
             order: [
-                ['createdAt', 'DESC']
+                ['sharedAt', 'DESC']
             ],
-            attributes: ['title', 'key', 'img', 'createdBy', 'createdAt']
+            attributes: ['title', 'key', 'img', 'createdBy', 'sharedAt']
         });
         let allTags = await db.tags.findAll({
             where: {
@@ -216,7 +229,7 @@ const getNewsDetail = async (req, res, next) => {
             if (news.news_view) {
                 totalViews = news.news_view.viewsCounts;
             }
-            return totalViews > 0 && moment(news.createdAt).isAfter(sevenDaysAgo);
+            return totalViews > 0 && moment(news.sharedAt).isAfter(sevenDaysAgo);
         }).sort((a, b) => {
             let viewsA = 0;
             let viewsB = 0;
@@ -256,12 +269,17 @@ const getNewsDetail = async (req, res, next) => {
                     }
                 },
                 {
+                    model: sequelize.model('sub_categories'),
+                    as: 'sub_category',
+                    attributes: ['name', 'key', 'description'],
+                },
+                {
                     model: sequelize.model('news_views'),
                     as: 'news_view',
                     attributes: ['viewsCounts']
                 },
             ],
-            attributes: ['id', 'title', 'key', 'img', 'content', 'createdAt'],
+            attributes: ['id', 'title', 'key', 'img', 'content', 'sharedAt'],
             where: {
                 key,
                 status: true,

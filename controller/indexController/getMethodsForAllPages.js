@@ -17,9 +17,16 @@ const getPopularCategories = async (req, res, next) => {
                 model: sequelize.model('categories'),
                 as: 'category',
                 attributes: ['name', 'key', 'description'],
+                include: [
+                    {
+                        model: sequelize.model('sub_categories'),
+                        as: 'sub_categories'
+                    }
+                ],
                 where: {
                     status: true,
-                }
+                },
+                
             },
         ],
         where: {
@@ -34,6 +41,30 @@ const getPopularCategories = async (req, res, next) => {
         order: [[Sequelize.literal('newsCount'), 'DESC']], // Sorting by newsCount in descending order
     });
     res.locals.popularCategories = popularCategories;
+    next();
+}
+
+const getListedCategories = async (req, res, next) => {
+    const listedCategories = await db.categories.findAll({
+        include: [
+            {
+                model: sequelize.model('sub_categories'),
+                as: 'sub_categories',
+                attributes: [ 'name', 'key', 'description' ],
+            }
+        ],
+        attributes: [ 'name', 'key', 'description' ],
+        where: {
+            status: true,
+            inOrder: {
+                [Op.ne]: 0,
+            }
+        },
+        order: [
+            ['inOrder', 'ASC']
+        ],
+    });
+    res.locals.listedCategories = listedCategories;
     next();
 }
 
@@ -85,7 +116,7 @@ const getLastThreeNews = async (req, res, next) => {
                     [Op.lt]: moment().tz('Asia/Baku'),
                 },
             },
-            attributes: ['title', 'key', 'img', 'createdAt']
+            attributes: ['title', 'key', 'img', 'sharedAt']
         });
 
         res.locals.lastThreeNews = lastThreeNews;
@@ -121,4 +152,4 @@ const getPlatformSocialMedias = async (req, res, next) => {
     }
 }
 
-module.exports = { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias }
+module.exports = { getPopularCategories, getListedCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias }

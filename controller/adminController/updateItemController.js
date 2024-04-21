@@ -83,6 +83,7 @@ const updateSelectedCategory = async (req, res, next) => {
             if (hasCategory.key == inputData.key) {
                 await db.categories.update({
                     description: inputData.description,
+                    inOrder: inputData.inOrder,
                     status: inputData.status,
                     updatedBy: res.locals.localUser.id,
                 },
@@ -101,6 +102,7 @@ const updateSelectedCategory = async (req, res, next) => {
                         name: inputData.name,
                         key: inputData.key,
                         description: inputData.description,
+                        inOrder: inputData.inOrder,
                         status: inputData.status,
                         updatedBy: res.locals.localUser.id,
                     },
@@ -115,6 +117,68 @@ const updateSelectedCategory = async (req, res, next) => {
             }
         } else {
             res.status(404).json( errorMessages.NOT_FOUND_CATEGORY )
+        }
+    } catch (error) {
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
+    }
+}
+
+const updateSelectedSubCategory = async (req, res, next) => {
+    let id = req.query.id;
+    let inputData = req.body;
+
+    try {
+        let hasSubCategory = await db.sub_categories.findOne({
+            where: {
+                id,
+            }
+        });
+
+        let checkNewSubCategory = await db.sub_categories.findOne({
+            where: {
+                key: inputData.key,
+            }
+        });
+
+        if (hasSubCategory) {
+            if (hasSubCategory.key == inputData.key) {
+                await db.sub_categories.update({
+                    description: inputData.description,
+                    categoryId: inputData.categoryId,
+                    status: inputData.status,
+                    updatedBy: res.locals.localUser.id,
+                },
+                {
+                    where: {
+                        id,
+                    }
+                })
+
+                res.status(200).json( successMessages.UPDATED_SUB_CATEGORY )
+            } else {
+                if (checkNewSubCategory) {
+                    res.status(409).json( errorMessages.HAS_ALREADY_SUB_CATEGORY );
+                } else {
+                    await db.sub_categories.update({
+                        name: inputData.name,
+                        key: inputData.key,
+                        description: inputData.description,
+                        categoryId: inputData.categoryId,
+                        status: inputData.status,
+                        updatedBy: res.locals.localUser.id,
+                    },
+                    {
+                        where: {
+                            id,
+                        }
+                    })
+
+                    res.status(200).json( successMessages.UPDATED_SUB_CATEGORY )
+                }
+            }
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_SUB_CATEGORY )
         }
     } catch (error) {
         res.status(500).json( errorMessages.UNEXPECTED_ERROR );
@@ -157,4 +221,4 @@ const updatePlatfromSocialMedia = async (req, res, next) => {
     }
 }
 
-module.exports = { updateSelectedTag, updateSelectedCategory, updatePlatfromSocialMedia }
+module.exports = { updateSelectedTag, updateSelectedCategory, updateSelectedSubCategory, updatePlatfromSocialMedia }

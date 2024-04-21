@@ -35,6 +35,8 @@ function changeLetters(str) {
     return str.replace(/[əıöğüşç\s\-_'"':;,.“”?!.,/]/g, (match) => azerbaijaniToEnglishMap[match]);
 }
 
+
+
 let alertMessage = document.querySelector('#alert-message');
 let timeout = 4000;
 if (alertMessage) {
@@ -80,6 +82,10 @@ if (editBtn) {
                 basicForm.status.value = +data.status;
                 basicForm.headNews.value = +data.isHeadNews;
                 basicForm.category.value = data.categoryId;
+                var categoryDropdown = document.getElementById('category');
+                var event = new Event('change');
+                categoryDropdown.dispatchEvent(event);
+                basicForm.subCategory.value = data.subCategoryId;
 
                 const longDateString = data.sharedAt;
                 const dateTime = new Date(longDateString.replaceAll('Z', ''));
@@ -113,6 +119,12 @@ if (editBtn) {
                 basicForm.name.value = data.name;
                 basicForm.description.innerHTML = data.description;
                 basicForm.status.value = +data.status;
+                if (basicForm.category) {
+                    basicForm.category.value = data.categoryId;
+                }
+                if (basicForm.inOrder) {
+                    basicForm.inOrder.value = data.inOrder;
+                }
             }
         });
     });
@@ -133,11 +145,19 @@ const itemFormCreateUpdate = async (method) => {
         let description = basicForm.description.value.trim();
         let status = basicForm.status.value.trim();
         let key = changeLetters(name.toLowerCase());
-        
-        const requestBody = {
-            name, description, status, key
-        };
+        let categoryId;
+        let inOrder;
+        if (basicForm.category) {
+            categoryId = basicForm.category.value.trim();
+        }
+        if (basicForm.inOrder) {
+            inOrder = basicForm.inOrder.value.trim();
+        }
 
+        const requestBody = {
+            name, description, categoryId, status, inOrder, key
+        };
+        
         res = await fetch(basicForm.action, {
             method: method,
             body: JSON.stringify( requestBody ),
@@ -162,6 +182,7 @@ const newsFormCreateUpdate = async (method) => {
     try {
         let title = basicForm.title.value.trim();
         let categoryId = basicForm.category.value.trim();
+        let subCategoryId = basicForm.subCategory.value.trim();
         let img = document.querySelector('#img');
         img = img.files[0];
         let content = editorInstance.getData().trim();
@@ -186,6 +207,7 @@ const newsFormCreateUpdate = async (method) => {
         formData.append('title', title);
         formData.append('key', key);
         formData.append('categoryId', categoryId);
+        formData.append('subCategoryId', subCategoryId);
         formData.append('content', content);
         formData.append('status', status);
         formData.append('isHeadNews', isHeadNews);
@@ -312,67 +334,26 @@ if (deleteForm) {
     })
 }
 
-// if ( window.location.pathname === "/admin/news" ) {
-//     let newsItems = document.querySelector('#news-items');
-//     let searchQuery = document.location.search.replace('?', '&');
+if ( window.location.pathname === "/admin/news" ) {
+    document.getElementById('category').addEventListener('change', function() {
+        var categoryId = this.value; // Get the selected category ID
+        var subcategoryDropdown = document.getElementById('subCategory');
+        subcategoryDropdown.innerHTML = '<option selected hidden disabled>Seçim edin</option>';
     
-//     document.addEventListener('DOMContentLoaded', function() {
-//         let startIndex = 0;
-//         const limit = 20; // Number of items to fetch each time
-
-//         // Function to fetch items from server
-//         function fetchItems() {
-//             fetch(`admin/news/load-more?startIndex=${startIndex}${searchQuery}&limit=${limit}`)
-//             .then(res => res.json())
-//             .then(items => {
-//                 if (items.length > 0) {
-//                     items.forEach((item) => {
-//                         let childEl = `<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
-//                             <a href="/news/news-detail?key=${item.key}" class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25 text-decoration-none" style="aspect-ratio: 4/3;" aria-label="${item.title.replaceAll('"','')}">
-//                                 <img src="/images/news/${item.img}" alt="${item.title.replaceAll('"','')}" class="object-fit-cover h-100">
-//                             </a>
-
-//                             <div class="size-w-9 w-full-sr575 m-b-25">
-//                                 <a href="/news/news-detail?key=${item.key}" class="f1-l-1 cl2 hov-cl10 trans-03 respon2 fw-bold text-decoration-none p-b-12">
-//                                     ${item.title}
-//                                 </a>
-
-//                                 <div class="cl19 p-b-18">
-//                                     <span class="f1-s-3">
-//                                         ${item.createdAt}
-//                                     </span>
-//                                 </div>
-
-//                                 <p class="cl19">
-//                                     ${item.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...'}
-//                                 </p>
-
-//                                 <a href="/news/news-detail?key=${item.key}" class="f1-s-1 cl19 hov-cl10 trans-03 text-decoration-none p-t-10 d-block"">
-//                                     Ətraflı bax
-//                                     <i class="fa fa-long-arrow-alt-right m-l-2"></i>
-//                                 </a>
-//                             </div>
-//                         </div>`
-//                         newsItems.innerHTML += childEl;
-//                     });
-
-//                     startIndex += limit;
-//                     if(items.length < limit) {
-//                         document.querySelector('#load-more').style.display = 'none';
-//                     }
-//                 } else {
-//                     let childEl = `<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2"> Hal-hazırda heç bir xəbər materialı əldə olunmadı. </div>`
-//                     newsItems.innerHTML += childEl;
-//                     document.querySelector('#load-more').style.display = 'none';
-//                 }
-//             })
-//             .catch(error => console.error('Error fetching items:', error));
-//         }
-    
-//         // Initial fetch
-//         fetchItems();
-    
-//         // Load more button click event
-//         document.getElementById('load-more').addEventListener('click', fetchItems);
-//     });
-// }
+        if (categoryId) {
+            fetch('/admin/get-subCategories?categoryId=' + categoryId)
+            .then(async data => {
+                let resData = await data.json();
+                data.status == 200 ? resData.forEach((subcategory) => {
+                    let option = document.createElement('option');
+                    option.value = subcategory.id;
+                    option.textContent = subcategory.name;
+                    subcategoryDropdown.appendChild(option);
+                }) : getAlert(resData.message, resData.key, true);
+                setTimeout(() => {
+                    getAlert('', '', false)
+                }, timeout);
+            })
+        }
+    });
+}

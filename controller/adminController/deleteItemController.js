@@ -55,6 +55,32 @@ const deleteSelectedCategory = async (req, res, next) => {
     }
 }
 
+const deleteSelectedSubCategory = async (req, res, next) => {
+    let id = req.query.id;
+
+    try {
+        let hasCategory = await db.sub_categories.findOne({
+            where: {
+                id,
+            }
+        })
+
+        if (hasCategory) {
+            await db.sub_categories.destroy({
+                where: {
+                    id,
+                }
+            })
+            res.status(200).json( successMessages.DELETED_SUB_CATEGRORY );
+        } else {
+            res.status(404).json( errorMessages.NOT_FOUND_SUB_CATEGORY )
+        }
+    } catch (error) {
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
+    }
+}
+
 const deletePlatfromSocialMedia = async (req, res, next) => {
     let id = req.query.id;
 
@@ -81,4 +107,4 @@ const deletePlatfromSocialMedia = async (req, res, next) => {
     }
 }
 
-module.exports = { deleteSelectedTag, deleteSelectedCategory, deletePlatfromSocialMedia }
+module.exports = { deleteSelectedTag, deleteSelectedCategory, deleteSelectedSubCategory, deletePlatfromSocialMedia }

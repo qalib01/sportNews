@@ -48,6 +48,7 @@ const createNews = async (req, res, next) => {
         key: inputData.key,
         img,
         categoryId: inputData.categoryId,
+        subCategoryId: inputData.subCategoryId,
         content: inputData.content,
         status: inputData.status,
         isHeadNews: inputData.isHeadNews,
@@ -138,6 +139,7 @@ const updateSelectedNews = async (req, res, next) => {
       await db.news.update({
         title: inputData.title,
         categoryId: inputData.categoryId,
+        subCategoryId: inputData.subCategoryId,
         content: inputData.content,
         status: inputData.status,
         isHeadNews: inputData.isHeadNews,

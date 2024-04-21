@@ -46,7 +46,7 @@
                                         <%= news.title %>
                                     </a>
                                     <span class="f1-s-3 cl0">
-                                        <%= moment(news.createdAt).format('LL') %>
+                                        <%= moment(news.sharedAt).format('LL') %>
                                     </span>
                                 </div>
                             </li>
@@ -61,10 +61,10 @@
                         </span>
                     </div>
                     <ul class="m-t--12 p-0">
-                        <% popularCategories.forEach((populatCategory) => { %>
+                        <% popularCategories.forEach((popularCategory) => { %>
                             <li class="how-bor1 p-rl-5 p-tb-10">
-                                <a href="/news?category=<%= populatCategory.category.key %>" class="f1-s-5 cl0 hov-cl10 trans-03 p-tb-8 text-decoration-none" title="<%= populatCategory.category.name %>">
-                                    <%= populatCategory.category.name %> (<%= populatCategory.dataValues.newsCount %>)
+                                <a href="/news?category=<%= popularCategory.category.key %>" class="f1-s-5 cl0 hov-cl10 trans-03 p-tb-8 text-decoration-none" title="<%= popularCategory.category.name %>">
+                                    <%= popularCategory.category.name %> (<%= popularCategory.dataValues.newsCount %>)
                                 </a>
                             </li>
                         <% }) %>

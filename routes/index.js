@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 const { getAllNews, getNewsDetail, getNewsLoadMore } = require('../controller/indexController/newsController');
 const { getAboutPage, getHomePage, getLoginPage } = require('../controller/indexController/pageController');
-const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias } = require('../controller/indexController/getMethodsForAllPages');
+const { getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias, getListedCategories } = require('../controller/indexController/getMethodsForAllPages');
 const { checkUserLogin, checkUserLogout } = require('../middleware/checkToken');
 const { postUserLogin, getUserLogout } = require('../controller/indexController/userController');
 
-router.use(getPopularCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias);
+router.use(getPopularCategories, getListedCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias);
 
 
 /* GET home page. */

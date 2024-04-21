@@ -148,7 +148,7 @@
                                 <div id="editor"></div>
                             </div>
                             <div class="row">
-                                <div class="mb-3 col-12 col-sm-9">
+                                <div class="mb-3 col-12 col-sm-5">
                                     <label for="category" class="form-label">Kateqoriya</label>
                                     <select class="form-select" id="category" aria-label="Select item category" required>
                                         <option selected hidden disabled>Seçim edin</option>
@@ -157,6 +157,12 @@
                                                 <%= category.name %>
                                             </option>
                                         <% }) %>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-12 col-sm-4">
+                                    <label for="subCategory" class="form-label">Alt Kateqoriya</label>
+                                    <select class="form-select" id="subCategory" aria-label="Select item sub-category" required>
+                                        <option selected hidden disabled>Seçim edin</option>
                                     </select>
                                 </div>
                                 <div class="mb-3 col-12 col-sm-3">

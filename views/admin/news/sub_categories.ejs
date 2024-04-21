@@ -9,24 +9,25 @@
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header"><%= title %></h5>
-                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-category"> <span class="d-none d-md-block">Yarat</span> <span class="d-block d-md-none"><i class='bx bx-plus-circle'></i></span> </button>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-subCategory"> <span class="d-none d-md-block">Yarat</span> <span class="d-block d-md-none"><i class='bx bx-plus-circle'></i></span> </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
                         <caption class="ms-4">
-                            Ümumi tapılan kateqoriyalar: <%= categories.length %>
+                            Ümumi tapılan alt kateqoriyalar: <%= subCategories.length %>
                         </caption>
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
                                 <th>Adı</th>
                                 <th>Key</th>
+                                <th>Kateqoriya</th>
                                 <th>Status</th>
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0 text-center">
-                            <% categories.forEach((category, id)=> { %>
+                            <% subCategories.forEach((subCategory, id)=> { %>
                                 <tr>
                                     <td>
                                         <!-- <i class="bx bxl-angular bx-sm text-danger me-3"></i> -->
@@ -35,17 +36,20 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <%= category.name %>
+                                        <%= subCategory.name %>
                                     </td>
                                     <td>
-                                        <%= category.key %>
+                                        <%= subCategory.key %>
                                     </td>
                                     <td>
-                                        <% if (category.status==true) { %>
+                                        <%= subCategory.category ? subCategory.category.name : 'Təyin edilmədi' %>
+                                    </td>
+                                    <td>
+                                        <% if (subCategory.status==true) { %>
                                             <span class="badge bg-label-primary me-1">Aktiv</span>
-                                            <% } else { %>
-                                                <span class="badge bg-label-danger me-1">Passiv</span>
-                                                <% } %>
+                                        <% } else { %>
+                                            <span class="badge bg-label-danger me-1">Passiv</span>
+                                        <% } %>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -54,17 +58,17 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-category?id=<%= category.id %>" data-item="category" data-id="<%= category.id %>">
+                                                <a class="dropdown-item editBtn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/edit-subCategory?id=<%= subCategory.id %>" data-item="subCategory" data-id="<%= subCategory.id %>">
                                                     <i class="bx bx-edit-alt me-1"></i> Düzəlt
                                                 </a>
-                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-category?id=<%= category.id %>" data-bs-toggle="modal" data-item="category" data-bs-target="#deleteModal">
+                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-subCategory?id=<%= subCategory.id %>" data-bs-toggle="modal" data-item="subCategory" data-bs-target="#deleteModal">
                                                     <i class="bx bx-trash me-1"></i> Sil
                                                 </a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                                <% }) %>
+                            <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -87,22 +91,27 @@
                                 <input type="text" class="form-control" id="name" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="inOrder">Sırası</label>
-                                <input type="number" class="form-control" id="inOrder" placeholder="Sırası" min="0" max="100" required>
-                            </div>
-                            <div class="mb-3">
                                 <label class="form-label" for="description">Məzmun</label>
                                 <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="category">Kateqoriya</label>
+                                <select class="form-select" id="category" aria-label="Select category">
+                                    <option selected hidden disabled>Seçim edin</option>
+                                    <% categories.forEach((category) => { %>
+                                        <option value="<%= category.id %>"> <%= category.name %> </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-select" id="status" aria-label="Select item status">
-                                    <option selected="" hidden>Seçim edin</option>
+                                    <option selected hidden disabled>Seçim edin</option>
                                     <option value="0">Passiv</option>
                                     <option value="1">Aktiv</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" data-item="categories">Təsdiqlə</button>
+                            <button type="submit" class="btn btn-primary" data-item="sub-categories">Təsdiqlə</button>
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
                             </button>
                         </form>

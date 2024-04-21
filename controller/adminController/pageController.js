@@ -104,6 +104,28 @@ const categoriesPage = async (req, res, next) => {
     });
 }
 
+const subCategoriesPage = async (req, res, next) => {
+    let subCategories = await db.sub_categories.findAll({
+        include: [
+            {
+                model: sequelize.model('categories'),
+                as: 'category'
+            }
+        ],
+        order: [
+            ['createdAt', 'ASC']
+        ]
+    });
+
+    let categories = await db.categories.findAll();
+    res.render('admin/news/sub_categories', {
+        title: 'Alt Kateqoriayalar',
+        key: 'subCategories',
+        subCategories,
+        categories,
+    });
+}
+
 const socialMediasPage = async (req, res, next) => {
     let socialMedias = await db.social_medias.findAll();
     let platformMedias = await db.platform_medias.findAll({
@@ -122,4 +144,4 @@ const socialMediasPage = async (req, res, next) => {
     });
 }
 
-module.exports = { HomePage, usersPage, newsPage, tagsPage, categoriesPage, socialMediasPage }
+module.exports = { HomePage, usersPage, newsPage, tagsPage, categoriesPage, subCategoriesPage, socialMediasPage }

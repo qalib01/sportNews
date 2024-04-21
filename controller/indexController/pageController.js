@@ -2,7 +2,6 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment-timezone');
 const { Op } = require('sequelize');
-// moment.locale('az');
 
 
 const getHomePage = async (req, res, next) => {
@@ -54,7 +53,7 @@ const getHomePage = async (req, res, next) => {
             order: [
                 ['createdAt', 'DESC']
             ],
-            attributes: ['title', 'key', 'img', 'createdAt', 'isHeadNews'],
+            attributes: ['title', 'key', 'img', 'sharedAt', 'isHeadNews'],
         });
 
         let headNews = allNews.filter(news => news.isHeadNews === true).slice(0,5);

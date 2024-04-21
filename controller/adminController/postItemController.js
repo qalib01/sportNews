@@ -60,12 +60,44 @@ const createNewCategory = async (req, res, next) => {
                 id: guid(),
                 name: inputData.name,
                 key: inputData.key,
+                inOrder: inputData.inOrder,
                 description: inputData.description,
                 status: inputData.status,
                 createdBy: res.locals.localUser.id,
             })
 
             res.status(200).json( successMessages.ADDED_CATEGRORY )
+        }
+    } catch (error) {
+        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+        console.log(error);
+    }
+}
+
+const createNewSubCategory = async (req, res, next) => {
+    let inputData = req.body;
+
+    try {
+        let hasSubCategory = await db.sub_categories.findOne({
+            where: {
+                key: inputData.key,
+            }
+        })
+
+        if (hasSubCategory) {
+            res.status(409).json( errorMessages.HAS_ALREADY_SUB_CATEGORY )
+        } else {
+            await db.sub_categories.create({
+                id: guid(),
+                name: inputData.name,
+                key: inputData.key,
+                description: inputData.description,
+                categoryId: inputData.categoryId,
+                status: inputData.status,
+                createdBy: res.locals.localUser.id,
+            })
+
+            res.status(200).json( successMessages.ADDED_SUB_CATEGRORY )
         }
     } catch (error) {
         res.status(500).json( errorMessages.UNEXPECTED_ERROR );
@@ -105,4 +137,4 @@ const createPlatfromSocialMedia = async (req, res, next) => {
     }
 }
 
-module.exports = { createNewTag, createNewCategory, createPlatfromSocialMedia }
+module.exports = { createNewTag, createNewCategory, createNewSubCategory, createPlatfromSocialMedia }

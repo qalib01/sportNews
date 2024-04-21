@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var multer = require('multer');
-const { HomePage, usersPage, newsPage, tagsPage, categoriesPage, socialMediasPage } = require('../controller/adminController/pageController');
-const { createNewTag, createNewCategory, createPlatfromSocialMedia } = require('../controller/adminController/postItemController');
-const { getSelectedTag, getSelectedCategory, getPlatfromSocialMedia } = require('../controller/adminController/getItemController');
-const { updateSelectedTag, updateSelectedCategory, updatePlatfromSocialMedia } = require('../controller/adminController/updateItemController');
-const { deleteSelectedTag, deleteSelectedCategory, deletePlatfromSocialMedia } = require('../controller/adminController/deleteItemController');
+const { HomePage, usersPage, newsPage, tagsPage, categoriesPage, socialMediasPage, subCategoriesPage } = require('../controller/adminController/pageController');
+const { createNewTag, createNewCategory, createPlatfromSocialMedia, createNewSubCategory } = require('../controller/adminController/postItemController');
+const { getSelectedTag, getSelectedCategory, getPlatfromSocialMedia, getSelectedSubCategory, getCategorySubCategories } = require('../controller/adminController/getItemController');
+const { updateSelectedTag, updateSelectedCategory, updatePlatfromSocialMedia, updateSelectedSubCategory } = require('../controller/adminController/updateItemController');
+const { deleteSelectedTag, deleteSelectedCategory, deletePlatfromSocialMedia, deleteSelectedSubCategory } = require('../controller/adminController/deleteItemController');
 const { authenticateToken, checkUser } = require('../middleware/authMiddleware');
 const { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews } = require('../controller/adminController/newsController');
 const { createUser, getSelectedUser, updateSelectedUser, deleteSelectedUser } = require('../controller/adminController/usersConroller');
@@ -26,6 +26,9 @@ router.get('/tags', [checkUser, authenticateToken], tagsPage);
 
 /* GET categories page. */
 router.get('/categories', [checkUser, authenticateToken], categoriesPage);
+
+/* GET categories page. */
+router.get('/sub-categories', [checkUser, authenticateToken], subCategoriesPage);
 
 /* GET social-media page. */
 router.get('/social-medias', [checkUser, authenticateToken], socialMediasPage);
@@ -54,6 +57,21 @@ router.put('/edit-category', [checkUser, authenticateToken], updateSelectedCateg
 /* DELETE selected category data. */
 router.delete('/delete-category', [checkUser, authenticateToken], deleteSelectedCategory);
 
+/* POST new category. */
+router.post('/create-subCategory', [checkUser, authenticateToken], createNewSubCategory);
+
+/* GET selected category data. */
+router.get('/selected-subCategory', [checkUser, authenticateToken], getSelectedSubCategory);
+
+/* UPDATE selected category data. */
+router.put('/edit-subCategory', [checkUser, authenticateToken], updateSelectedSubCategory);
+
+/* UPDATE selected category data. */
+router.get('/get-subCategories', [checkUser, authenticateToken], getCategorySubCategories);
+
+/* DELETE selected category data. */
+router.delete('/delete-subCategory', [checkUser, authenticateToken], deleteSelectedSubCategory);
+
 var img;
 var storage = multer.diskStorage({
     destination: (req, file, callback) => {
@@ -67,10 +85,8 @@ var storage = multer.diskStorage({
 });
 var upload = multer({
     storage,
-    // limits: { fileSize: 1000000000000 }, // Define the maximum file size
-    timeout: 30000, // 30 seconds
+    timeout: 30000,
 });
-
 
 /* POST new news. */
 router.post('/create-news', [checkUser, authenticateToken], upload.single('img'), createNews);

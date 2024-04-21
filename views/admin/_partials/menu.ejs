@@ -40,25 +40,17 @@
             <div data-i18n="Categories">Kateqoriyalar</div>
         </a>
     </li>
+    <li class="menu-item <%= key == 'subCategories' ? 'active' : '' %>">
+        <a href="/admin/sub-categories" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-category"></i>
+            <div data-i18n="SubCategories">Alt-Kateqoriyalar</div>
+        </a>
+    </li>
     <li class="menu-header small text-uppercase"><span class="menu-header-text"> Media </span></li>
     <li class="menu-item <%= key == 'socialMedias' ? 'active' : '' %>">
         <a href="/admin/social-medias" class="menu-link">
             <i class='menu-icon tf-icons bx bxl-meta'></i>
             <div data-i18n="SocialMedias">Sosial medialar</div>
-        </a>
-    </li>
-    <!-- Misc -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text"> Digər </span></li>
-    <li class="menu-item">
-        <a href="javascript:void(0)" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-file"></i>
-            <div data-i18n="Documentation">Məlumat</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0)" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-support"></i>
-            <div data-i18n="Support">Dəstək</div>
         </a>
     </li>
 </ul>
