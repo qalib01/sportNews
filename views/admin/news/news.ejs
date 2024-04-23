@@ -33,89 +33,11 @@
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0 text-center" id="news-items">
-                            <% news.forEach((nws, id)=> { %>
-                                <tr>
-                                    <td>
-                                        <span class="fw-medium">
-                                            <%= id + 1 %>
-                                        </span>
-                                    </td>
-                                    <td class="text-wrap">
-                                        <%= nws.title %>
-                                    </td>
-                                    <td>
-                                        <% if (nws.category) { %>
-                                            <%= nws.category.name %> 
-                                            <% if (nws.category.status) { %>
-                                                <i class='bx bx-check-circle' style="color: #198754;"></i>
-                                            <% } else { %>
-                                                <i class='bx bx-x-circle' style="color: #ED4337"></i>
-                                            <% } %>
-                                        <% } else { %>
-                                            Təyin edilmədi <i class='bx bx-x-circle' style="color: #ED4337"></i>
-                                        <% } %>
-                                    </td>
-                                    <td class="text-wrap">
-                                        <% nws.news_tags.forEach((news_tag)=> { %>
-                                            <% if (news_tag && news_tag.tag) { %>
-                                                <span class="badge bg-label-success me-1">
-                                                    <%= news_tag.tag.name %>
-                                                </span>
-                                            <% } %>
-                                        <% }) %>
-                                    </td>
-                                    <td>
-                                        <% if (nws.status==true) { %>
-                                            <span class="badge bg-label-primary me-1">Aktiv</span>
-                                        <% } else { %>
-                                            <span class="badge bg-label-danger me-1">Passiv</span>
-                                        <% } %>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item editBtn" href="javascript:void(0);"
-                                                    data-bs-toggle="modal" data-bs-target="#basicModal"
-                                                    data-action="/admin/edit-news?id=<%= nws.id %>"
-                                                    data-id="<%= nws.id %>" data-item="news">
-                                                    <i class="bx bx-edit-alt me-1"></i> Düzəlt
-                                                </a>
-                                                <a class="dropdown-item deleteBtn" href="javascript:void(0);"
-                                                    data-action="/admin/delete-news?id=<%= nws.id %>"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                    data-item="news">
-                                                    <i class="bx bx-trash me-1"></i> Sil
-                                                </a>
-                                                <a class="dropdown-item" href="/news/news-detail?key=<%= nws.key %>">
-                                                    <i class='bx bx-link-alt'></i> Xəbərə get
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <% }) %>
-                        </tbody>
+                        <tbody class="table-border-bottom-0 text-center" id="news-items"></tbody>
                     </table>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center" id="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">
-                                    <i class='bx bx-skip-previous'></i>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class='bx bx-skip-next'></i>
-                                </a>
-                            </li>
+                    <nav aria-label="News Pagination">
+                        <ul class="pagination justify-content-center" id="paginationNews">
+                            
                         </ul>
                     </nav>
                 </div>

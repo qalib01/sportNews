@@ -19,6 +19,7 @@ module.exports = {
       img: {
         type: Sequelize.STRING,
         allowNull: false,
+        defaultValue: 'default_image.webp'
       },
       categoryId: {
         type: Sequelize.STRING,

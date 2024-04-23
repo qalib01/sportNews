@@ -113,12 +113,12 @@
                                 <div class="p-r-10 p-r-0-sr991">
                                     <!-- Blog Detail -->
                                     <div class="p-b-70">
-                                        <a href="/news?category=<%= selectedNews.category.key %>" class="f1-s-10 cl2 bocl0 how1-child2 trans-03 text-decoration-none" title="<%= selectedNews.category.name %>">
+                                        <a href="/news?category=<%= selectedNews.category.key %>" class="f1-s-4 how1-child2 trans-03 text-decoration-none category-badge" title="<%= selectedNews.category.name %>">
                                             <%= selectedNews.category.name %>
                                         </a>
 
                                         <% if (selectedNews.sub_category) { %>
-                                            <a href="/news?sub_category=<%= selectedNews.sub_category.key %>" class="f1-s-10 cl2 hov-cl10 trans-03 text-decoration-none" title="<%= selectedNews.sub_category.name %>">
+                                            <a href="/news?sub_category=<%= selectedNews.sub_category.key %>" class="f1-s-4 how1-child2 trans-03 text-decoration-none category-badge" title="<%= selectedNews.sub_category.name %>">
                                                 <%= selectedNews.sub_category.name %>
                                             </a>
                                         <% } %>

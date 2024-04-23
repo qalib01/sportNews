@@ -112,8 +112,6 @@ const getHomePage = async (req, res, next) => {
                 news.news_tags.forEach(news_tag => {
                     const tagName = news_tag.tag ? news_tag.tag.name : null;
                     const tagKey = news_tag.tag ? news_tag.tag.key : null;
-                    // console.log(tagName);
-                    // console.log(categoryTags);
                     if (tagName) {
                         if (!categoryTags[tagName]) {
                             categoryTags[tagName] = { count: 0, key: tagKey, news: [] }; // Initialize count, key, and news array
@@ -140,15 +138,9 @@ const getHomePage = async (req, res, next) => {
                 tags: tags.map(tag => ({
                     ...tag,
                     news: tag.news.map(news => ({
-                        // id: news.id,
                         title: news.title,
                         key: news.key,
                         img: news.img,
-                        // content: news.content,
-                        // tags: news.news_tags.map(news_tag => ({
-                        //     name: news_tag.tag.name,
-                        //     key: news_tag.tag.key
-                        // })),
                         createdAt: news.createdAt
                     }))
                 }))

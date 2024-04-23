@@ -79,7 +79,9 @@ if ( window.location.pathname === "/news" ) {
                 } else {
                     let childEl = `<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2"> Hal-hazırda heç bir xəbər materialı əldə olunmadı. </div>`
                     newsItems.innerHTML += childEl;
-                    document.querySelector('#load-more').style.display = 'none';
+                    if (document.getElementById('load-more')) {
+                        document.querySelector('#load-more').style.display = 'none';
+                    }
                 }
             })
             .catch(error => console.error('Error fetching items:', error));
@@ -89,6 +91,8 @@ if ( window.location.pathname === "/news" ) {
         fetchItems();
     
         // Load more button click event
-        document.getElementById('load-more').addEventListener('click', fetchItems);
+        if (document.getElementById('load-more')) {
+            document.getElementById('load-more').addEventListener('click', fetchItems);
+        }
     });
 }

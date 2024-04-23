@@ -8,7 +8,6 @@ const { postUserLogin, getUserLogout } = require('../controller/indexController/
 
 router.use(getPopularCategories, getListedCategories, getPopularNews, getLastThreeNews, setMomentToLocals, getPlatformSocialMedias);
 
-
 /* GET home page. */
 router.get('/', getHomePage);
 

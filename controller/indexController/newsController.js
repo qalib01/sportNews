@@ -110,6 +110,7 @@ const getAllNews = async (req, res, next) => {
 
         const queryOptions = generateQueryOptions(req.query);
         let allNews = await db.news.findAll(queryOptions);
+        let newsLength = allNews.length;
 
         const trendNews = allNews.filter(news => {
             let totalViews = 0;
@@ -134,6 +135,7 @@ const getAllNews = async (req, res, next) => {
             key: 'news',
             allTags,
             trendNews,
+            newsLength,
         });
     } catch (error) {
         console.error('Error in fetching homepage data:', error);

@@ -356,4 +356,110 @@ if ( window.location.pathname === "/admin/news" ) {
             })
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let newsItems = document.querySelector('#news-items');
+        let startIndex = 0;
+        const limit = 20; // Number of items to fetch each time
+
+        // Function to fetch items from server
+        function fetchItems() {
+            fetch(`/admin/news/load-more?startIndex=${startIndex}&limit=${limit}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                let news = data.news;
+                let visiblePages = data.visiblePages;
+                let totalPages = data.totalPages;
+                if (news.length > 0) {
+                    news.forEach((item, id) => {
+                        let childEl = `<tr>
+                            <td>
+                                <span class="fw-medium">
+                                    ${id + 1}
+                                </span>
+                            </td>
+                            <td class="text-wrap">
+                                ${item.title}
+                            </td>
+                            <td>
+                                ${item.category ? item.category.name + (item.category.status ? '<i class="bx bx-check-circle" style="color: #198754;"></i>' : '<i class="bx bx-x-circle" style="color: #ED4337"></i>') : 'Təyin edilmədi' + '<i class="bx bx-x-circle" style="color: #ED4337"></i>'}
+                            </td>
+                            <td class="text-wrap">
+                                ${item.news_tags.length > 0 ? item.news_tags.map(news_tag => news_tag && news_tag.tag ? `<span class="badge bg-label-success me-1">${news_tag.tag.name}</span>` : '').join('') : ''}
+                            </td>
+                            <td>
+                                ${ item.status == true ? '<span class="badge bg-label-primary me-1">Aktiv</span>' : '<span class="badge bg-label-danger me-1">Passiv</span>' }
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item editBtn" href="javascript:void(0);"
+                                            data-bs-toggle="modal" data-bs-target="#basicModal"
+                                            data-action="/admin/edit-news?id=${item.id}"
+                                            data-id="${item.id}" data-item="news">
+                                            <i class="bx bx-edit-alt me-1"></i> Düzəlt
+                                        </a>
+                                        <a class="dropdown-item deleteBtn" href="javascript:void(0);"
+                                            data-action="/admin/delete-news?id=${item.id}"
+                                            data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            data-item="news">
+                                            <i class="bx bx-trash me-1"></i> Sil
+                                        </a>
+                                        <a class="dropdown-item" href="/news/news-detail?key=${item.id}">
+                                            <i class='bx bx-link-alt'></i> Xəbərə get
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>`
+                        newsItems.innerHTML += childEl;
+                    });
+                    startIndex += limit;
+                    let pagination = document.getElementById('paginationNews');
+                    let pages;
+
+                    let previousPage = `<li class="page-item">
+                        <a class="page-link" href="/admin/news/load-more?startIndex=${startIndex - limit}&limit=${limit}" tabindex="-1">
+                            <i class='bx bx-skip-previous'></i>
+                        </a>
+                    </li>`
+
+                    let nextPage = `<li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class='bx bx-skip-next'></i>
+                        </a>
+                    </li>`
+
+
+                    visiblePages.forEach((num) => {
+                        pages += `
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/news/load-more?startIndex=${(num - 1) * limit}&limit=${limit}">${num}</a>
+                            </li>
+                        `;
+                    });
+
+                    pagination.innerHTML = previousPage + pages + nextPage
+
+                } else {
+                    let childEl = `Hal-hazırda heç bir xəbər materialı əldə olunmadı.`
+                    newsItems.innerHTML += childEl;
+                }
+            })
+            .catch(error => console.error('Error fetching items:', error));
+        }
+    
+        // Initial fetch
+        fetchItems();
+    
+        // Load more button click event
+        if (document.getElementById('load-more')) {
+            document.getElementById('load-more').addEventListener('click', fetchItems);
+        }
+    });
 }

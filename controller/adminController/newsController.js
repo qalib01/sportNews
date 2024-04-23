@@ -201,26 +201,109 @@ const updateSelectedNews = async (req, res, next) => {
 
 // const getAdminNewsLoadMore = async (req, res, next) => {
 //   let limit = parseInt(req.query.limit);
-//   let startIndex = parseInt(req.query.startIndex) || 0;
+//   let offset = parseInt(req.query.startIndex) || 0;
+//   let page = parseInt(req.query.page);
 
 //   try {
-//       // const queryOptions = generateQueryOptions(req.query);
-//       // queryOptions.limit = limit;
-//       // queryOptions.offset = startIndex;
-//       let allNews = await db.news.findAll(queryOptions);
-  
-//       allNews = allNews.map((news) => {
-//           return {
-//               ...news.toJSON(),
-//               createdAt: moment(news.createdAt).format('LL'),
-//           }
+//       let news = await db.news.findAll({
+//         include: [
+//           {
+//               model: sequelize.model('categories'),
+//               as: 'category',
+//               attributes: ['name', 'key', 'description', 'status'],
+//           },
+//           {
+//               model: sequelize.model('news_tags'),
+//               as: 'news_tags',
+//               include: [
+//                   {
+//                       model: sequelize.model('tags'),
+//                       as: 'tag',
+//                       attributes: ['name', 'key', 'description'],
+//                       where: {
+//                           status: true
+//                       }
+//                   },
+//               ],
+//           },
+//           {
+//               model: sequelize.model('news_views'),
+//               as: 'news_view',
+//               attributes: ['viewsCounts']
+//           },
+//         ],
+//         order: [
+//             ['createdAt', 'DESC']
+//         ],
+//         limit,
+//         offset,
 //       });
-//       res.json(allNews);
+
+//       res.json(news);
 //   } catch (error) {
 //       console.error('Error in fetching homepage data:', error);
 //       next(error);
 //   }
 // }
+
+const getAdminNewsLoadMore = async (req, res, next) => {
+  let limit = parseInt(req.query.limit);
+  let offset = parseInt(req.query.startIndex) || 0;
+
+  try {
+    // Step 1: Calculate total number of news articles
+    const totalCount = await db.news.count();
+
+    // Step 2: Determine total number of pages
+    const totalPages = Math.ceil(totalCount / limit);
+
+    // Step 3: Generate array of page numbers
+    let visiblePages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      visiblePages.push(i);
+    }
+
+    // Step 4: Fetch news articles based on pagination parameters
+    let news = await db.news.findAll({
+      include: [
+        {
+          model: sequelize.model('categories'),
+          as: 'category',
+          attributes: ['name', 'key', 'description', 'status'],
+        },
+        {
+          model: sequelize.model('news_tags'),
+          as: 'news_tags',
+          include: [
+            {
+              model: sequelize.model('tags'),
+              as: 'tag',
+              attributes: ['name', 'key', 'description'],
+              where: {
+                status: true
+              }
+            },
+          ],
+        },
+      ],
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      limit,
+      offset,
+    });
+
+    res.json({
+      news,
+      totalPages,
+      visiblePages,
+    });
+  } catch (error) {
+    console.error('Error in fetching homepage data:', error);
+    next(error);
+  }
+}
+
 
 const deleteSelectedNews = async (req, res, next) => {
   let id = req.query.id;
@@ -262,4 +345,4 @@ const deleteSelectedNews = async (req, res, next) => {
   }
 }
 
-module.exports = { createNews, getSelectedNews, updateSelectedNews, deleteSelectedNews }
+module.exports = { createNews, getSelectedNews, updateSelectedNews, getAdminNewsLoadMore, deleteSelectedNews }

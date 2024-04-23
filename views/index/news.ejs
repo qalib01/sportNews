@@ -25,9 +25,11 @@
 					<div class="col-md-12 col-lg-8 p-b-80">
 						<div class="p-r-10 p-r-0-sr991">
 							<div class="m-t--40 p-b-40" id="news-items"></div>
-							<button id="load-more" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3 text-decoration-none w-100">
-								Daha çox yüklə
-							</button>
+							<% if (newsLength > 10) { %>
+								<button id="load-more" class="flex-c-c bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03 p-3 text-decoration-none w-100">
+									Daha çox yüklə
+								</button>
+							<% } %>
 						</div>
 					</div>
 
