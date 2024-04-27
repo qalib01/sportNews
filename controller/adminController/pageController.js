@@ -22,37 +22,7 @@ const usersPage = async (req, res, next) => {
 }
 
 const newsPage = async (req, res, next) => {
-    let news = await db.news.findAll({
-        include: [
-            {
-                model: sequelize.model('categories'),
-                as: 'category',
-                attributes: ['name', 'key', 'description', 'status'],
-            },
-            {
-                model: sequelize.model('news_tags'),
-                as: 'news_tags',
-                include: [
-                    {
-                        model: sequelize.model('tags'),
-                        as: 'tag',
-                        attributes: ['name', 'key', 'description'],
-                        where: {
-                            status: true
-                        }
-                    },
-                ],
-            },
-            {
-                model: sequelize.model('news_views'),
-                as: 'news_view',
-                attributes: ['viewsCounts']
-            },
-        ],
-        order: [
-            ['createdAt', 'DESC']
-        ],
-    });
+    let news = await db.news.findAll();
     let tags = await db.tags.findAll({
         where: {
             status: true,

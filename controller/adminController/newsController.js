@@ -199,53 +199,6 @@ const updateSelectedNews = async (req, res, next) => {
   }
 }
 
-// const getAdminNewsLoadMore = async (req, res, next) => {
-//   let limit = parseInt(req.query.limit);
-//   let offset = parseInt(req.query.startIndex) || 0;
-//   let page = parseInt(req.query.page);
-
-//   try {
-//       let news = await db.news.findAll({
-//         include: [
-//           {
-//               model: sequelize.model('categories'),
-//               as: 'category',
-//               attributes: ['name', 'key', 'description', 'status'],
-//           },
-//           {
-//               model: sequelize.model('news_tags'),
-//               as: 'news_tags',
-//               include: [
-//                   {
-//                       model: sequelize.model('tags'),
-//                       as: 'tag',
-//                       attributes: ['name', 'key', 'description'],
-//                       where: {
-//                           status: true
-//                       }
-//                   },
-//               ],
-//           },
-//           {
-//               model: sequelize.model('news_views'),
-//               as: 'news_view',
-//               attributes: ['viewsCounts']
-//           },
-//         ],
-//         order: [
-//             ['createdAt', 'DESC']
-//         ],
-//         limit,
-//         offset,
-//       });
-
-//       res.json(news);
-//   } catch (error) {
-//       console.error('Error in fetching homepage data:', error);
-//       next(error);
-//   }
-// }
-
 const getAdminNewsLoadMore = async (req, res, next) => {
   let limit = parseInt(req.query.limit);
   let offset = parseInt(req.query.startIndex) || 0;
@@ -279,9 +232,6 @@ const getAdminNewsLoadMore = async (req, res, next) => {
               model: sequelize.model('tags'),
               as: 'tag',
               attributes: ['name', 'key', 'description'],
-              where: {
-                status: true
-              }
             },
           ],
         },
@@ -303,7 +253,6 @@ const getAdminNewsLoadMore = async (req, res, next) => {
     next(error);
   }
 }
-
 
 const deleteSelectedNews = async (req, res, next) => {
   let id = req.query.id;
@@ -333,7 +282,9 @@ const deleteSelectedNews = async (req, res, next) => {
           newsId: id,
         }
       })
-      // fs.unlinkSync('public/images/news/' + hasNews.img);
+      // if (hasNews.img !== 'default_image.webp') {
+      //   fs.unlinkSync('public/images/news/' + hasNews.img);
+      // }
 
       res.status(200).json( successMessages.DELETED_NEWS );
     } else {

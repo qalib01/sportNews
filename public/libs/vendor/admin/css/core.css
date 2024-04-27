@@ -8696,7 +8696,6 @@ button:focus-visible {
 .page-link,
 .page-link > a {
   border-radius: 0.375rem;
-  line-height: 1;
   text-align: center;
   min-width: calc(2.1875rem + calc(0px * 2));
 }
