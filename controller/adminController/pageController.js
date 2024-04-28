@@ -22,7 +22,6 @@ const usersPage = async (req, res, next) => {
 }
 
 const newsPage = async (req, res, next) => {
-    let news = await db.news.findAll();
     let tags = await db.tags.findAll({
         where: {
             status: true,
@@ -43,7 +42,6 @@ const newsPage = async (req, res, next) => {
         title: 'Xəbərlər',
         key: 'news',
         tags,
-        news,
         categories,
     });
 }

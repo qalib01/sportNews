@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 class="card-header"><%= title %></h5>
-                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-category"> <span class="d-none d-md-block">Yarat</span> <span class="d-block d-md-none"><i class='bx bx-plus-circle'></i></span> </button>
+                    <button type="button" id="createBtn" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#basicModal" data-action="/admin/create-category"> <span class="d-none d-md-block">Yarat</span> <span class="d-block d-md-none lh-1"><i class='bx bx-plus-circle'></i></span> </button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
@@ -60,6 +60,9 @@
                                                 <a class="dropdown-item deleteBtn" href="javascript:void(0);" data-action="/admin/delete-category?id=<%= category.id %>" data-bs-toggle="modal" data-item="category" data-bs-target="#deleteModal">
                                                     <i class="bx bx-trash me-1"></i> Sil
                                                 </a>
+                                                <a class="dropdown-item" href="/news?category=<%= category.key %>">
+                                                    <i class='bx bx-link-alt'></i> Linkə get
+                                                </a>
                                             </div>
                                         </div>
                                     </td>
@@ -81,29 +84,29 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="basicForm">
+                        <form id="basicForm" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label" for="name">Ad</label>
-                                <input type="text" class="form-control" id="name" placeholder="Adı" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Adı" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="inOrder">Sırası</label>
-                                <input type="number" class="form-control" id="inOrder" placeholder="Sırası" min="0" max="100" required>
+                                <input type="number" class="form-control" id="inOrder" name="inOrder" placeholder="Sırası" min="0" max="100">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="description">Məzmun</label>
-                                <textarea id="description" class="form-control" placeholder="Təsviri"></textarea>
+                                <textarea id="description" class="form-control" name="description" placeholder="Təsviri"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" aria-label="Select item status">
+                                <select class="form-select" id="status" name="status" aria-label="Select item status">
                                     <option selected="" hidden>Seçim edin</option>
                                     <option value="0">Passiv</option>
                                     <option value="1">Aktiv</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" data-item="categories">Təsdiqlə</button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
+                            <button type="submit" value="save" class="btn btn-primary" data-item="categories">Təsdiqlə</button>
+                            <button type="button" value="close" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla
                             </button>
                         </form>
                     </div>
@@ -123,8 +126,8 @@
                             <div class="mb-3">
                                 <p>Bunu etmək istədiyinizə əminsiniz?</p>
                             </div>
-                            <button type="submit" class="btn btn-danger">Sil</button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
+                            <button type="submit" value="delete" class="btn btn-danger">Sil</button>
+                            <button type="button" value="close" class="btn btn-outline-secondary" data-bs-dismiss="modal"> Bağla </button>
                         </form>
                     </div>
                 </div>

@@ -45,7 +45,6 @@ let generateQueryOptions = (queryParams) => {
         attributes: ['title', 'key', 'img', 'content', 'sharedAt'],
     };
 
-    // Conditionally include category filtering if req.query.category is provided
     if (queryParams.category) {
         queryOptions.include.push({
             model: sequelize.model('categories'),
@@ -72,7 +71,6 @@ let generateQueryOptions = (queryParams) => {
         queryOptions.where['$news.subCategoryId$'] = { [Op.ne]: null };
     }
 
-    // Conditionally include tag filtering if req.query.tag is provided
     if (queryParams.tag) {
         queryOptions.include.push({
             model: sequelize.model('news_tags'),
@@ -175,13 +173,61 @@ const getNewsDetail = async (req, res, next) => {
     }
 
     try {
+        selectedNews = await db.news.findOne({
+            include: [
+                {
+                    model: sequelize.model('news_tags'),
+                    as: 'news_tags',
+                    include: [
+                        {
+                            model: sequelize.model('tags'),
+                            as: 'tag',
+                            where: {
+                                status: true,
+                            },
+                            attributes: ['name', 'key', 'description'],
+                            required: false,
+                        },
+                    ],
+                    attributes: '',
+                },
+                {
+                    model: sequelize.model('categories'),
+                    as: 'category',
+                    attributes: ['name', 'key', 'description'],
+                    where: {
+                        status: true
+                    }
+                },
+                {
+                    model: sequelize.model('sub_categories'),
+                    as: 'sub_category',
+                    attributes: ['name', 'key', 'description'],
+                },
+                {
+                    model: sequelize.model('news_views'),
+                    as: 'news_view',
+                    attributes: ['viewsCounts']
+                },
+            ],
+            attributes: ['id', 'title', 'key', 'img', 'categoryId', 'content', 'sharedAt'],
+            where: {
+                key,
+                status: true,
+                sharedAt: {
+                    [Op.lt]: moment().tz('Asia/Baku'),
+                },
+            },
+        });
+
         let allNews = await db.news.findAll({
             include: [
                 {
                     model: sequelize.model('categories'),
                     as: 'category',
                     where: {
-                        status: true
+                        id: selectedNews.categoryId,
+                        status: true,
                     },
                     attributes: ['name', 'key', 'description'],
                 },
@@ -244,52 +290,6 @@ const getNewsDetail = async (req, res, next) => {
             return viewsB - viewsA;
         }).slice(0, 6);
 
-        selectedNews = await db.news.findOne({
-            include: [
-                {
-                    model: sequelize.model('news_tags'),
-                    as: 'news_tags',
-                    include: [
-                        {
-                            model: sequelize.model('tags'),
-                            as: 'tag',
-                            where: {
-                                status: true,
-                            },
-                            attributes: ['name', 'key', 'description'],
-                            required: false,
-                        },
-                    ],
-                    attributes: '',
-                },
-                {
-                    model: sequelize.model('categories'),
-                    as: 'category',
-                    attributes: ['name', 'key', 'description'],
-                    where: {
-                        status: true
-                    }
-                },
-                {
-                    model: sequelize.model('sub_categories'),
-                    as: 'sub_category',
-                    attributes: ['name', 'key', 'description'],
-                },
-                {
-                    model: sequelize.model('news_views'),
-                    as: 'news_view',
-                    attributes: ['viewsCounts']
-                },
-            ],
-            attributes: ['id', 'title', 'key', 'img', 'content', 'sharedAt'],
-            where: {
-                key,
-                status: true,
-                sharedAt: {
-                    [Op.lt]: moment().tz('Asia/Baku'),
-                },
-            },
-        });
 
         if (selectedNews) {
             let views = await db.news_views.findOne({

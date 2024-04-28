@@ -1,6 +1,6 @@
 let createBtn = document.querySelector("#createBtn");
 let editBtn = document.querySelectorAll(".editBtn");
-// let deleteBtn = document.querySelectorAll(".deleteBtn");
+let deleteBtn = document.querySelectorAll(".deleteBtn");
 let deleteForm = document.querySelector("#deleteForm");
 let basicForm = document.querySelector("#basicForm");
 const submitterSave = document.querySelector("button[value=save]");
@@ -50,7 +50,45 @@ if (editBtn) {
             let dataAsString = await res.text();
             let data = JSON.parse(dataAsString);
 
-            if (item == "user") {
+            if (item == "news") {
+                basicForm.title.value = data.title;
+                editorInstance.setData(data.content);
+                basicForm.status.value = +data.status;
+                basicForm.headNews.value = +data.isHeadNews;
+                basicForm.category.value = data.categoryId;
+                var categoryDropdown = document.getElementById("category");
+                var event = new Event("change");
+                categoryDropdown.dispatchEvent(event);
+                basicForm.subCategory.value = data.subCategoryId;
+
+                const longDateString = data.sharedAt;
+                const dateTime = new Date(longDateString.replaceAll("Z", ""));
+
+                const formatterTime = new Intl.DateTimeFormat("az-AZ", {
+                hour: "2-digit",
+                minute: "2-digit",
+                });
+                const formattedTime = formatterTime.format(dateTime);
+                basicForm.time.value = formattedTime;
+
+                const formatterDate = new Intl.DateTimeFormat("az-AZ", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                });
+                const formattedDate = formatterDate.format(dateTime);
+                basicForm.date.value = formattedDate;
+
+                document
+                .querySelectorAll('input[type="checkbox"][id="tag"]')
+                .forEach(function (checkbox) {
+                    data.news_tags.forEach((news_tag) => {
+                    if (checkbox.value === news_tag.tagId) {
+                        checkbox.checked = true;
+                    }
+                    });
+                });
+            } else if (item == "user") {
                 basicForm.name.value = data.name;
                 basicForm.surname.value = data.surname;
                 basicForm.email.value = data.email;
@@ -75,74 +113,14 @@ if (editBtn) {
     });
 }
 
-function attachEditDeleteEventListeners() {
-    let editBtn = document.querySelectorAll(".editBtn");
-    let deleteBtn = document.querySelectorAll(".deleteBtn");
-    if (deleteBtn) {
-        deleteBtn.forEach((btn) => {
-            btn.addEventListener("click", async () => {
-                let action = btn.getAttribute("data-action");
-                deleteForm.action = action;
-            });
+if (deleteBtn) {
+    deleteBtn.forEach((btn) => {
+        btn.addEventListener("click", async () => {
+            let action = btn.getAttribute("data-action");
+            deleteForm.action = action;
         });
-    }
-
-    if (editBtn) {
-        editBtn.forEach((btn) => {
-            btn.addEventListener("click", async (e) => {
-                basicForm.reset();
-                let action = btn.getAttribute("data-action");
-                let item = btn.getAttribute("data-item");
-                let id = btn.getAttribute("data-id");
-                basicForm.action = action;
-
-                let res = await fetch(`/admin/selected-${item}?id=${id}`);
-                let dataAsString = await res.text();
-                let data = JSON.parse(dataAsString);
-
-                if (item == "news") {
-                    basicForm.title.value = data.title;
-                    editorInstance.setData(data.content);
-                    basicForm.status.value = +data.status;
-                    basicForm.headNews.value = +data.isHeadNews;
-                    basicForm.category.value = data.categoryId;
-                    var categoryDropdown = document.getElementById("category");
-                    var event = new Event("change");
-                    categoryDropdown.dispatchEvent(event);
-                    basicForm.subCategory.value = data.subCategoryId;
-
-                    const longDateString = data.sharedAt;
-                    const dateTime = new Date(longDateString.replaceAll("Z", ""));
-                    const formatterTime = new Intl.DateTimeFormat("az-AZ", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    });
-                    const formattedTime = formatterTime.format(dateTime);
-                    basicForm.time.value = formattedTime;
-
-                    const formatterDate = new Intl.DateTimeFormat("az-AZ", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    });
-                    const formattedDate = formatterDate.format(dateTime);
-                    basicForm.date.value = formattedDate;
-
-                    document
-                    .querySelectorAll('input[type="checkbox"][id="tag"]')
-                    .forEach(function (checkbox) {
-                        data.news_tags.forEach((news_tag) => {
-                        if (checkbox.value === news_tag.tagId) {
-                            checkbox.checked = true;
-                        }
-                        });
-                    });
-                }
-            });
-        });
-    }
+    });
 }
-attachEditDeleteEventListeners();
 
 const itemFormCreateUpdate = async (method) => {
     try {
@@ -394,7 +372,6 @@ if (window.location.pathname === "/admin/news") {
             } else {
                 displayAlert(data.message, "error");
             }
-            attachEditDeleteEventListeners();
         } catch (error) {
             console.error('Error fetching news items:', error);
         }

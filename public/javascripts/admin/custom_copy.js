@@ -1,187 +1,194 @@
 let createBtn = document.querySelector("#createBtn");
 let editBtn = document.querySelectorAll(".editBtn");
-// let deleteBtn = document.querySelectorAll(".deleteBtn");
+let deleteBtn = document.querySelectorAll(".deleteBtn");
 let deleteForm = document.querySelector("#deleteForm");
 let basicForm = document.querySelector("#basicForm");
-const submitterSave = document.querySelector("button[value=save]");
-let alertMessage = document.querySelector("#alert-message");
-let timeout = 4000;
-const azerbaijaniToEnglishMap = { "ə": "e", "ı": "i", "ö": "o", "ğ": "g", "ü": "u", "ş": "s", "ç": "c", "-": "-", "_": "", " ": "-", '"': "", "'": "", ":": "", ";": "", ",": "", ".": "", "“": "", "”": "", "?": "", "!": "", ".": "", ",": "", "/": "" };
 
 function changeLetters(str) {
-    return str.replace(/[əıöğüşç\s\-_'"':;,.“”?!.,/]/g, (match) => azerbaijaniToEnglishMap[match]);
+  const azerbaijaniToEnglishMap = {
+    ə: "e",
+    ı: "i",
+    ö: "o",
+    ğ: "g",
+    ü: "u",
+    ş: "s",
+    ç: "c",
+    "-": "-",
+    _: "",
+    " ": "-",
+    '"': "",
+    "'": "",
+    ":": "",
+    ";": "",
+    ",": "",
+    ".": "",
+    "“": "",
+    "”": "",
+    "?": "",
+    "!": "",
+    ".": "",
+    ",": "",
+    "/": "",
+  };
+  return str.replace(
+    /[əıöğüşç\s\-_'"':;,.“”?!.,/]/g,
+    (match) => azerbaijaniToEnglishMap[match]
+  );
 }
 
-function showAlert(text, key, isShow) {
-    if (alertMessage) {
-        const alertIcon = alertMessage.querySelector("i");
-        const alertText = alertMessage.querySelector("p");
-        alertIcon.classList = (key === "success") ? "bx bx-check-circle" : "bx bxs-error";
-        alertText.textContent = text;
-        alertMessage.style.display = isShow ? "flex" : "none";
-        alertMessage.classList.remove("error", "success");
-        if (key) {
-            alertMessage.classList.add(key);
-        }
+let alertMessage = document.querySelector("#alert-message");
+let timeout = 4000;
+if (alertMessage) {
+  alertIcon = alertMessage.querySelector("i");
+  alertText = alertMessage.querySelector("p");
+  getAlert = (text, key, isShow) => {
+    alertMessage.appendChild(alertIcon);
+    alertMessage.appendChild(alertText);
+    alertIcon.classList =
+      key == "success" ? "bx bx-check-circle" : "bx bxs-error";
+    alertText.textContent = text;
+    alertMessage.style.display = isShow ? "flex" : "none";
+    alertMessage.classList.remove("error", "success");
+    if (key) {
+      alertMessage.classList.add(key);
     }
-    setTimeout(() => {
-        showAlert("", "", false);
-    }, timeout);
+  };
 }
 
 if (createBtn) {
-    createBtn.addEventListener("click", () => {
-        basicForm.reset();
-        let action = createBtn.getAttribute("data-action");
-        basicForm.action = action;
-    });
+  createBtn.addEventListener("click", () => {
+    basicForm.reset();
+    let action = createBtn.getAttribute("data-action");
+    basicForm.action = action;
+  });
 }
 
 if (editBtn) {
-    editBtn.forEach((btn) => {
-        btn.addEventListener("click", async (e) => {
-            basicForm.reset();
-            let action = btn.getAttribute("data-action");
-            let item = btn.getAttribute("data-item");
-            let id = btn.getAttribute("data-id");
-            basicForm.action = action;
+  editBtn.forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      basicForm.reset();
+      let action = btn.getAttribute("data-action");
+      let item = btn.getAttribute("data-item");
+      let id = btn.getAttribute("data-id");
+      basicForm.action = action;
 
-            let res = await fetch(`/admin/selected-${item}?id=${id}`);
-            let dataAsString = await res.text();
-            let data = JSON.parse(dataAsString);
+      let res = await fetch(`/admin/selected-${item}?id=${id}`);
+      let dataAsString = await res.text();
+      let data = JSON.parse(dataAsString);
 
-            if (item == "user") {
-                basicForm.name.value = data.name;
-                basicForm.surname.value = data.surname;
-                basicForm.email.value = data.email;
-                basicForm.status.value = +data.status;
-            } else if (item == "social_media") {
-                basicForm.name.value = data.name;
-                basicForm.linkSlug.value = data.linkSlug;
-                basicForm.socialMediaId.value = data.socialMediaId;
-                basicForm.status.value = +data.status;
-            } else {
-                basicForm.name.value = data.name;
-                basicForm.description.innerHTML = data.description;
-                basicForm.status.value = +data.status;
-                if (basicForm.category) {
-                basicForm.category.value = data.categoryId;
-                }
-                if (basicForm.inOrder) {
-                basicForm.inOrder.value = data.inOrder;
-                }
-            }
+      if (item == "news") {
+        basicForm.title.value = data.title;
+        editorInstance.setData(data.content);
+        basicForm.status.value = +data.status;
+        basicForm.headNews.value = +data.isHeadNews;
+        basicForm.category.value = data.categoryId;
+        var categoryDropdown = document.getElementById("category");
+        var event = new Event("change");
+        categoryDropdown.dispatchEvent(event);
+        basicForm.subCategory.value = data.subCategoryId;
+
+        const longDateString = data.sharedAt;
+        const dateTime = new Date(longDateString.replaceAll("Z", ""));
+
+        const formatterTime = new Intl.DateTimeFormat("az-AZ", {
+          hour: "2-digit",
+          minute: "2-digit",
         });
-    });
-}
+        const formattedTime = formatterTime.format(dateTime);
+        basicForm.time.value = formattedTime;
 
-function attachEditDeleteEventListeners() {
-    let editBtn = document.querySelectorAll(".editBtn");
-    let deleteBtn = document.querySelectorAll(".deleteBtn");
-    if (deleteBtn) {
-        deleteBtn.forEach((btn) => {
-            btn.addEventListener("click", async () => {
-                let action = btn.getAttribute("data-action");
-                deleteForm.action = action;
+        const formatterDate = new Intl.DateTimeFormat("az-AZ", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+        const formattedDate = formatterDate.format(dateTime);
+        basicForm.date.value = formattedDate;
+
+        document
+          .querySelectorAll('input[type="checkbox"][id="tag"]')
+          .forEach(function (checkbox) {
+            data.news_tags.forEach((news_tag) => {
+              if (checkbox.value === news_tag.tagId) {
+                checkbox.checked = true;
+              }
             });
-        });
-    }
-
-    if (editBtn) {
-        editBtn.forEach((btn) => {
-            btn.addEventListener("click", async (e) => {
-                basicForm.reset();
-                let action = btn.getAttribute("data-action");
-                let item = btn.getAttribute("data-item");
-                let id = btn.getAttribute("data-id");
-                basicForm.action = action;
-
-                let res = await fetch(`/admin/selected-${item}?id=${id}`);
-                let dataAsString = await res.text();
-                let data = JSON.parse(dataAsString);
-
-                if (item == "news") {
-                    basicForm.title.value = data.title;
-                    editorInstance.setData(data.content);
-                    basicForm.status.value = +data.status;
-                    basicForm.headNews.value = +data.isHeadNews;
-                    basicForm.category.value = data.categoryId;
-                    var categoryDropdown = document.getElementById("category");
-                    var event = new Event("change");
-                    categoryDropdown.dispatchEvent(event);
-                    basicForm.subCategory.value = data.subCategoryId;
-
-                    const longDateString = data.sharedAt;
-                    const dateTime = new Date(longDateString.replaceAll("Z", ""));
-                    const formatterTime = new Intl.DateTimeFormat("az-AZ", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    });
-                    const formattedTime = formatterTime.format(dateTime);
-                    basicForm.time.value = formattedTime;
-
-                    const formatterDate = new Intl.DateTimeFormat("az-AZ", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    });
-                    const formattedDate = formatterDate.format(dateTime);
-                    basicForm.date.value = formattedDate;
-
-                    document
-                    .querySelectorAll('input[type="checkbox"][id="tag"]')
-                    .forEach(function (checkbox) {
-                        data.news_tags.forEach((news_tag) => {
-                        if (checkbox.value === news_tag.tagId) {
-                            checkbox.checked = true;
-                        }
-                        });
-                    });
-                }
-            });
-        });
-    }
-}
-attachEditDeleteEventListeners();
-
-const itemFormCreateUpdate = async (method) => {
-    try {
-        let name = basicForm.name.value.trim();
-        let description = basicForm.description.value.trim();
-        let status = basicForm.status.value.trim();
-        let key = changeLetters(name.toLowerCase());
-        let categoryId;
-        let inOrder;
+          });
+      } else if (item == "user") {
+        basicForm.name.value = data.name;
+        basicForm.surname.value = data.surname;
+        basicForm.email.value = data.email;
+        basicForm.status.value = +data.status;
+      } else if (item == "social_media") {
+        basicForm.name.value = data.name;
+        basicForm.linkSlug.value = data.linkSlug;
+        basicForm.socialMediaId.value = data.socialMediaId;
+        basicForm.status.value = +data.status;
+      } else {
+        basicForm.name.value = data.name;
+        basicForm.description.innerHTML = data.description;
+        basicForm.status.value = +data.status;
         if (basicForm.category) {
-            categoryId = basicForm.category.value.trim();
+          basicForm.category.value = data.categoryId;
         }
         if (basicForm.inOrder) {
-            inOrder = basicForm.inOrder.value.trim();
+          basicForm.inOrder.value = data.inOrder;
         }
+      }
+    });
+  });
+}
 
-        const requestBody = {
-            name,
-            description,
-            categoryId,
-            status,
-            inOrder,
-            key,
-        };
+if (deleteBtn) {
+  deleteBtn.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      let action = btn.getAttribute("data-action");
+      deleteForm.action = action;
+    });
+  });
+}
 
-        res = await fetch(basicForm.action, {
-            method: method,
-            body: JSON.stringify(requestBody),
-            headers: {
-                "Content-type": "application/json",
-            },
-        }).then(async (data) => {
-            let resData = await data.json();
-            showAlert(resData.message, resData.key, true);
-            data.status == 200 ? location.reload() : false;
-        });
-    } catch (error) {
-        return error;
+const itemFormCreateUpdate = async (method) => {
+  try {
+    let name = basicForm.name.value.trim();
+    let description = basicForm.description.value.trim();
+    let status = basicForm.status.value.trim();
+    let key = changeLetters(name.toLowerCase());
+    let categoryId;
+    let inOrder;
+    if (basicForm.category) {
+      categoryId = basicForm.category.value.trim();
     }
+    if (basicForm.inOrder) {
+      inOrder = basicForm.inOrder.value.trim();
+    }
+
+    const requestBody = {
+      name,
+      description,
+      categoryId,
+      status,
+      inOrder,
+      key,
+    };
+
+    res = await fetch(basicForm.action, {
+      method: method,
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-type": "application/json",
+      },
+    }).then(async (data) => {
+      let resData = await data.json();
+      getAlert(resData.message, resData.key, true);
+      data.status == 200 ? location.reload() : false;
+      setTimeout(() => {
+        getAlert("", "", false);
+      }, timeout);
+    });
+  } catch (error) {
+    return error;
+  }
 };
 
 const newsFormCreateUpdate = async (method) => {
@@ -232,8 +239,11 @@ const newsFormCreateUpdate = async (method) => {
       body: formData,
     }).then(async (data) => {
       let resData = await data.json();
-      showAlert(resData.message, resData.key, true);
+      getAlert(resData.message, resData.key, true);
       data.status == 200 ? location.reload() : false;
+      setTimeout(() => {
+        getAlert("", "", false);
+      }, timeout);
     });
   } catch (error) {
     return error;
@@ -264,8 +274,11 @@ const userFormCreateUpdate = async (method) => {
       },
     }).then(async (data) => {
       let resData = await data.json();
-      showAlert(resData.message, resData.key, true);
+      getAlert(resData.message, resData.key, true);
       data.status == 200 ? location.reload() : false;
+      setTimeout(() => {
+        getAlert("", "", false);
+      }, timeout);
     });
   } catch (error) {
     return error;
@@ -294,8 +307,11 @@ const socialMediaFormCreateUpdate = async (method) => {
       },
     }).then(async (data) => {
       let resData = await data.json();
-      showAlert(resData.message, resData.key, true);
+      getAlert(resData.message, resData.key, true);
       data.status == 200 ? location.reload() : false;
+      setTimeout(() => {
+        getAlert("", "", false);
+      }, timeout);
     });
   } catch (error) {
     return error;
@@ -303,21 +319,20 @@ const socialMediaFormCreateUpdate = async (method) => {
 };
 
 if (basicForm) {
-    basicForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const method = basicForm.action.includes("create") ? "POST" : "PUT";
-        // await handleFormSubmission(method);
+  basicForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
+    const isCreateAction = basicForm.action.includes("create");
+    const isNewsAction = basicForm.action.includes("news");
+    const isSocialMediaAction = basicForm.action.includes("social_media");
+    const isUserAction = basicForm.action.includes("user");
+    const method = isCreateAction ? "POST" : "PUT";
 
-        const isNewsAction = basicForm.action.includes("news");
-        const isSocialMediaAction = basicForm.action.includes("social_media");
-        const isUserAction = basicForm.action.includes("user");
-
-        isNewsAction ? await newsFormCreateUpdate(method) : null;
-        isUserAction ? await userFormCreateUpdate(method) : null;
-        isSocialMediaAction ? await socialMediaFormCreateUpdate(method) : null;
-        await itemFormCreateUpdate(method);
-    });
+    isNewsAction ? await newsFormCreateUpdate(method) : null;
+    isUserAction ? await userFormCreateUpdate(method) : null;
+    isSocialMediaAction ? await socialMediaFormCreateUpdate(method) : null;
+    await itemFormCreateUpdate(method);
+  });
 }
 
 if (deleteForm) {
@@ -329,8 +344,11 @@ if (deleteForm) {
         method: "DELETE",
       }).then(async (data) => {
         let resData = await data.json();
-        showAlert(resData.message, resData.key, true);
+        getAlert(resData.message, resData.key, true);
         data.status == 200 ? location.reload() : false;
+        setTimeout(() => {
+          getAlert("", "", false);
+        }, timeout);
       });
     } catch (error) {
       return error;
@@ -364,10 +382,16 @@ if (window.location.pathname === "/admin/news") {
                         subCategoryDropdown.appendChild(option);
                     });
                 } else {
-                    showAlert(data.message, data.key, true);
+                    getAlert(data.message, data.key, true);
+                    setTimeout(() => {
+                        getAlert("", "", false);
+                    }, timeout);
                 }
             } catch (error) {
-                showAlert(error.message, "error", true);
+                getAlert(error.message, "error", true);
+                setTimeout(() => {
+                    getAlert("", "", false);
+                }, timeout);
             }
         }
     });
@@ -394,7 +418,6 @@ if (window.location.pathname === "/admin/news") {
             } else {
                 displayAlert(data.message, "error");
             }
-            attachEditDeleteEventListeners();
         } catch (error) {
             console.error('Error fetching news items:', error);
         }

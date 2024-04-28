@@ -7279,9 +7279,7 @@ a.invert-bg-dark:focus {
   align-items: center;
   justify-content: center;
 }
-.btn .bx {
-  line-height: 1.15;
-}
+
 .btn.disabled,
 .btn:disabled {
   cursor: default;

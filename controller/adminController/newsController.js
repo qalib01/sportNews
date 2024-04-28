@@ -5,6 +5,7 @@ const fs = require('fs');
 const sharp = require('sharp');
 const { errorMessages } = require('../../statusMessages/errorMessages');
 const { successMessages } = require('../../statusMessages/successMessages');
+const { Op } = require('sequelize');
 
 let guid = () => {
   let s4 = () => {
@@ -204,10 +205,7 @@ const getAdminNewsLoadMore = async (req, res, next) => {
   let offset = parseInt(req.query.startIndex) || 0;
 
   try {
-    // Step 1: Calculate total number of news articles
     const totalCount = await db.news.count();
-
-    // Step 2: Determine total number of pages
     const totalPages = Math.ceil(totalCount / limit);
 
     // Step 3: Generate array of page numbers
@@ -236,6 +234,7 @@ const getAdminNewsLoadMore = async (req, res, next) => {
           ],
         },
       ],
+      attributes: ['id', 'title', 'key', 'status', 'createdAt'],
       order: [
         ['createdAt', 'DESC']
       ],
@@ -247,10 +246,68 @@ const getAdminNewsLoadMore = async (req, res, next) => {
       news,
       totalPages,
       visiblePages,
+      totalCount,
     });
   } catch (error) {
     console.error('Error in fetching homepage data:', error);
     next(error);
+  }
+}
+
+const getAdminNewsSearch = async (req, res, next) => {
+  let key = req.query.key;
+  let limit = parseInt(req.query.limit);
+  let offset = parseInt(req.query.startIndex) || 0;
+  try {
+    let news = await db.news.findAll({
+      where: {
+        key: {
+          [Op.like]: `%${key}%`
+        },
+      },
+      include: [
+        {
+          model: sequelize.model('categories'),
+          as: 'category',
+          attributes: ['name', 'key', 'description', 'status'],
+        },
+        {
+          model: sequelize.model('news_tags'),
+          as: 'news_tags',
+          include: [
+            {
+              model: sequelize.model('tags'),
+              as: 'tag',
+              attributes: ['name', 'key', 'description'],
+            },
+          ],
+        },
+      ],
+      attributes: ['id', 'title', 'key', 'status', 'createdAt'],
+      order: [
+        ['createdAt', 'DESC'],
+      ],
+      limit,
+      offset,
+    });
+
+    const totalCount = await news.length;
+    const totalPages = Math.ceil(totalCount / limit);
+
+    let visiblePages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      visiblePages.push(i);
+    }
+
+    res.json({
+      news,
+      totalPages,
+      visiblePages,
+      totalCount,
+    });
+  } catch (error) {
+    res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+    console.log(error);
   }
 }
 
@@ -296,4 +353,4 @@ const deleteSelectedNews = async (req, res, next) => {
   }
 }
 
-module.exports = { createNews, getSelectedNews, updateSelectedNews, getAdminNewsLoadMore, deleteSelectedNews }
+module.exports = { createNews, getSelectedNews, updateSelectedNews, getAdminNewsLoadMore, getAdminNewsSearch, deleteSelectedNews }

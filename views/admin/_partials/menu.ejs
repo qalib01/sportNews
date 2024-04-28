@@ -1,39 +1,32 @@
 <ul class="menu-inner py-1">
-    <!-- Dashboards -->
     <li class="menu-item <%= key == 'home' ? 'active' : '' %>">
         <a href="/admin" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Dashboards">Dashboard</div>
         </a>
     </li>
-
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">İstifadəçilər</span>
     </li>
-    <!-- Users -->
     <li class="menu-item <%= key == 'users' ? 'active' : '' %>">
         <a href="/admin/users" class="menu-link">
             <i class="menu-icon tf-icons bx bx-user"></i>
             <div data-i18n="Users">İstifadəçilər</div>
         </a>
     </li>
-    <!-- News -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Xəbərlər</span></li>
-    <!-- News -->
     <li class="menu-item <%= key == 'news' ? 'active' : '' %>">
         <a href="/admin/news" class="menu-link">
             <i class="menu-icon tf-icons bx bx-news"></i>
             <div data-i18n="News">Xəbərlər</div>
         </a>
     </li>
-    <!-- Tags -->
     <li class="menu-item <%= key == 'tags' ? 'active' : '' %>">
         <a href="/admin/tags" class="menu-link">
             <i class="menu-icon tf-icons bx bx-purchase-tag-alt"></i>
             <div data-i18n="Tags">Taglar</div>
         </a>
     </li>
-    <!-- Categories -->
     <li class="menu-item <%= key == 'categories' ? 'active' : '' %>">
         <a href="/admin/categories" class="menu-link">
             <i class="menu-icon tf-icons bx bx-category"></i>

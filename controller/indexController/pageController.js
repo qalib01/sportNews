@@ -64,7 +64,7 @@ const getHomePage = async (req, res, next) => {
             if (news.news_view) {
                 totalViews = news.news_view.viewsCounts;
             }
-            return totalViews > 0 && moment(news.createdAt).isAfter(sevenDaysAgo);
+            return totalViews > 0 && moment(news.sharedAt).isAfter(sevenDaysAgo);
         }).sort((a, b) => {
             let viewsA = 0;
             let viewsB = 0;
@@ -76,7 +76,6 @@ const getHomePage = async (req, res, next) => {
             }
             return viewsB - viewsA;
         }).slice(0, 6);
-
 
         // Check if newsWithTagCounts is undefined or empty
         if (!allNews || allNews.length === 0) {
@@ -141,7 +140,7 @@ const getHomePage = async (req, res, next) => {
                         title: news.title,
                         key: news.key,
                         img: news.img,
-                        createdAt: news.createdAt
+                        sharedAt: news.sharedAt
                     }))
                 }))
             };
@@ -161,7 +160,7 @@ const getHomePage = async (req, res, next) => {
                     }
                 }
             ]
-        })
+        });
 
         res.render('index', {
             title: 'Ana səhifə',
