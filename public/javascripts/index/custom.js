@@ -55,7 +55,7 @@ if ( window.location.pathname === "/news" ) {
 
                                 <div class="cl19 p-b-18">
                                     <span class="f1-s-3">
-                                        ${item.createdAt}
+                                        ${item.sharedAt}
                                     </span>
                                 </div>
 

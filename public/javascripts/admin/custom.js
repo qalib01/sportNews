@@ -65,10 +65,10 @@ if (editBtn) {
                 basicForm.description.innerHTML = data.description;
                 basicForm.status.value = +data.status;
                 if (basicForm.category) {
-                basicForm.category.value = data.categoryId;
+                    basicForm.category.value = data.categoryId;
                 }
                 if (basicForm.inOrder) {
-                basicForm.inOrder.value = data.inOrder;
+                    basicForm.inOrder.value = data.inOrder;
                 }
             }
         });
@@ -114,29 +114,29 @@ function attachEditDeleteEventListeners() {
                     const longDateString = data.sharedAt;
                     const dateTime = new Date(longDateString.replaceAll("Z", ""));
                     const formatterTime = new Intl.DateTimeFormat("az-AZ", {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
                     });
                     const formattedTime = formatterTime.format(dateTime);
                     basicForm.time.value = formattedTime;
 
                     const formatterDate = new Intl.DateTimeFormat("az-AZ", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
                     });
                     const formattedDate = formatterDate.format(dateTime);
                     basicForm.date.value = formattedDate;
 
                     document
-                    .querySelectorAll('input[type="checkbox"][id="tag"]')
-                    .forEach(function (checkbox) {
-                        data.news_tags.forEach((news_tag) => {
-                        if (checkbox.value === news_tag.tagId) {
-                            checkbox.checked = true;
-                        }
+                        .querySelectorAll('input[type="checkbox"][id="tag"]')
+                        .forEach(function (checkbox) {
+                            data.news_tags.forEach((news_tag) => {
+                                if (checkbox.value === news_tag.tagId) {
+                                    checkbox.checked = true;
+                                }
+                            });
                         });
-                    });
                 }
             });
         });
@@ -185,121 +185,121 @@ const itemFormCreateUpdate = async (method) => {
 };
 
 const newsFormCreateUpdate = async (method) => {
-  try {
-    let title = basicForm.title.value.trim();
-    let categoryId = basicForm.category.value.trim();
-    let subCategoryId = basicForm.subCategory.value.trim();
-    let img = document.querySelector("#img");
-    img = img.files[0];
-    let content = editorInstance.getData().trim();
-    let tags = [];
-    document
-      .querySelectorAll('input[type="checkbox"][id="tag"]')
-      .forEach(function (checkbox) {
-        if (checkbox.checked) {
-          tags.push(checkbox.value);
+    try {
+        let title = basicForm.title.value.trim();
+        let categoryId = basicForm.category.value.trim();
+        let subCategoryId = basicForm.subCategory.value.trim();
+        let img = document.querySelector("#img");
+        img = img.files[0];
+        let content = editorInstance.getData().trim();
+        let tags = [];
+        document
+            .querySelectorAll('input[type="checkbox"][id="tag"]')
+            .forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    tags.push(checkbox.value);
+                }
+            });
+        let date = basicForm.date.value.trim();
+        let time = basicForm.time.value.trim();
+
+        let sharedAt = `${date} ${time}`;
+        if (
+            sharedAt.trim() == "" ||
+            sharedAt.trim() == undefined ||
+            sharedAt.trim() == null
+        ) {
+            sharedAt = new Date();
         }
-      });
-    let date = basicForm.date.value.trim();
-    let time = basicForm.time.value.trim();
+        let status = basicForm.status.value.trim();
+        let isHeadNews = basicForm.headNews.value.trim();
+        let key = changeLetters(title.toLowerCase());
 
-    let sharedAt = `${date} ${time}`;
-    if (
-      sharedAt.trim() == "" ||
-      sharedAt.trim() == undefined ||
-      sharedAt.trim() == null
-    ) {
-      sharedAt = new Date();
+        let formData = new FormData();
+        formData.append("title", title);
+        formData.append("key", key);
+        formData.append("categoryId", categoryId);
+        formData.append("subCategoryId", subCategoryId);
+        formData.append("content", content);
+        formData.append("status", status);
+        formData.append("isHeadNews", isHeadNews);
+        formData.append("img", img);
+        formData.append("tags", tags);
+        formData.append("sharedAt", sharedAt);
+
+        res = await fetch(basicForm.action, {
+            method: method,
+            body: formData,
+        }).then(async (data) => {
+            let resData = await data.json();
+            showAlert(resData.message, resData.key, true);
+            data.status == 200 ? location.reload() : false;
+        });
+    } catch (error) {
+        return error;
     }
-    let status = basicForm.status.value.trim();
-    let isHeadNews = basicForm.headNews.value.trim();
-    let key = changeLetters(title.toLowerCase());
-
-    let formData = new FormData();
-    formData.append("title", title);
-    formData.append("key", key);
-    formData.append("categoryId", categoryId);
-    formData.append("subCategoryId", subCategoryId);
-    formData.append("content", content);
-    formData.append("status", status);
-    formData.append("isHeadNews", isHeadNews);
-    formData.append("img", img);
-    formData.append("tags", tags);
-    formData.append("sharedAt", sharedAt);
-
-    res = await fetch(basicForm.action, {
-      method: method,
-      body: formData,
-    }).then(async (data) => {
-      let resData = await data.json();
-      showAlert(resData.message, resData.key, true);
-      data.status == 200 ? location.reload() : false;
-    });
-  } catch (error) {
-    return error;
-  }
 };
 
 const userFormCreateUpdate = async (method) => {
-  try {
-    let name = basicForm.name.value.trim();
-    let surname = basicForm.surname.value.trim();
-    let email = basicForm.email.value.trim();
-    let password = basicForm.password.value.trim();
-    let status = basicForm.status.value.trim();
+    try {
+        let name = basicForm.name.value.trim();
+        let surname = basicForm.surname.value.trim();
+        let email = basicForm.email.value.trim();
+        let password = basicForm.password.value.trim();
+        let status = basicForm.status.value.trim();
 
-    const requestBody = {
-      name,
-      surname,
-      email,
-      password,
-      status,
-    };
+        const requestBody = {
+            name,
+            surname,
+            email,
+            password,
+            status,
+        };
 
-    res = await fetch(basicForm.action, {
-      method: method,
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-type": "application/json",
-      },
-    }).then(async (data) => {
-      let resData = await data.json();
-      showAlert(resData.message, resData.key, true);
-      data.status == 200 ? location.reload() : false;
-    });
-  } catch (error) {
-    return error;
-  }
+        res = await fetch(basicForm.action, {
+            method: method,
+            body: JSON.stringify(requestBody),
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then(async (data) => {
+            let resData = await data.json();
+            showAlert(resData.message, resData.key, true);
+            data.status == 200 ? location.reload() : false;
+        });
+    } catch (error) {
+        return error;
+    }
 };
 
 const socialMediaFormCreateUpdate = async (method) => {
-  try {
-    let name = basicForm.name.value.trim();
-    let linkSlug = basicForm.linkSlug.value.trim();
-    let socialMediaId = basicForm.socialMediaId.value.trim();
-    let status = basicForm.status.value.trim();
+    try {
+        let name = basicForm.name.value.trim();
+        let linkSlug = basicForm.linkSlug.value.trim();
+        let socialMediaId = basicForm.socialMediaId.value.trim();
+        let status = basicForm.status.value.trim();
 
-    const requestBody = {
-      name,
-      linkSlug,
-      socialMediaId,
-      status,
-    };
+        const requestBody = {
+            name,
+            linkSlug,
+            socialMediaId,
+            status,
+        };
 
-    res = await fetch(basicForm.action, {
-      method: method,
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-type": "application/json",
-      },
-    }).then(async (data) => {
-      let resData = await data.json();
-      showAlert(resData.message, resData.key, true);
-      data.status == 200 ? location.reload() : false;
-    });
-  } catch (error) {
-    return error;
-  }
+        res = await fetch(basicForm.action, {
+            method: method,
+            body: JSON.stringify(requestBody),
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then(async (data) => {
+            let resData = await data.json();
+            showAlert(resData.message, resData.key, true);
+            data.status == 200 ? location.reload() : false;
+        });
+    } catch (error) {
+        return error;
+    }
 };
 
 if (basicForm) {
@@ -321,21 +321,21 @@ if (basicForm) {
 }
 
 if (deleteForm) {
-  deleteForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    deleteForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    try {
-      res = await fetch(deleteForm.action, {
-        method: "DELETE",
-      }).then(async (data) => {
-        let resData = await data.json();
-        showAlert(resData.message, resData.key, true);
-        data.status == 200 ? location.reload() : false;
-      });
-    } catch (error) {
-      return error;
-    }
-  });
+        try {
+            res = await fetch(deleteForm.action, {
+                method: "DELETE",
+            }).then(async (data) => {
+                let resData = await data.json();
+                showAlert(resData.message, resData.key, true);
+                data.status == 200 ? location.reload() : false;
+            });
+        } catch (error) {
+            return error;
+        }
+    });
 }
 
 if (window.location.pathname === "/admin/news") {
@@ -404,10 +404,10 @@ if (window.location.pathname === "/admin/news") {
     function renderNewsItems(news, startIndex) {
         let itemCounter = 1;
         newsItems.innerHTML = "";
-        
+
         news.forEach((item) => {
             const childEl = `<tr>
-                <td><span class="fw-medium">${ !startIndex ? itemCounter++ : startIndex++ }</span></td>
+                <td><span class="fw-medium">${!startIndex ? itemCounter++ : startIndex++}</span></td>
                 <td class="text-wrap">${item.title}</td>
                 <td>${renderCategory(item.category)}</td>
                 <td class="text-wrap">${renderNewsTags(item.news_tags)}</td>

@@ -139,6 +139,7 @@ const updateSelectedNews = async (req, res, next) => {
 
       await db.news.update({
         title: inputData.title,
+        key: inputData.key,
         categoryId: inputData.categoryId,
         subCategoryId: inputData.subCategoryId,
         content: inputData.content,

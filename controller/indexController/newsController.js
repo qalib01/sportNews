@@ -219,6 +219,9 @@ const getNewsDetail = async (req, res, next) => {
                 },
             },
         });
+        if (!selectedNews || selectedNews == null || selectedNews == undefined) {
+            next();
+        }
 
         let allNews = await db.news.findAll({
             include: [
@@ -290,7 +293,6 @@ const getNewsDetail = async (req, res, next) => {
             return viewsB - viewsA;
         }).slice(0, 6);
 
-
         if (selectedNews) {
             let views = await db.news_views.findOne({
                 where: {
@@ -315,10 +317,6 @@ const getNewsDetail = async (req, res, next) => {
                     }
                 });
             };
-        }
-
-        if (!selectedNews || selectedNews == null || selectedNews == undefined) {
-            next();
         }
 
         res.render('news_detail', {
