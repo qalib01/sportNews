@@ -155,7 +155,9 @@ const updateSelectedNews = async (req, res, next) => {
       })
 
       if (req.file) {
-        fs.unlinkSync('public/images/news/' + hasNews.img);
+        if (hasNews.img !== 'default_image.webp') {
+          fs.unlinkSync('public/images/news/' + hasNews.img);
+        }
         
         await db.news.update({
           img,
