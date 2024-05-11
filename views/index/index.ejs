@@ -2,7 +2,7 @@
   <%- include('./_partials/header') %>
 
     <div class="banner-container d-lg-flex justify-content-between">
-      <div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+      <div style="position: sticky;z-index: -10;top: 50px;height: fit-content; width: 160px;">
         <div id="left-banner" class="d-none d-lg-block">
           <a href="#">
             <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
@@ -62,7 +62,8 @@
                 <div class="row m-rl--1">
                     <% let firstNews = headNews[0]; %>
                     <div class="col-md-6 p-rl-1 p-b-2">
-                      <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= firstNews.title.replaceAll('"', '') %>" style="background-image: url('/images/news/<%= firstNews.img %>');">
+                      <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= firstNews.title.replaceAll('"', '') %>">
+                        <img src="/images/news/<%= firstNews.img %>" alt="<%= firstNews.title.replaceAll('"', '') %>" onerror="setDefaultImage(this)">
                         <a href="/news/news-detail?key=<%= firstNews.key %>" class="dis-block how1-child1 trans-03 text-decoration-none" aria-label="<%= firstNews.title.replaceAll('"', '') %>"></a>
                         <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                           <a href="/news?category=<%= firstNews.category.key %>" title="<%= firstNews.category.name %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
@@ -87,7 +88,8 @@
                         <% for (let i = 1; i < headNews.length; i++) { %>
                           <% let news = headNews[i]; %>
                           <div class="col-sm-6 p-rl-1 p-b-2">
-                            <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= news.title.replaceAll('"', '') %>" style="background-image: url('/images/news/<%= news.img %>');">
+                            <div class="bg-img1 ratio ratio-4x3 how1 pos-relative" title="<%= news.title.replaceAll('"', '') %></div>">
+                              <img src="/images/news/<%= news.img %>" alt="<%= news.title.replaceAll('"', '') %>" onerror="setDefaultImage(this)">
                               <a href="/news/news-detail?key=<%= news.key %>" class="dis-block how1-child1 trans-03 text-decoration-none" aria-label="<%= news.title.replaceAll('"', '') %>"></a>
                               <div class="flex-col-e-s s-full p-rl-10 p-tb-10">
                                 <a href="/news?category=<%= news.category.key %>" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2 text-decoration-none">
@@ -189,7 +191,7 @@
                                     <div class="flex-wr-sb-s m-b-30 col-12 col-sm-6" role="complementary">
                                       <a href="/news/news-detail?key=<%= nws.key %>" class="size-w-1 wrap-pic-w hov1 trans-03 text-decoration-none"
                                         style="height: 60px;" aria-label="<%= nws.title.replaceAll('"', "") %>">
-                                        <img src="/images/news/<%= nws.img %>" alt="<%= nws.title.replaceAll('"', "") %>" class="object-fit-cover h-100 lazyload" style="aspect-ratio: 4/3;" loading="lazy">
+                                        <img src="/images/news/<%= nws.img %>" alt="<%= nws.title.replaceAll('"', "") %>" class="object-fit-cover h-100 lazyload" style="aspect-ratio: 4/3;" loading="lazy" onerror="setDefaultImage(this)">
                                       </a>
                                       <div class="size-w-2">
                                         <a href="/news/news-detail?key=<%= nws.key %>"
@@ -265,7 +267,7 @@
               </div>
             </section>
       </div>
-      <div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+      <div style="position: sticky;z-index: -10;top: 50px;height: fit-content; width: 160px;">
         <div id="right-banner" class="d-none d-lg-block">
           <a href="#">
             <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">

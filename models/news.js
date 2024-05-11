@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     categoryId: DataTypes.STRING,
     subCategoryId: DataTypes.STRING,
     content: DataTypes.TEXT,
+    metaKeywords: DataTypes.TEXT,
     status: DataTypes.BOOLEAN,
     isHeadNews: DataTypes.BOOLEAN,
     createdBy: DataTypes.STRING,

@@ -45,7 +45,7 @@ if ( window.location.pathname === "/news" ) {
                     items.forEach((item) => {
                         let childEl = `<div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
                             <a href="/news/news-detail?key=${item.key}" class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25 text-decoration-none" style="aspect-ratio: 4/3;" aria-label="${item.title.replaceAll('"','')}">
-                                <img src="/images/news/${item.img}" alt="${item.title.replaceAll('"','')}" class="object-fit-cover h-100">
+                                <img src="/images/news/${item.img}" alt="${item.title.replaceAll('"','')}" class="object-fit-cover h-100" onerror=setDefaultImage(this)>
                             </a>
 
                             <div class="size-w-9 w-full-sr575 m-b-25">
@@ -95,4 +95,8 @@ if ( window.location.pathname === "/news" ) {
             document.getElementById('load-more').addEventListener('click', fetchItems);
         }
     });
+}
+
+const setDefaultImage = (img) => {
+    img.src = '/images/news/default_image.webp';
 }

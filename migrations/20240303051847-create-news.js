@@ -33,6 +33,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      metaKeywords: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

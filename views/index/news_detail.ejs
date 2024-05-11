@@ -41,17 +41,18 @@
             "datePublished": "<%= moment(selectedNews.sharedAt).format('L') %>"
         }
     </script>
+    <link rel="canonical" href="https://sporter.az/news/news-detail?key=<%= selectedNews.key %>">
     <meta name="author" content="SporterAz">
     <meta name="revised" content="SporterAz">
-    <meta name="keywords" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
-    <meta name="description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
+    <meta name="keywords" content="SporterAz,Sporter İnformasiya Agentliyi,İdman Xəbərləri,Sporter Az,sporter.az,Sport xəbələri,<%= selectedNews.metaKeywords %>">
+    <meta name="description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
 
     <!-- * Meta tags for Facebook and LinkedIn -->
     <meta name="og:locale" content="az_AZ">
     <meta name="og:type" content="news">
     <meta name="og:url" content="https://sporter.az/news/news-detail?key=<%= selectedNews.key %>">
     <meta name="og:title" content="<%= selectedNews.title %>">
-    <meta name="og:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
+    <meta name="og:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
     <meta name="og:site_name" content="Sporter İdman İnformasiya Agentliyi">
     <!-- Image for Facebook -->
     <meta name="og:image" content="https://sporter.az/public/images/news/<%= selectedNews.img %>">
@@ -69,7 +70,7 @@
     <meta name="twitter:site" content="@Sporteraz">
     <meta name="twitter:creator" content="@Sporteraz">
     <meta name="twitter:title" content="<%= selectedNews.title %>">
-    <meta name="twitter:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) %>">
+    <meta name="twitter:description" content="<%= selectedNews.content.replace(/<[^>]*>/g, '').slice(0, 150) + '...' %>">
     <meta name="twitter:url" content="https://sporter.az/news/news-detail?key=<%= selectedNews.key %>">
     <meta name="twitter:image" content="https://sporter.az/public/images/news/<%= selectedNews.img %>">
     <meta name="twitter:image:alt" content="<%= selectedNews.title %>">
@@ -79,7 +80,7 @@
     <%- include('./_partials/header') %>
 
         <div class="banner-container d-flex justify-content-between">
-            <div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+            <div style="position: sticky;z-index: -10;top: 50px;height: fit-content; width: 160px;">
                 <div id="left-banner" class="d-none d-lg-block">
                     <a href="#">
                         <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">
@@ -136,7 +137,7 @@
                                         </div>
 
                                         <div style="aspect-ratio: 16/9; width: 100%;">
-                                            <img src="/images/news/<%= selectedNews.img %>" alt="<%= selectedNews.title %>" class="object-fit-cover w-100 h-100">
+                                            <img src="/images/news/<%= selectedNews.img %>" alt="<%= selectedNews.title %>" class="object-fit-cover w-100 h-100" onerror=setDefaultImage(this)>
                                         </div>
 
                                         <p class="f1-s-11 cl6 p-b-15 p-t-40">
@@ -174,7 +175,7 @@
                                                 </a>
 
                                                 <a href="https://twitter.com/intent/post?url=https://sporter.az/news/news-detail?key=<%= selectedNews.key %>&text=<%= selectedNews.title %>" class="dis-block f1-s-13 cl0 bg-twitter borad-3 p-tb-4 p-rl-18 hov-btn1 m-r-3 m-b-3 trans-03 text-decoration-none" target="_blank" title="Twitter">
-                                                    <i class="fab fa-twitter m-r-7"></i>
+                                                    <i class="fa-brands fa-x-twitter m-r-7"></i>
                                                     Twitter
                                                 </a>
 
@@ -220,7 +221,7 @@
                     </div>
                 </section>
             </div>
-            <div style="position: sticky;z-index: -10;top: 50px;height: fit-content;">
+            <div style="position: sticky;z-index: -10;top: 50px;height: fit-content; width: 160px;">
                 <div id="right-banner" class="d-none d-lg-block">
                     <a href="#">
                         <img src="/images/banners/banner_160x600.png" alt="Banner" style="max-width: 100%; height: auto; display: block;">

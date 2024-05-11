@@ -9,7 +9,7 @@
                     <!-- Item latest -->
                     <div class="m-b-45">
                         <a href="/news/news-detail?key=<%= news.key %>" class="wrap-pic-w hov1 trans-03 text-decoration-none" style="height: 240px;">
-                            <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover h-100 lazyload" loading="lazy" style="aspect-ratio: 4/3;">
+                            <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" class="object-fit-cover h-100 lazyload" loading="lazy" style="aspect-ratio: 4/3;" onerror="setDefaultImage(this)">
                         </a>
                         <div class="p-t-16">
                             <a href="/news/news-detail?key=<%= news.key %>"
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <% }) %>
+            <% }) %>
         </div>
     </div>
 <% } %>

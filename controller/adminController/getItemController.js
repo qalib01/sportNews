@@ -98,8 +98,6 @@ const getPlatfromSocialMedia = async (req, res, next) => {
             },
         });
 
-        console.log(hasPlatform);
-
         if (hasPlatform) {
             res.json(hasPlatform);
         } else {

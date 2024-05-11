@@ -39,7 +39,7 @@
                         <% lastThreeNews.forEach((news) => { %>
                             <li class="flex-wr-sb-s p-b-20">
                                 <a href="/news/news-detail?key=<%= news.key %>" class="size-w-4 wrap-pic-w hov1 trans-03 text-decoration-none">
-                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>" class="object-fit-cover lazyload"  loading="lazy" style="aspect-ratio: 4/3;">
+                                    <img src="/images/news/<%= news.img %>" alt="<%= news.title %>" title="<%= news.title %>" class="object-fit-cover lazyload"  loading="lazy" style="aspect-ratio: 4/3;" onerror=setDefaultImage(this)>
                                 </a>
                                 <div class="size-w-5">
                                     <a href="/news/news-detail?key=<%= news.key %>" title="<%= news.title %>" class="p-b-5 f1-s-5 cl0 hov-cl10 trans-03 text-decoration-none d-block">
@@ -106,7 +106,7 @@
 <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" defer></script>
 <!--===============================================================================================-->
 <script src="/javascripts/index/main.min.js" defer></script>
-<script src="/javascripts/index/custom.min.js" defer></script>
+<script src="/javascripts/index/custom.js" defer></script>
 </body>
 
 </html>

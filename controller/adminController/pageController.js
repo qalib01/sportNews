@@ -1,59 +1,61 @@
 const db = require("../../models/index");
 const { sequelize } = require("../../models/index");
+const { errorMessages } = require('../../statusMessages/errorMessages');
+const { successMessages } = require('../../statusMessages/successMessages');
 
 const HomePage = async (req, res, next) => {
-    const apiKey = "Bearer diOBjI6lkCjBuZ9Kb0tE24HdZ_1MBa9l7mKUeU57";
-    const email = "sportsporter555@gmail.com";
-    let analytics;
+    // const apiKey = "Bearer diOBjI6lkCjBuZ9Kb0tE24HdZ_1MBa9l7mKUeU57";
+    // const email = "sportsporter555@gmail.com";
+    // let analytics;
 
-    const graphqlQuery = `
-        query {
-            viewer {
-                zones(filter: { zoneTag: "908bc97b28168b52fed201cab792c3e0" }) {
-                    httpRequests1dGroups(limit: 10, orderBy: [date_DESC], filter: { date_geq: "2024-05-01" }) {
-                        dimensions {
-                            date
-                        }
-                        sum {
-                            requests,
-                        }
-                        uniq {
-                            uniques,
-                        }
-                    }
-                }
-            }
-        }
-    `;
+    // const graphqlQuery = `
+    //     query {
+    //         viewer {
+    //             zones(filter: { zoneTag: "908bc97b28168b52fed201cab792c3e0" }) {
+    //                 httpRequests1dGroups(limit: 10, orderBy: [date_DESC], filter: { date_geq: "2024-05-01" }) {
+    //                     dimensions {
+    //                         date
+    //                     }
+    //                     sum {
+    //                         requests,
+    //                     }
+    //                     uniq {
+    //                         uniques,
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // `;
 
-    const endpoint = "https://api.cloudflare.com/client/v4/graphql";
+    // const endpoint = "https://api.cloudflare.com/client/v4/graphql";
 
-    try {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Auth-Email": email,
-                "Authorization": apiKey,
-            },
-            body: JSON.stringify({ query: graphqlQuery }),
-        });
+    // try {
+    //     const response = await fetch(endpoint, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "X-Auth-Email": email,
+    //             "Authorization": apiKey,
+    //         },
+    //         body: JSON.stringify({ query: graphqlQuery }),
+    //     });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+    //     if (!response.ok) {
+    //         throw new Error(`HTTP error! Status: ${response.status}`);
+    //     }
 
-        const responseData = await response.json();
-        analytics = responseData.data.viewer.zones[0].httpRequests1dGroups;
-    } catch (error) {
-        res.status(500).json( errorMessages.UNEXPECTED_ERROR );
-        next();
-    }
+    //     const responseData = await response.json();
+    //     analytics = responseData.data.viewer.zones[0].httpRequests1dGroups;
+    // } catch (error) {
+    //     res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+    //     next();
+    // }
 
     res.render("admin/dashboard", {
         title: "Admin Dashboard",
         key: "home",
-        analytics,
+        // analytics,
     });
 };
 

@@ -26,6 +26,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0 text-center">
+                            <%- categories.length == 0 ? '<tr><td colspan="6">Hal-hazırda heç bir kateqoriya materialı əldə olunmadı.</td></tr>' : '' %>
                             <% categories.forEach((category, id)=> { %>
                                 <tr>
                                     <td>
@@ -43,9 +44,9 @@
                                     <td>
                                         <% if (category.status==true) { %>
                                             <span class="badge bg-label-primary me-1">Aktiv</span>
-                                            <% } else { %>
-                                                <span class="badge bg-label-danger me-1">Passiv</span>
-                                                <% } %>
+                                        <% } else { %>
+                                            <span class="badge bg-label-danger me-1">Passiv</span>
+                                        <% } %>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -67,7 +68,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <% }) %>
+                            <% }) %>
                         </tbody>
                     </table>
                 </div>

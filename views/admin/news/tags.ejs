@@ -26,10 +26,10 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0 text-center">
+                            <%- tags.length == 0 ? '<tr><td colspan="6">Hal-hazırda heç bir tag materialı əldə olunmadı.</td></tr>' : '' %>
                             <% tags.forEach((tag, id)=> { %>
                                 <tr>
                                     <td>
-                                        <!-- <i class="bx bxl-angular bx-sm text-danger me-3"></i> -->
                                         <span class="fw-medium">
                                             <%= id + 1 %>
                                         </span>
@@ -43,9 +43,9 @@
                                     <td>
                                         <% if (tag.status==true) { %>
                                             <span class="badge bg-label-primary me-1">Aktiv</span>
-                                            <% } else { %>
-                                                <span class="badge bg-label-danger me-1">Passiv</span>
-                                                <% } %>
+                                        <% } else { %>
+                                            <span class="badge bg-label-danger me-1">Passiv</span>
+                                        <% } %>
                                     </td>
                                     <td>
                                         <div class="dropdown">

@@ -210,7 +210,7 @@ const getNewsDetail = async (req, res, next) => {
                     attributes: ['viewsCounts']
                 },
             ],
-            attributes: ['id', 'title', 'key', 'img', 'categoryId', 'content', 'sharedAt'],
+            attributes: ['id', 'title', 'key', 'img', 'categoryId', 'content', 'metaKeywords', 'sharedAt'],
             where: {
                 key,
                 status: true,

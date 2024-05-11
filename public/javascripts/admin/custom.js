@@ -1,6 +1,5 @@
 let createBtn = document.querySelector("#createBtn");
 let editBtn = document.querySelectorAll(".editBtn");
-// let deleteBtn = document.querySelectorAll(".deleteBtn");
 let deleteForm = document.querySelector("#deleteForm");
 let basicForm = document.querySelector("#basicForm");
 const submitterSave = document.querySelector("button[value=save]");
@@ -193,15 +192,33 @@ const newsFormCreateUpdate = async (method) => {
         img = img.files[0];
         let content = editorInstance.getData().trim();
         let tags = [];
-        document
-            .querySelectorAll('input[type="checkbox"][id="tag"]')
-            .forEach(function (checkbox) {
-                if (checkbox.checked) {
-                    tags.push(checkbox.value);
-                }
-            });
+        let userMetaKeywords = basicForm.userMetaKeywords.value.trim();
+        let userMetaKeywordsWithArray = userMetaKeywords && userMetaKeywords.split(', ').map(word => word.trim());
+        let contentWithoutHtmlTags = content && content.replace(/<[^>]*>/g, '');
+        let matches = contentWithoutHtmlTags && contentWithoutHtmlTags.match(/"([^"]+)"/g);
+        let cleanedMatches = matches && matches.map(function(match) {
+            return match.replace(/['"]/g, '').trim();
+        });
+        userMetaKeywordsWithArray && userMetaKeywordsWithArray.forEach((word) => {
+            cleanedMatches.push(word);
+        });
+        console.log(basicForm.category.value.trim() != 'Seçim edin');
+        cleanedMatches.push(basicForm.category.value.trim() != 'Seçim edin' && basicForm.category.options[basicForm.category.selectedIndex].textContent.trim());
+        cleanedMatches.push(basicForm.subCategory.value.trim() != 'Seçim edin' && basicForm.subCategory.options[basicForm.subCategory.selectedIndex].textContent.trim());
+        document.querySelectorAll('input[type="checkbox"][id="tag"]').forEach(function (checkbox) {
+            if (checkbox.checked) {
+                tags.push(checkbox.value);
+                cleanedMatches.push(checkbox.nextElementSibling.textContent.trim());
+            }
+        });
+        
         let date = basicForm.date.value.trim();
         let time = basicForm.time.value.trim();
+        let metaKeywords = [];
+        let uniqueWordsSet = new Set(cleanedMatches);
+        Array.from(uniqueWordsSet).forEach((word) => {
+            metaKeywords.push(word);
+        });
 
         let sharedAt = `${date} ${time}`;
         if (
@@ -218,6 +235,7 @@ const newsFormCreateUpdate = async (method) => {
         let formData = new FormData();
         formData.append("title", title);
         formData.append("key", key);
+        formData.append("metaKeywords", metaKeywords)
         formData.append("categoryId", categoryId);
         formData.append("subCategoryId", subCategoryId);
         formData.append("content", content);
@@ -306,8 +324,6 @@ if (basicForm) {
     basicForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const method = basicForm.action.includes("create") ? "POST" : "PUT";
-        // await handleFormSubmission(method);
-
 
         const isNewsAction = basicForm.action.includes("news");
         const isSocialMediaAction = basicForm.action.includes("social_media");
@@ -346,6 +362,19 @@ if (window.location.pathname === "/admin/news") {
     const searchForm = document.querySelector('#searchForm');
     let limit = 30;
     let activePage = 1;
+
+    const metaKeywordsTextarea = document.getElementById('userMetaKeywords');
+    metaKeywordsTextarea.addEventListener('input', function(e) {
+        const cursorPosition = this.selectionStart;
+        const inputValue = this.value;
+        const doubleSpaceIndex = inputValue.lastIndexOf('  ');
+
+        if (doubleSpaceIndex !== -1 && doubleSpaceIndex !== 0 && doubleSpaceIndex !== inputValue.length - 2) {
+            const newValue = inputValue.slice(0, doubleSpaceIndex) + ',' + inputValue.slice(doubleSpaceIndex + 1);
+            this.value = newValue;
+            this.setSelectionRange(cursorPosition, cursorPosition);
+        }
+    });
 
     categoryDropdown.addEventListener("change", async function () {
         const categoryId = this.value;

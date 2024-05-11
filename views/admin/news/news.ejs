@@ -103,6 +103,10 @@
                                     </div>
                                 <% }) %>
                             </div>
+                            <div class="mb-3 col-12">
+                                <label class="form-label" for="userMetaKeywords">Açar sözlər</label>
+                                <textarea name="userMetaKeywords" id="userMetaKeywords" class="form-control" placeholder="Açar sözlər xəbərin Axtarış'da daha tez və düzgün tapılması üçün vacibdir! Sistem tərəfindən sizin media və seçimləriniz avtomatik olaraq seçilərək əlavə edilir ancaq bunda sizin də köməyiniz vacibdir!" style="max-height: 100px;"></textarea>
+                            </div>
                             <div class="row">
                                 <div class="mb-3 col-12 col-sm-4">
                                     <label for="status" class="form-label">Status</label>
@@ -148,6 +152,7 @@
                 </div>
             </div>
         </div>
+
         <div style="display: none" class="alert-modal flex-column align-items-center" id="alert-message">
             <i></i>
             <p></p>
@@ -155,10 +160,7 @@
 
         <script>
             let editorInstance;
-            // This sample still does not showcase all CKEditor&nbsp;5 features (!)
-            // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
             CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
-                // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
                 toolbar: {
                     items: [
                         'exportPDF', 'exportWord', '|',
@@ -178,7 +180,6 @@
                     ],
                     shouldNotGroupWhenFull: true
                 },
-                // Changing the language of the interface requires loading the language file using the <script> tag.
                 language: 'en',
                 list: {
                     properties: {
