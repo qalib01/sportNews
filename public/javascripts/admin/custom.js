@@ -105,6 +105,7 @@ function attachEditDeleteEventListeners() {
                     basicForm.status.value = +data.status;
                     basicForm.headNews.value = +data.isHeadNews;
                     basicForm.category.value = data.categoryId;
+                    basicForm.userMetaKeywords.value = data.metaKeywords;
                     var categoryDropdown = document.getElementById("category");
                     var event = new Event("change");
                     categoryDropdown.dispatchEvent(event);
@@ -193,25 +194,25 @@ const newsFormCreateUpdate = async (method) => {
         let content = editorInstance.getData().trim();
         let tags = [];
         let userMetaKeywords = basicForm.userMetaKeywords.value.trim();
-        let userMetaKeywordsWithArray = userMetaKeywords && userMetaKeywords.split(', ').map(word => word.trim());
+        let userMetaKeywordsWithArray = userMetaKeywords && userMetaKeywords.split(',').map(word => word.trim());
         let contentWithoutHtmlTags = content && content.replace(/<[^>]*>/g, '');
         let matches = contentWithoutHtmlTags && contentWithoutHtmlTags.match(/"([^"]+)"/g);
-        let cleanedMatches = matches && matches.map(function(match) {
+        let cleanedMatches = [];
+        matches && matches.map(function(match) {
             return match.replace(/['"]/g, '').trim();
         });
         userMetaKeywordsWithArray && userMetaKeywordsWithArray.forEach((word) => {
             cleanedMatches.push(word);
         });
-        console.log(basicForm.category.value.trim() != 'Seçim edin');
-        cleanedMatches.push(basicForm.category.value.trim() != 'Seçim edin' && basicForm.category.options[basicForm.category.selectedIndex].textContent.trim());
-        cleanedMatches.push(basicForm.subCategory.value.trim() != 'Seçim edin' && basicForm.subCategory.options[basicForm.subCategory.selectedIndex].textContent.trim());
+        basicForm.category.value.trim() != 'Seçim edin' && cleanedMatches.push(basicForm.category.options[basicForm.category.selectedIndex].textContent.trim());
+        basicForm.subCategory.value.trim() != 'Seçim edin' && cleanedMatches.push(basicForm.subCategory.options[basicForm.subCategory.selectedIndex].textContent.trim());
         document.querySelectorAll('input[type="checkbox"][id="tag"]').forEach(function (checkbox) {
             if (checkbox.checked) {
                 tags.push(checkbox.value);
                 cleanedMatches.push(checkbox.nextElementSibling.textContent.trim());
             }
         });
-        
+
         let date = basicForm.date.value.trim();
         let time = basicForm.time.value.trim();
         let metaKeywords = [];
@@ -254,6 +255,7 @@ const newsFormCreateUpdate = async (method) => {
             data.status == 200 ? location.reload() : false;
         });
     } catch (error) {
+        console.log(error);
         return error;
     }
 };
@@ -370,7 +372,7 @@ if (window.location.pathname === "/admin/news") {
         const doubleSpaceIndex = inputValue.lastIndexOf('  ');
 
         if (doubleSpaceIndex !== -1 && doubleSpaceIndex !== 0 && doubleSpaceIndex !== inputValue.length - 2) {
-            const newValue = inputValue.slice(0, doubleSpaceIndex) + ',' + inputValue.slice(doubleSpaceIndex + 1);
+            const newValue = inputValue.slice(0, doubleSpaceIndex) + ',' + inputValue.slice(doubleSpaceIndex + 1).trim();
             this.value = newValue;
             this.setSelectionRange(cursorPosition, cursorPosition);
         }

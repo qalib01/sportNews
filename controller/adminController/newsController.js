@@ -144,6 +144,7 @@ const updateSelectedNews = async (req, res, next) => {
         categoryId: inputData.categoryId,
         subCategoryId: inputData.subCategoryId,
         content: inputData.content,
+        metaKeywords: inputData.metaKeywords,
         status: inputData.status,
         isHeadNews: inputData.isHeadNews,
         sharedAt: inputData.sharedAt,
