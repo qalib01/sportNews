@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 
 
 const getHomePage = async (req, res, next) => {
-    // Calculate the date 7 days ago from today
+    let pageLink = `https://sporter.az/`;
     const sevenDaysAgo = moment().subtract(7, 'days').toDate();
     try {
         let allTags = await db.tags.findAll({
@@ -172,6 +172,7 @@ const getHomePage = async (req, res, next) => {
             headNews,
             categoryArray,
             youTubeVideoLink,
+            pageLink,
         });
     } catch (error) {
         console.error('Error in fetching homepage data:', error);
@@ -180,10 +181,12 @@ const getHomePage = async (req, res, next) => {
 }
 
 const getAboutPage = async (req, res, next) => {
+    let pageLink = `https://sporter.az/about`;
     res.render('about', {
         title: 'Haqqımızda',
         name: 'Haqqımızda',
         key: 'about',
+        pageLink,
     });
 }
 

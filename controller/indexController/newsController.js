@@ -2,6 +2,7 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
 const moment = require('moment-timezone');
+const sevenDaysAgo = moment().tz('Asia/Baku').subtract(7, 'days').toDate();
 
 let guid = () => {
     let s4 = () => {
@@ -94,7 +95,6 @@ let generateQueryOptions = (queryParams) => {
 }
 
 const getAllNews = async (req, res, next) => {
-    const sevenDaysAgo = moment().tz('Asia/Baku').subtract(7, 'days').toDate();
     try {
         let allTags = await db.tags.findAll({
             where: {
@@ -105,6 +105,17 @@ const getAllNews = async (req, res, next) => {
             ],
             attributes: ['name', 'key']
         });
+        let slug = '';
+        if (req.query.category != undefined) {
+            slug = `?category=${req.query.category}`
+        } else if (req.query.tag != undefined) {
+            slug = `?tag=${req.query.tag}`
+        } else if (req.query.sub_category != undefined) {
+            slug = `?sub_category=${req.query.sub_category}`
+        } else {
+            slug = ''
+        }
+        let pageLink = `https://sporter.az/news${slug}`;
 
         const queryOptions = generateQueryOptions(req.query);
         let allNews = await db.news.findAll(queryOptions);
@@ -134,6 +145,7 @@ const getAllNews = async (req, res, next) => {
             allTags,
             trendNews,
             newsLength,
+            pageLink,
         });
     } catch (error) {
         console.error('Error in fetching homepage data:', error);
@@ -166,8 +178,7 @@ const getNewsLoadMore = async (req, res, next) => {
 
 const getNewsDetail = async (req, res, next) => {
     let key = req.query.key;
-    const sevenDaysAgo = moment().tz('Asia/Baku').subtract(7, 'days').toDate();
-    let meta;
+    let pageLink = `https://sporter.az/news/news-detail?key=${key}`;
     if (!key || key == undefined || key == null) {
         next();
     }
@@ -210,7 +221,7 @@ const getNewsDetail = async (req, res, next) => {
                     attributes: ['viewsCounts']
                 },
             ],
-            attributes: ['id', 'title', 'key', 'img', 'categoryId', 'content', 'metaKeywords', 'sharedAt'],
+            attributes: ['id', 'title', 'key', 'img', 'categoryId', 'content', 'metaKeywords', 'sharedAt', 'createdAt', 'updatedAt'],
             where: {
                 key,
                 status: true,
@@ -326,9 +337,10 @@ const getNewsDetail = async (req, res, next) => {
             selectedNews,
             allTags,
             trendNews,
-            meta,
+            pageLink,
         });
     } catch (error) {
+        console.log(error )
         return error;
     }
 }
