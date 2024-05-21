@@ -95,6 +95,7 @@ let generateQueryOptions = (queryParams) => {
 }
 
 const getAllNews = async (req, res, next) => {
+    console.log(req.params);
     try {
         let allTags = await db.tags.findAll({
             where: {

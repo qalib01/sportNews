@@ -1,12 +1,93 @@
 const db = require("../../models/index");
 const { sequelize } = require("../../models/index");
+// const fetch = require('node-fetch');
+// const { GraphQLClient, gql } = require('graphql-request');
 const { errorMessages } = require('../../statusMessages/errorMessages');
 const { successMessages } = require('../../statusMessages/successMessages');
 
 const HomePage = async (req, res, next) => {
-    // const apiKey = "Bearer diOBjI6lkCjBuZ9Kb0tE24HdZ_1MBa9l7mKUeU57";
-    // const email = "sportsporter555@gmail.com";
-    // let analytics;
+  //   const apiToken = "diOBjI6lkCjBuZ9Kb0tE24HdZ_1MBa9l7mKUeU57";
+  //   const zoneId = '908bc97b28168b52fed201cab792c3e0';
+  //   // const email = "sportsporter555@gmail.com";
+  //   // let analytics;
+  //   const endpoint = 'https://api.cloudflare.com/client/v4/graphql';
+
+  //   const headers = {
+  //     "Authorization": `Bearer ${apiToken}`,
+  //     "Content-Type": "application/json"
+  // };
+
+  // const query = `
+  //   {
+  //     viewer {
+  //       zones(filter: {zoneTag: "${zoneId}"}) {
+  //         httpRequests1dGroups(limit: 1, filter: {datetime_gt: "2023-01-01T00:00:00Z"}) {
+  //           dimensions {
+  //             date
+  //           }
+  //           sum {
+  //             requests
+  //             pageViews
+  //             uniques
+  //             countryMap {
+  //               clientCountryName
+  //               requests
+  //             }
+  //             browserMap {
+  //               clientBrowser
+  //               requests
+  //             }
+  //             deviceTypeMap {
+  //               clientDeviceType
+  //               requests
+  //             }
+  //             operatingSystemMap {
+  //               clientOS
+  //               requests
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // `;
+
+  // try {
+  //   // const response = await fetch(endpoint, {
+  //   //     method: "GET",
+  //   //     headers,
+  //   //     body: JSON.stringify({ query }),
+  //   // });
+  //   const data = await request(endpoint, query, {}, {
+  //     "Authorization": `Bearer ${apiToken}`,
+  //     "Content-Type": "application/json"
+  //   });
+  //   console.log(JSON.stringify(data, null, 2));
+
+  //   // if (!response.ok) {
+  //   //     throw new Error(`HTTP error! Status: ${response.status}`);
+  //   // }
+
+  //   // const responseData = await response.json();
+  //   // analytics = responseData.data.viewer.zones[0].httpRequests1dGroups;
+  // } catch (error) {
+  //     // res.status(500).json( errorMessages.UNEXPECTED_ERROR );
+  //     next();
+  // }
+
+  // const fetchData = async () => {
+  //   try {
+  //     const data = await request(endpoint, query, {}, {
+  //       "Authorization": `Bearer ${apiToken}`,
+  //       "Content-Type": "application/json"
+  //     });
+  //     console.log(JSON.stringify(data, null, 2));
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
+
 
     // const graphqlQuery = `
     //     query {

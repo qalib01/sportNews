@@ -101,7 +101,7 @@ const getHomePage = async (req, res, next) => {
         const sortedCategories = Object.entries(categoryCounts)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 3); // Select only the top 3 categories
-
+        
         // Process the data to calculate total count of tags per category
         const categoryArray = sortedCategories.map(([categoryName]) => {
             const categoryNews = allNews.filter(news => news.category && news.category.name === categoryName);
