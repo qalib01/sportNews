@@ -42,9 +42,9 @@ async function main() {
         console.error('Error:', error);
     }
 }
-main()
+main();
 
 // const youTubeSubscribers = formatYoutubeSubscribers(subscribers);
 // console.log(youTubeSubscribers);
 
-// module.exports = youTubeSubscribers;
+module.exports = subscribers;
