@@ -56,6 +56,10 @@ let errorMessages = {
         key,
         message: "İstifadəçi sistemdə tapılmadı. Bu bir xətadırsa, xahiş olunur daha sonra yenidən cəhd edin!"
     },
+    CANNOT_GET_YOUTUBE_STATS: {
+        key,
+        message: "YouTube statistikasını əldə etmək mümkün olmadı. Xahiş olunur ki, daha sonra yenidən cəhd edəsiniz!"
+    },
 }
 
 module.exports = { errorMessages }

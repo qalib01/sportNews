@@ -2,7 +2,7 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment-timezone');
 const { Op } = require('sequelize');
-
+const youTubeSubscribers = require('../globalController/getYouTubeStatistics');
 
 const getHomePage = async (req, res, next) => {
     let pageLink = `https://sporter.az/`;
@@ -161,6 +161,20 @@ const getHomePage = async (req, res, next) => {
                 }
             ]
         });
+
+        // let subscribers = await getYouTubeStatistics('UCnpg9_1SoNxQHZiaUgX09FQ');
+        // console.log(subscribers);
+
+        // function formatNumberWithK(subscribers) {
+        //     if (subscribers >= 1000) {
+        //         return (subscribers / 1000).toFixed(1) + 'K';
+        //     }
+        //     return subscribers.toString();
+        // }
+        
+        // const formattedNumber = formatNumberWithK(subscribers);
+        // console.log(formattedNumber);
+        console.log('test', youTubeSubscribers);
 
         res.render('index', {
             title: 'Ana səhifə',
