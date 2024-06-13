@@ -14,10 +14,10 @@
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover">
                         <caption class="ms-4">
-                            Ümumi tapılan kateqoriyalar: <%= users.length %>
+                            Ümumi tapılan istifadəçilər: <%= users.length %>
                         </caption>
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th>#</th>
                                 <th>Tam adı</th>
                                 <th>Email</th>
@@ -25,7 +25,7 @@
                                 <th>Hərəkətlər</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
+                        <tbody class="table-border-bottom-0 text-center">
                             <% users.forEach((user, id)=> { %>
                                 <tr>
                                     <td>

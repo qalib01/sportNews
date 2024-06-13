@@ -2,10 +2,12 @@ const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const moment = require('moment-timezone');
 const { Op } = require('sequelize');
-const youTubeSubscribers = require('../globalController/getYouTubeStatistics');
+require('dotenv').config();
+const { getYouTubeFormattedSubscribers } = require('../globalController/getYouTubeStatistics');
+const { getTwitterFormattedFollowers } = require('../globalController/getTwitterStatistics');
 
 const getHomePage = async (req, res, next) => {
-    let pageLink = `https://sporter.az/`;
+    let pageLink = process.env.PAGE_LINK;
     const sevenDaysAgo = moment().subtract(7, 'days').toDate();
     try {
         let allTags = await db.tags.findAll({
@@ -145,7 +147,6 @@ const getHomePage = async (req, res, next) => {
                 }))
             };
         });
-        
 
         const youTubeVideoLink = await db.platform_medias.findOne({
             where: {
@@ -162,19 +163,9 @@ const getHomePage = async (req, res, next) => {
             ]
         });
 
-        // let subscribers = await getYouTubeStatistics('UCnpg9_1SoNxQHZiaUgX09FQ');
-        // console.log(subscribers);
+        let youTubeSubscribers = await getYouTubeFormattedSubscribers('UCnpg9_1SoNxQHZiaUgX09FQ');
 
-        // function formatNumberWithK(subscribers) {
-        //     if (subscribers >= 1000) {
-        //         return (subscribers / 1000).toFixed(1) + 'K';
-        //     }
-        //     return subscribers.toString();
-        // }
-        
-        // const formattedNumber = formatNumberWithK(subscribers);
-        // console.log(formattedNumber);
-        console.log('test', youTubeSubscribers);
+        let twitterFollowers = await getTwitterFormattedFollowers('@Galib22703428');
 
         res.render('index', {
             title: 'Ana səhifə',

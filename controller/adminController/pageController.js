@@ -1,14 +1,59 @@
 const db = require("../../models/index");
 const { sequelize } = require("../../models/index");
-const { errorMessages } = require('../../statusMessages/errorMessages');
-const { successMessages } = require('../../statusMessages/successMessages');
-
+// const { getTwitterFormattedFollowers } = require("../globalController/getTwitterStatistics");
+const { getYouTubeFormattedSubscribers } = require("../globalController/getYouTubeStatistics");
+const { TwitterApi } = require('twitter-api-v2');
+require('dotenv').config();
 
 
 const HomePage = async (req, res, next) => {
+  let youTubeSubscribers = await getYouTubeFormattedSubscribers('UCnpg9_1SoNxQHZiaUgX09FQ');
+  // let twitterFollowers = await getTwitterFormattedFollowers('@Galib22703428');
+  // console.log(twitterFollowers);
+
+  const client = new TwitterApi({
+    appKey: process.env.TWITTER_API_APP_KEY,
+    appSecret: process.env.TWITTER_API_APP_SECRET,
+    accessToken: process.env.TWITTER_API_ACCESS_TOKEN,
+    accessSecret: process.env.TWITTER_API_ACCESS_SECRET,
+});
+
+const roClient = client.readOnly;
+
+const getFollowers = async (username) => {
+    try {
+        const user = await roClient.v2.userByUsername(username);
+        const userId = user.data.id;
+
+        let followers = [];
+        let paginationToken = null;
+
+        do {
+            const response = await roClient.v2.followers(userId, { pagination_token: paginationToken, max_results: 1000 });
+            followers = followers.concat(response.data);
+            paginationToken = response.meta.next_token;
+        } while (paginationToken);
+
+        followers.forEach(follower => {
+            console.log(follower.username);
+        });
+
+    } catch (error) {
+        console.error('Error fetching followers:', error);
+    }
+};
+
+// Replace 'target_username' with the Twitter username whose followers you want to fetch
+getFollowers('target_username');
+
+
+  
+  let socialMediaStatistics = {youTubeSubscribers};
+
     res.render("admin/dashboard", {
         title: "Admin Dashboard",
         key: "home",
+        socialMediaStatistics,
     });
 };
 
@@ -113,7 +158,3 @@ module.exports = {
   subCategoriesPage,
   socialMediasPage,
 };
-
-// curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \ -H "Authorization: Bearer diOBjI6lkCjBuZ9Kb0tE24HdZ_1MBa9l7mKUeU57" \ -H "Content-Type:application/json"
-// {"result":{"id":"c72fb7347b92eb8e0ee7a32d0fc30d1d","status":"active"},"success":true,"errors":[],"messages":[{"code":10000,"message":"This API Token is valid and active","type":null}]}curl: (3) URL rejected: Bad hostname
-// curl: (3) URL rejected: Bad hostname

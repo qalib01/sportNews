@@ -60,6 +60,10 @@ let errorMessages = {
         key,
         message: "YouTube statistikasını əldə etmək mümkün olmadı. Xahiş olunur ki, daha sonra yenidən cəhd edəsiniz!"
     },
+    FORBIDDEN_DELETE_SAME_EMAIL: {
+        key,
+        message: "Siz bu hesabla giriş etdiyiniz üçün eyni hesabı silə bilməzsiniz!"
+    }
 }
 
 module.exports = { errorMessages }

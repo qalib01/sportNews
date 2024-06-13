@@ -1,6 +1,7 @@
 const { google } = require('googleapis');
-const { errorMessages } = require('../../statusMessages/errorMessages');
-const apiKey = 'AIzaSyCdNhvQXstVUgKMji-ZQ1llQj5FCScPYps';
+require("dotenv").config();
+
+const apiKey = process.env.GOOGLE_API_KEY;
 
 const youtube = google.youtube({
     version: 'v3',
@@ -14,9 +15,9 @@ async function getYouTubeStatistics(channelId) {
             id: channelId,
         });
 
-    const channel = response.data.items[0];
-    const subscribersCount = channel.statistics.subscriberCount;
-    return subscribersCount;
+        const channel = response.data.items[0];
+        const subscribersCount = channel.statistics.subscriberCount;
+        return subscribersCount;
     } catch (error) {
         console.error('Cannot get YouTube stats:', error);
         throw error;
@@ -32,19 +33,9 @@ function formatNumberWithK(number) {
 
 // let subscribers = await getYouTubeStatistics('UCnpg9_1SoNxQHZiaUgX09FQ');
 
-async function main() {
-    try {
-      const channelId = 'UCnpg9_1SoNxQHZiaUgX09FQ'; // Replace with your channel ID
-        let subscribers = await getYouTubeStatistics(channelId);
-        subscribers = formatNumberWithK(subscribers);
-        console.log(`Channel has ${subscribers} subscribers.`);
-    } catch (error) {
-        console.error('Error:', error);
-    }
+async function getYouTubeFormattedSubscribers(channelId) {
+    const subscribersCount = await getYouTubeStatistics(channelId);
+    return formatNumberWithK(subscribersCount);
 }
-main();
 
-// const youTubeSubscribers = formatYoutubeSubscribers(subscribers);
-// console.log(youTubeSubscribers);
-
-module.exports = subscribers;
+module.exports = { getYouTubeFormattedSubscribers };

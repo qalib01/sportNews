@@ -15,9 +15,17 @@ const checkUser = async (req, res, next) => {
         const localUser = await db.users.findOne({
           where: {
             id: decodedToken.id,
+            status: true,
           },
         });
-        res.locals.localUser = localUser;
+
+        if(localUser) {
+          res.locals.localUser = localUser;
+        } else {
+          res.cookie('jwt', '', {
+            maxAge: 1,
+          });
+        }
         next();
       }
     });
@@ -34,14 +42,13 @@ const authenticateToken = async (req, res, next) => {
       jwt.verify(token, process.env.JWT_SECRET, (err) => {
         if (err) {
           console.log(err.message);
-          // res.redirect("/");
           next();
         } else {
           next();
         }
       });
     } else {
-      res.redirect("/")
+      res.redirect("/");
     }
   } catch (error) {
     res.redirect("/");

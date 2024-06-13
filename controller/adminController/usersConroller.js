@@ -81,13 +81,12 @@ const updateSelectedUser = async (req, res, next) => {
             where: {
                 id,
             }
-        })
+        });
 
         if (hasUser) {
             await db.users.update({
                 name: inputData.name,
                 surname: inputData.surname,
-                email: inputData.email,
                 status: inputData.status,
             },
             {
@@ -95,8 +94,9 @@ const updateSelectedUser = async (req, res, next) => {
                     id,
                 }
             });
-    
-            if (inputData.password != '' || inputData.password !== undefined || inputData.password !== null) {
+
+            if (inputData.password.trim() != '') {
+                console.log('password', inputData.password);
                 await db.users.update({
                     password: await bcrypt.hash(inputData.password, 10),
                 },
@@ -128,12 +128,16 @@ const deleteSelectedUser = async (req, res, next) => {
         })
 
         if (hasUser) {
-            await db.users.destroy({
-                where: {
-                    id,
-                }
-            });
-            res.status(200).json( successMessages.DELETED_USER )
+            if (hasUser.email == res.locals.localUser.email) {
+                res.status(403).json( errorMessages.FORBIDDEN_DELETE_SAME_EMAIL )
+            } else {
+                await db.users.destroy({
+                    where: {
+                        id,
+                    }
+                });
+                res.status(200).json( successMessages.DELETED_USER )
+            }
         } else {
             res.status(404).json( errorMessages.NOT_FOUND_USER )
         }

@@ -1,6 +1,4 @@
 const db = require('../../models/index');
-const { sequelize } = require('../../models/index');
-const moment = require('moment');
 let jwt = require('jsonwebtoken');
 require("dotenv").config();
 let bcrypt = require('bcrypt');
@@ -10,7 +8,8 @@ const postUserLogin = async (req, res, next) => {
     let inputData = req.body;
     let user = await db.users.findOne({
         where: {
-            email: inputData.email
+            email: inputData.email,
+            status: true,
         },
     });
     if (user) {

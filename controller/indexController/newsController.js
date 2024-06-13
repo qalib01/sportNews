@@ -1,6 +1,7 @@
 const db = require('../../models/index');
 const { sequelize } = require('../../models/index');
 const { Op } = require('sequelize');
+require('dotenv').config();
 const moment = require('moment-timezone');
 const sevenDaysAgo = moment().tz('Asia/Baku').subtract(7, 'days').toDate();
 
@@ -116,7 +117,7 @@ const getAllNews = async (req, res, next) => {
         } else {
             slug = ''
         }
-        let pageLink = `https://sporter.az/news${slug}`;
+        let pageLink = process.env.PAGE_LINK + `news${slug}`;
 
         const queryOptions = generateQueryOptions(req.query);
         let allNews = await db.news.findAll(queryOptions);
@@ -179,7 +180,7 @@ const getNewsLoadMore = async (req, res, next) => {
 
 const getNewsDetail = async (req, res, next) => {
     let key = req.query.key;
-    let pageLink = `https://sporter.az/news/news-detail?key=${key}`;
+    let pageLink = process.env.PAGE_LINK + `news/news-detail?key=${key}`;
     if (!key || key == undefined || key == null) {
         next();
     }
