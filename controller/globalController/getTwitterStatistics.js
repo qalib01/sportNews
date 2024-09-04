@@ -42,7 +42,7 @@ let getTwitterUserData = async () => {
     const user = await readOnlyClient.v2.userByUsername('plhery');
     console.log(user);
 }
-getTwitterUserData()
+// getTwitterUserData()
 
 
 
